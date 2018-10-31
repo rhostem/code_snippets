@@ -1,0 +1,44 @@
+body {
+  color: #222;
+}
+.calendar {
+  display: table;
+  border-collapse: collapse;
+}
+
+.calendar-week {
+
+}
+
+.calendar-week:after {
+  display: table;
+  content: ' ';
+  clear: both;
+}
+
+.calendar-day {
+  display: table-cell;
+  /* table-layout: fixed; */
+  min-width: 100px;
+  min-height: 100px;
+  padding: 10px 15px;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid palevioletred;
+}
+
+.calendar-day:hover {
+  cursor: pointer;
+}
+
+.calendar-day.is-notCurrentMonth {
+  color: #ddd;
+}
+
+.calendar-appointMent {
+  margin-top: 5px;
+  width: 100%;
+  padding: 5px;
+  background-color: mediumseagreen;
+  color: white;
+}

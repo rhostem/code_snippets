@@ -1,0 +1,30 @@
+/* postcss */
+@import '../config.css';
+
+@define-mixin drawGuideline $isDev {
+  @if $isDev == true {
+    * {
+      outline: 1px solid var(--color-05);
+    }
+
+    input {
+      outline: 1px solid #0f0;
+    }
+
+    a {
+      outline: 1px solid #00f;
+    }
+
+    button {
+      outline: 1px solid #0ff;
+    }
+
+    li {
+      outline: 1px solid #ff0;
+    }
+
+    span {
+      outline: 1px solid #f0f;
+    }
+  }
+}
