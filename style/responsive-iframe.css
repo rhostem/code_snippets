@@ -1,0 +1,15 @@
+// padding을 넓이의 56.25%를 주면 넓이와 높이의 비율이 16:9가 된다.
+// 부모의 크기를 16:9로 맞춘 후 iframe의 넓이와 높이를 100%로 지정한다.
+.iframeWrapper {
+  position: relative;
+  display: block;
+  padding-bottom: 56.25%; // 16:9 
+}
+
+.iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

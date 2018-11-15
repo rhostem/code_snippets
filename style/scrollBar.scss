@@ -1,0 +1,13 @@
+@mixin scrollBar($width, $trackColor, $thunmbColor) {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #e6e6e6;
+  }
+}

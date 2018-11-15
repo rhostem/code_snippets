@@ -1,0 +1,29 @@
+@import '../../styles/mixins/_all.scss';
+
+@keyframes spin {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingSpinner {
+  @include centered;
+  position: fixed;
+  z-index: -1;
+  opacity: 0;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  transition: opacity 0.2s ease-in;
+  background-image: url('../../../assets/img/spinner.png');
+  background-repeat: no-repeat;
+  background-color: #fff;
+  background-size: 46.575px 46px;
+  background-position: center;
+  animation: spin 3s linear infinite;
+
+  &.is-loading {
+    z-index: 9999;
+    opacity: 1;
+  }
+}

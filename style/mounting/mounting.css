@@ -1,0 +1,53 @@
+#root {
+  position: relative;
+}
+
+#root + .mounting {
+  display: none;
+}
+
+#root:empty + .mounting {
+  display: block;
+}
+
+.mounting {
+  position: fixed;
+  z-index: 2000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+
+
+/* 앱 마운트 전 로딩 이미지 */
+/* http://tobiasahlin.com/spinkit/ */
+#root:empty + .mounting > .spinner {
+  width: 60px;
+  height: 60px;
+  margin: 100px auto;
+  background-color: #2196f3;
+
+  border-radius: 100%;
+  -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+  animation: sk-scaleout 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-scaleout {
+  0% { -webkit-transform: scale(0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes sk-scaleout {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 100% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+    opacity: 0;
+  }
+}

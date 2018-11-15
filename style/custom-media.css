@@ -1,0 +1,5 @@
+/* custom media queries (needs cssnext) */
+
+@custom-media --desktop (max-width:1100px);
+@custom-media --tablet (max-width:900px);
+@custom-media --mobile (max-width:500px);

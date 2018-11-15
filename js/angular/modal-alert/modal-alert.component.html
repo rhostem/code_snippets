@@ -1,0 +1,20 @@
+<div
+  [ngClass]="{ modalAlert: true, 'is-visible': isVisible }"
+>
+  <p class="modalAlert-message" [innerHtml]="message">
+  </p>
+  <div class="modalAlert-btns">
+    <button
+      (click)="onConfirm()"
+      class="btn btn-complete"
+    >확인</button>
+    <button
+      *ngIf="isConfirm"
+      (click)="onClose()" class="btn btn-default"
+    >취소</button>
+  </div>
+</div>
+
+<div
+  [ngClass]="{ 'modalAlert-mask': true, 'is-visible': isVisible }">
+</div>

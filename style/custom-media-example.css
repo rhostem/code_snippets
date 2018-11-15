@@ -1,0 +1,15 @@
+.wrapper {
+  max-width: 1070px;
+}
+
+@media (--desktop) {
+  /*  */
+}
+
+@media (--tablet) {
+  /*  */
+}
+
+@media (--mobile) {
+  /*  */
+}

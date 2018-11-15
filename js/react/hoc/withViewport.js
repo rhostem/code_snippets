@@ -4,10 +4,14 @@ import size from '../../styles/size'
 
 const desktopSize = parseInt(size.device.desktop, 10)
 
+/**
+ * 컴포넌트에 브라우저 사이즈 변경 이벤트를 연결한 후 상태값을 전달한다.
+ * @param {} BaseComponent
+ */
 export default function withViewport(BaseComponent) {
   return class wrappedComponent extends Component {
     constructor(props) {
-      super(props);
+      super(props)
 
       this.state = {
         isMobileView: true,
@@ -27,7 +31,7 @@ export default function withViewport(BaseComponent) {
       }
     }
 
-    handleChangeSize = throttle(400, (e) => {
+    handleChangeSize = throttle(400, e => {
       const clientWidth = document.documentElement.clientWidth
       const isMobileView = clientWidth < desktopSize
       this.setState({ isMobileView: isMobileView })
@@ -35,7 +39,7 @@ export default function withViewport(BaseComponent) {
 
     render() {
       const passedProps = Object.assign({}, this.props, {
-        isMobileView: this.state.isMobileView
+        isMobileView: this.state.isMobileView,
       })
 
       return <BaseComponent {...passedProps} />
