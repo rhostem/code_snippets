@@ -1,4 +1,4 @@
-import { compareKeys } from './object'
+import { compareKeys } from './compareKeys'
 
 describe('compareKeys', () => {
   const normalA = { a: 1, b: 2 }
