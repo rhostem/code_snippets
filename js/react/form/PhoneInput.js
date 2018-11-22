@@ -1,20 +1,20 @@
 export const PhoneInput = ({ onChange, onBlur, ...rest }) => {
   const onChangeInput = e => {
     if (typeof onChange === 'function') {
-      onChange(addHyphenToCellPhone(e.target.value))
+      onChange(addHyphenToCellPhone(e.target.value), e)
     }
   }
 
   const onBlurInput = e => {
     const phonenum = confirmPhoneFormat(e.target.value)
     if (typeof onBlur === 'function') {
-      onBlur(phonenum)
+      onBlur(phonenum, e)
     } else {
-      onChange(phonenum)
+      onChange(phonenum, e)
     }
   }
 
-  return <input onChange={onChangeInput} onBlur={onBlurInput} {...rest} />
+  return <input type="tel" onChange={onChangeInput} onBlur={onBlurInput} {...rest} />
 }
 
 export default Input
