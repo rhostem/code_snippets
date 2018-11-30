@@ -134,7 +134,7 @@ class VideoSeekBar extends React.Component<Props, State> {
     const { currentTime = 0, duration = 0, isPointVisible, points } = this.props
 
     const calcMarkerPosition = time => {
-      return time === 0 ? 0 : time / duration * 100
+      return time === 0 ? 0 : (time / duration) * 100
     }
 
     return (

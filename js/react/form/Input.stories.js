@@ -1,4 +1,3 @@
-
 stories.add('Input', () => {
   return (
     <Input

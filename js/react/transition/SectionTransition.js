@@ -114,10 +114,10 @@ class SectionTransition extends React.Component<Props, State> {
     return index === sectionIndex
       ? CURRENT
       : index < sectionIndex
-        ? PREV
-        : index > sectionIndex
-          ? NEXT
-          : null
+      ? PREV
+      : index > sectionIndex
+      ? NEXT
+      : null
   }
 
   addSectionEvent = () => {
@@ -147,7 +147,9 @@ class SectionTransition extends React.Component<Props, State> {
   }
 
   handleTouchEndSection = e => {
-    const { isTopOfScroll, isEndOfScroll } = this.getIsEdgeOfScroll(this.currentSectionEl)
+    const { isTopOfScroll, isEndOfScroll } = this.getIsEdgeOfScroll(
+      this.currentSectionEl
+    )
 
     if (e.changedTouches) {
       const touchPositionY = e.changedTouches[0].clientY
@@ -172,7 +174,9 @@ class SectionTransition extends React.Component<Props, State> {
   handleWheelEvent = debounce(200, e => {
     const isWheelToDown = e.deltaY > 0 // 스크롤 아래로 휠
     const isWheelToUp = e.deltaY < 0 // 스크롤 위로 휠
-    const { isTopOfScroll, isEndOfScroll } = this.getIsEdgeOfScroll(this.currentSectionEl)
+    const { isTopOfScroll, isEndOfScroll } = this.getIsEdgeOfScroll(
+      this.currentSectionEl
+    )
 
     if (this.state.isEndOfScroll && isWheelToDown) {
       this.goToNextSection()
@@ -208,7 +212,10 @@ class SectionTransition extends React.Component<Props, State> {
   goToNextSection() {
     this.resetEventState()
     this.setState({
-      sectionIndex: R.min(R.inc(this.state.sectionIndex), this.props.sections.length - 1),
+      sectionIndex: R.min(
+        R.inc(this.state.sectionIndex),
+        this.props.sections.length - 1
+      ),
     })
   }
 
@@ -261,7 +268,10 @@ class SectionTransition extends React.Component<Props, State> {
           <ControlButton
             onClick={() =>
               this.handleChangeSection(
-                R.min(R.inc(this.state.sectionIndex), this.props.sections.length - 1)
+                R.min(
+                  R.inc(this.state.sectionIndex),
+                  this.props.sections.length - 1
+                )
               )
             }
           >

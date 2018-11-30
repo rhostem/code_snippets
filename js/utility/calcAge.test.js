@@ -1,25 +1,25 @@
 describe('calcAge(만 나이 계산) 테스트 :', () => {
   it('생일로 전달한 문자열이 적절한 데이트스트링이 아니다', () => {
-    expect(calcAge('2000-01-aa')).to.equal(0);
-  });
+    expect(calcAge('2000-01-aa')).to.equal(0)
+  })
 
   it('기준시간으로 전달한 문자열이 적절한 데이트스트링이 아니다', () => {
-    expect(calcAge('2000-01-01', '2016-aa-aa')).to.equal(0);
-  });
+    expect(calcAge('2000-01-01', '2016-aa-aa')).to.equal(0)
+  })
 
   it('생일 이전인 경우', () => {
-    expect(calcAge('2000-07-01', '2016-01-19')).to.equal(15);
-  });
+    expect(calcAge('2000-07-01', '2016-01-19')).to.equal(15)
+  })
 
   it('생일 이후인 경우', () => {
-    expect(calcAge('2000-07-01', '2016-11-19')).to.equal(16);
-  });
+    expect(calcAge('2000-07-01', '2016-11-19')).to.equal(16)
+  })
 
   it('생일날인 경우', () => {
-    expect(calcAge('2000-07-01', '2016-07-01')).to.equal(16);
-  });
+    expect(calcAge('2000-07-01', '2016-07-01')).to.equal(16)
+  })
 
   it('첫 생일이 지나지 않은 경우', () => {
-    expect(calcAge('2000-07-01', '2000-08-01')).to.equal(0);
-  });
-});
+    expect(calcAge('2000-07-01', '2000-08-01')).to.equal(0)
+  })
+})

@@ -54,7 +54,9 @@ export const uploadFiles = ({
 
     const uploadFileCount = !uploadCount
       ? files.length
-      : uploadCount < files.length ? uploadCount : files.length
+      : uploadCount < files.length
+      ? uploadCount
+      : files.length
 
     for (let i = 0; i < uploadFileCount; i++) {
       formData.append('file', files[i], files[i].name) // set이 아닌 append를 사용
@@ -90,7 +92,9 @@ export const uploadFiles = ({
     // $FlowFixMe
     uploadXHR.upload.addEventListener('progress', function(event) {
       const { loaded, total } = event
-      const laodedPercent = Number(parseFloat(loaded / total * 100).toFixed(2))
+      const laodedPercent = Number(
+        parseFloat((loaded / total) * 100).toFixed(2)
+      )
       dispatch(setUploadProgress(laodedPercent))
     })
 

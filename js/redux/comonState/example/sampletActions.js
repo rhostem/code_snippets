@@ -26,7 +26,10 @@ export const sampleActions = createActions({
 function* listSample() {
   yield takeLatest(types.REQ_SAMPLE, function*({ payload }) {
     try {
-      const option = R.merge(yield select(state => dotPath('sample.list.option', state)), payload)
+      const option = R.merge(
+        yield select(state => dotPath('sample.list.option', state)),
+        payload
+      )
       const data = yield call(SampleAPI.readList, option)
 
       yield put(sampleActions.reqListSampleDone(data))

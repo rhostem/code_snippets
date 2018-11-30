@@ -6,7 +6,11 @@ export const jumpToAnchor = (name = '') => {
  * smooth scrolling. polyfill 추가가 필요하다.
  * @param {*} name
  */
-export const scrollToAnchor = ({ name, behavior = 'smooth', onScrollEnd = () => {} }) => {
+export const scrollToAnchor = ({
+  name,
+  behavior = 'smooth',
+  onScrollEnd = () => {},
+}) => {
   const target = document.getElementById(name)
 
   if (!R.isNil(target)) {

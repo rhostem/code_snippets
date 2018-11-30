@@ -121,6 +121,8 @@ export const condClass = (predicate, className) => {
   if (typeof predicate === 'function') {
     return R.ifElse(predicate, R.always(className), R.always(''))
   } else {
-    return R.ifElse(R.identical(true), R.always(className), R.always(''))(predicate)
+    return R.ifElse(R.identical(true), R.always(className), R.always(''))(
+      predicate
+    )
   }
 }

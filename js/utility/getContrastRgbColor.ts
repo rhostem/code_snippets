@@ -8,7 +8,9 @@ export function hexToRgb(hex: string) {
     }
     color = '0x' + color.join('')
     const result =
-      'rgb(' + [(color >> 16) & 255, (color >> 8) & 255, color & 255].join(',') + ')'
+      'rgb(' +
+      [(color >> 16) & 255, (color >> 8) & 255, color & 255].join(',') +
+      ')'
 
     return result
   }
@@ -45,7 +47,7 @@ export const getContrastRgbColor = (rgbString: string) => {
   for (var i = 0; i < triplet.length; i++) {
     total += triplet[i]
   }
-  if (total > 3 * 256 / 2) {
+  if (total > (3 * 256) / 2) {
     newtriplet = [0, 0, 0]
   } else {
     newtriplet = [255, 255, 255]

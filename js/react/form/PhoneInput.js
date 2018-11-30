@@ -14,7 +14,9 @@ export const PhoneInput = ({ onChange, onBlur, ...rest }) => {
     }
   }
 
-  return <input type="tel" onChange={onChangeInput} onBlur={onBlurInput} {...rest} />
+  return (
+    <input type="tel" onChange={onChangeInput} onBlur={onBlurInput} {...rest} />
+  )
 }
 
 export default Input

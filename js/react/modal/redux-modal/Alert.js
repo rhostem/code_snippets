@@ -71,7 +71,10 @@ const AlertBtns = ({ onConfirm, confirmText }) => (
 const ConfirmBtns = ({ onCancel, onConfirm, confirmText, cancelText }) => (
   <AlertButtons>
     <button onClick={onConfirm}>{confirmText || '확인'}</button>
-    <button onClick={onCancel} style={{ backgroundColor: '#2b2b2b', color: '#fff' }}>
+    <button
+      onClick={onCancel}
+      style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
+    >
       {cancelText || '취소'}
     </button>
   </AlertButtons>
@@ -102,7 +105,14 @@ class Alert extends React.Component<Props, null> {
   }
 
   render() {
-    const { isOpen, onJustClose, contentStyle, isButtonVisible = true, body, content } = this.props
+    const {
+      isOpen,
+      onJustClose,
+      contentStyle,
+      isButtonVisible = true,
+      body,
+      content,
+    } = this.props
 
     return (
       <ReactModal
@@ -137,7 +147,9 @@ class Alert extends React.Component<Props, null> {
               {typeof content === 'function' ? ( // if react component
                 <AlertBody>{content()}</AlertBody>
               ) : (
-                <AlertBody dangerouslySetInnerHTML={{ __html: this.modalBody }} />
+                <AlertBody
+                  dangerouslySetInnerHTML={{ __html: this.modalBody }}
+                />
               )}
 
               {isButtonVisible &&

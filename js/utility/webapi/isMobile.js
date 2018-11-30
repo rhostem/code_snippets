@@ -5,7 +5,9 @@ import { canUseDOM } from 'utils/dom'
  * @param req
  */
 export async function getIsMobileOnInit(req) {
-  const userAgent = (await req) ? req.headers['user-agent'] : navigator.userAgent
+  const userAgent = (await req)
+    ? req.headers['user-agent']
+    : navigator.userAgent
   return /mobile/i.test(userAgent)
 }
 

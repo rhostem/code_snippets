@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import Select from 'react-select' // https://react-select.com/
-import chroma from 'chroma-js'
 
 type Option = {
   value: string, // 실제 값
@@ -15,6 +14,7 @@ type Props = {
     option: Object | Array<Object> | null | undefined,
     action: Object
   ) => undefined,
+  menuPlacement: 'auto' | 'bottom' | 'top',
 }
 
 type State = {
@@ -25,22 +25,24 @@ type State = {
   isSearchable: boolean,
 }
 
-const optionBgColor = chroma('#ff9e03')
-
 const customStyles = {
   control: (base, state) => ({
     ...base,
-    borderColor: 'blue',
+    height: '40px',
+    boxShadow: 'none',
+    borderColor: state.isFocused ? '#dee0e4' : '#dee0e4',
+    '&:hover': {
+      borderColor: '#dee0e4',
+    },
   }),
   option: (base, state) => ({
     ...base,
     padding: '1rem',
+    color: '#374146',
     fontWeight: state.isSelected ? 700 : 400,
-    backgroundColor: state.isSelected
-      ? optionBgColor.css()
-      : optionBgColor.alpha(0.2).css(),
+    backgroundColor: '#fff',
     '&:hover': {
-      backgroundColor: 'hotpink',
+      backgroundColor: '#dee0e4',
     },
   }),
   singleValue: (base, state) => {
@@ -88,19 +90,12 @@ export default class SingleSelect extends Component<Props, State> {
       isLoading,
       isRtl,
     } = this.state
-
-    const { options, name, placeholder, onChange, className } = this.props
-
     return (
-      <Fragment>å
+      <Fragment>
         <Select
-          name={name}
-          options={options}
-          defaultValue={options[0]}
-          placeholder={placeholder}
-          onChange={onChange}
+          {...this.props}
+          instanceId={this.props.name}
           styles={customStyles}
-          className={className}
           classNamePrefix="select"
           isDisabled={isDisabled}
           isLoading={isLoading}
@@ -112,3 +107,133 @@ export default class SingleSelect extends Component<Props, State> {
     )
   }
 }
+
+export const FormSelectGlobalStyle = createGlobalStyle`
+  .custom-single-select {
+    position: relative;
+    font-size: ${pTr(18)};
+
+    .form-select__container {
+      position: relative;
+    }
+
+    .form-select__control {
+      -webkit-box-align: center;
+      align-items: center;
+      background-color: #fff;
+      cursor: default;
+      display: flex;
+      flex-wrap: wrap;
+      -webkit-box-pack: justify;
+      justify-content: space-between;
+      min-height: 2.21429rem;
+      position: relative;
+      box-sizing: border-box;
+      padding-left: 0px;
+      padding-right: 0px;
+      border-radius: 0px;
+      outline: none;
+      transition: all 100ms ease 0s;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 1px solid rgb(216, 216, 216);
+
+      &:hover {
+        background-color: #fff;
+      }
+    }
+
+    .form-select__value-container {
+      -webkit-box-align: center;
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      box-sizing: border-box;
+      flex: 1 1 0%;
+      padding: 2px 8px 2px 0px;
+
+      input {
+        font-size: inherit;
+        width: 1px;
+        color: transparent;
+        left: -100px;
+        opacity: 0;
+        position: relative;
+        transform: scale(0);
+        background: 0px center;
+        border-width: 0px;
+        border-style: initial;
+        border-color: initial;
+        border-image: initial;
+        outline: 0px;
+        padding: 0px;
+      }
+    }
+
+    .form-select__single-value {
+      color: rgb(34, 34, 34);
+      margin-left: 0px;
+      margin-right: 2px;
+      max-width: calc(100% - 8px);
+      position: absolute;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      top: 50%;
+      transform: translateY(-50%);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .form-select__indicators {
+      -webkit-box-align: center;
+      align-items: center;
+      align-self: stretch;
+      display: flex;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+
+    .form-select__clear-indicator {
+      display: none;
+    }
+
+    .form-select__indicator-separator {
+      display: none;
+    }
+
+    .form-select__dropdown-indicator {
+      width: 0px;
+      height: 0px;
+      border-left: calc(0.428571rem) solid transparent;
+      border-right: calc(0.428571rem) solid transparent;
+      border-top: calc(0.5rem) solid rgb(0, 0, 0);
+
+      & > svg {
+        display: none;
+      }
+    }
+
+    .form-select__option {
+      font-weight: 400;
+      color: #383838;
+      background-color: #fff;
+      &:hover {
+        background-color: #fff;
+        color: #383838;
+      }
+    }
+
+    .form-select__placeholder {
+      color: rgb(128, 128, 128);
+      margin-left: 2px;
+      margin-right: 2px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      box-sizing: border-box;
+    }
+
+  }
+`

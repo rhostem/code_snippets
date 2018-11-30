@@ -23,7 +23,11 @@ export const initAxiosClient = authToken => {
 export function updateAuthHeader(authToken) {
   if (isTruthy(authToken)) {
     // set authtoken in headers
-    axiosConfig = R.assocPath(['headers', 'AdminAuthorization'], authToken, axiosConfig)
+    axiosConfig = R.assocPath(
+      ['headers', 'AdminAuthorization'],
+      authToken,
+      axiosConfig
+    )
   } else {
     // remove AdminAuthorization property from headers
     axiosConfig = R.dissocPath(['headers', 'AdminAuthorization'], axiosConfig)

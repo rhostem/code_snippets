@@ -33,7 +33,11 @@ const dragSourceSpec = {
     return canDrag
   },
   // droptarget monitor.getItem()으로 리턴하는 객체를 가져올 수 있음.
-  beginDrag(props: SortableItemProps, monitor: DragSourceMonitor, component: SortableItem | null) {
+  beginDrag(
+    props: SortableItemProps,
+    monitor: DragSourceMonitor,
+    component: SortableItem | null
+  ) {
     return {
       id: props.id,
       index: props.index,
@@ -41,7 +45,10 @@ const dragSourceSpec = {
   },
 }
 
-const dragSourceCollect = (connect: DragSourceConnector, monitor: DragSourceMonitor) => {
+const dragSourceCollect = (
+  connect: DragSourceConnector,
+  monitor: DragSourceMonitor
+) => {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
@@ -52,14 +59,22 @@ const dropTargetSpec = {
   canDrop({ canDrop = true }: SortableItemProps) {
     return canDrop
   },
-  drop(props: SortableItemProps, monitor: DropTargetMonitor, component: SortableItem | null) {
+  drop(
+    props: SortableItemProps,
+    monitor: DropTargetMonitor,
+    component: SortableItem | null
+  ) {
     const { onDropItem } = props
 
     if (typeof onDropItem === 'function') {
       onDropItem(monitor.getItem())
     }
   },
-  hover(props: SortableItemProps, monitor: DropTargetMonitor, component: SortableItem | null) {
+  hover(
+    props: SortableItemProps,
+    monitor: DropTargetMonitor,
+    component: SortableItem | null
+  ) {
     if (!component) {
       return
     }
@@ -87,13 +102,16 @@ const dropTargetSpec = {
     const pointerToTargetTop = mouseY - targetBoundingRect.top
 
     // 마우스 위치가 타겟 아이템 높이의 절반보다 위에 있다.
-    const isMouseHigherThanMiddleOfTarget = pointerToTargetTop < halfOfTargetHeight
+    const isMouseHigherThanMiddleOfTarget =
+      pointerToTargetTop < halfOfTargetHeight
 
     // 정렬을 할 필요가 없는 케이스 2개
     // 위쪽에 있는 아이템이 절반 이상 내려감
-    const higherItemOveredTaget = dragIndex < hoverIndex && !isMouseHigherThanMiddleOfTarget
+    const higherItemOveredTaget =
+      dragIndex < hoverIndex && !isMouseHigherThanMiddleOfTarget
     // 아래쪽에 있는 아이템이 절반 이상 올라감
-    const lowerItemOveredTarget = dragIndex > hoverIndex && isMouseHigherThanMiddleOfTarget
+    const lowerItemOveredTarget =
+      dragIndex > hoverIndex && isMouseHigherThanMiddleOfTarget
 
     if (higherItemOveredTaget || lowerItemOveredTarget) {
       props.onSort(dragIndex, hoverIndex)
@@ -102,7 +120,10 @@ const dropTargetSpec = {
   },
 }
 
-const dropTargetCollect = (connect: DropTargetConnector, monitor: DropTargetMonitor) => {
+const dropTargetCollect = (
+  connect: DropTargetConnector,
+  monitor: DropTargetMonitor
+) => {
   return {
     isOver: monitor.isOver(),
     connectDropTarget: connect.dropTarget(),

@@ -100,7 +100,10 @@ class VideoPreview extends React.Component<Props, State> {
 
     this.handleSeekBar = this.handleSeekBar.bind(this)
     this.handlePlayPause = this.handlePlayPause.bind(this)
-    this.requestVideoPosition = debounce(500, this.requestVideoPosition.bind(this))
+    this.requestVideoPosition = debounce(
+      500,
+      this.requestVideoPosition.bind(this)
+    )
   }
 
   componentDidMount() {
@@ -230,10 +233,13 @@ class VideoPreview extends React.Component<Props, State> {
             <p>Your browser does not support HTML5 video.</p>
           </Video>
 
-          {!this.state.isPlaying && <PlayButton onClick={this.handlePlayPause} />}
+          {!this.state.isPlaying && (
+            <PlayButton onClick={this.handlePlayPause} />
+          )}
 
-          {this.state.isPlaying &&
-            this.state.isMouseOver && <PauseButton onClick={this.handlePlayPause} />}
+          {this.state.isPlaying && this.state.isMouseOver && (
+            <PauseButton onClick={this.handlePlayPause} />
+          )}
 
           {this.state.isSeeking && <SeekingSpinner />}
         </VideoWrapper>
@@ -261,4 +267,7 @@ const mapDispatchToProps = (dispatch: Function) =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(VideoPreview)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VideoPreview)

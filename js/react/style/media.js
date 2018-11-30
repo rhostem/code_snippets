@@ -13,7 +13,8 @@ const media = {
   Desktop: `@media (min-width: 1060px)`,
   hd: `(min-width: 1200px)`,
   Hd: `@media (min-width: 1200px)`,
-  LargerThanAppMax: `@media (min-width: ${parseInt(size.APP_MAX_WIDTH, 10) + 1}px)`,
+  LargerThanAppMax: `@media (min-width: ${parseInt(size.APP_MAX_WIDTH, 10) +
+    1}px)`,
 }
 
 export default media

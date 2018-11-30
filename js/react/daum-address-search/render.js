@@ -1,12 +1,11 @@
 class render extends React.Component {
-    
   constructor(props) {
     super(props)
     this.state = {
       isAddressSearchVisible: false,
     }
   }
-  
+
   handleOpenDaumAddressSearch = e => {
     e.preventDefault()
 
@@ -29,7 +28,7 @@ class render extends React.Component {
       this.setState({ isAddressSearchVisible: true })
     })
   }
-  
+
   render() {
     return (
       <div>
@@ -46,6 +45,4 @@ class render extends React.Component {
       </div>
     )
   }
-  
-  
 }

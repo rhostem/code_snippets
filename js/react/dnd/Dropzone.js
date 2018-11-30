@@ -94,7 +94,9 @@ class DropZone extends React.Component<Props> {
                 <DropzoneButton type="button" onClick={this.openFinder}>
                   파일 선택
                 </DropzoneButton>
-                <div style={{ marginTop: '14px' }}>여기에 이미지를 끌어놓으세요.</div>
+                <div style={{ marginTop: '14px' }}>
+                  여기에 이미지를 끌어놓으세요.
+                </div>
               </>
             )}
           </ButtonArea>
@@ -109,7 +111,8 @@ const spec = {
     const { fileTypeRegex = /.+/, onDrop } = props
     const droppedFiles: Array<File> = monitor.getItem().files || []
     const isFile = R.all(file => file.constructor.name === 'File')(droppedFiles)
-    const isFileTypeMatch = isFile && R.all(file => fileTypeRegex.test(file.type))(droppedFiles)
+    const isFileTypeMatch =
+      isFile && R.all(file => fileTypeRegex.test(file.type))(droppedFiles)
 
     devLog(`dropped files:`, droppedFiles)
 
@@ -143,6 +146,10 @@ const composition = R.compose(
 
 export const FileDropZone = composition(DropZone)
 
-export const VideoDropZone = props => <FileDropZone fileTypeRegex={VIDEO_FILE_REGEX} {...props} />
+export const VideoDropZone = props => (
+  <FileDropZone fileTypeRegex={VIDEO_FILE_REGEX} {...props} />
+)
 
-export const ImageDropZone = props => <FileDropZone fileTypeRegex={IMAGE_FILE_REGEX} {...props} />
+export const ImageDropZone = props => (
+  <FileDropZone fileTypeRegex={IMAGE_FILE_REGEX} {...props} />
+)
