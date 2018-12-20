@@ -72,6 +72,12 @@ class DropZone extends React.Component<Props> {
     this.hiddenInput.current.click()
   }
 
+  handleChangeHiddenInput = e => {
+    this.props.onDrop(e.target.files)
+    // 같은 파일을 선택했을 때도 콜백이 실행되도록
+    this.hiddenInput.current.value = null
+  }
+
   render() {
     const { connectDropTarget, isOver, style, buttonComp } = this.props
 
@@ -82,12 +88,7 @@ class DropZone extends React.Component<Props> {
             ref={this.hiddenInput}
             type="file"
             style={{ display: 'none' }}
-            onChange={e => {
-              this.props.onDrop(e.target.files)
-
-              // 같은 파일을 선택했을 때도 콜백이 실행되도록
-              this.hiddenInput.current.value = null
-            }}
+            onChange={this.handleChangeHiddenInput}
           />
           <ButtonArea>
             {buttonComp ? (
