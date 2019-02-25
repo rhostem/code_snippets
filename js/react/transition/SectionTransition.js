@@ -261,8 +261,7 @@ class SectionTransition extends React.Component<Props, State> {
           <ControlButton
             onClick={() =>
               this.handleChangeSection(R.max(R.dec(this.state.sectionIndex), 0))
-            }
-          >
+            }>
             prev
           </ControlButton>
           <ControlButton
@@ -273,8 +272,7 @@ class SectionTransition extends React.Component<Props, State> {
                   this.props.sections.length - 1
                 )
               )
-            }
-          >
+            }>
             next
           </ControlButton>
         </ControlButtonWrap>
@@ -295,8 +293,7 @@ class SectionTransition extends React.Component<Props, State> {
                       if (position === CURRENT) {
                         this.currentSectionEl = el
                       }
-                    }}
-                  >
+                    }}>
                     {sectionComp()}
                   </SectionWrap>
                 )

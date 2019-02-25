@@ -147,8 +147,7 @@ class VideoSeekBar extends React.Component<Props, State> {
                   key={i}
                   style={{
                     left: `calc(${calcMarkerPosition(point)}% - 12px)`,
-                  }}
-                >
+                  }}>
                   {i + 1}
                 </ImagePointMarker>
               ))}

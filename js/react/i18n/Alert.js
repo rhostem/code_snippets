@@ -79,8 +79,7 @@ const ConfirmBtns = ({ onCancel, onConfirm }) => (
         <Button onClick={onCancel}>{t('cancel')}</Button>
         <Button
           onClick={onConfirm}
-          style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
-        >
+          style={{ backgroundColor: '#2b2b2b', color: '#fff' }}>
           {t('confirm')}
         </Button>
       </Buttons>
@@ -157,8 +156,7 @@ class Alert extends React.Component<Props, State> {
                 ...contentStyle,
               },
             }}
-            closeTimeoutMS={400}
-          >
+            closeTimeoutMS={400}>
             <ModalBody>
               {this.props.children ? (
                 <AlertBody>{this.props.children}</AlertBody>

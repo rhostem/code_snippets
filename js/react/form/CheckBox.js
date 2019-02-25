@@ -80,8 +80,7 @@ class CheckBox extends React.Component<Props, any> {
           htmlFor={id}
           style={{
             opacity: disabled ? 0.6 : 1,
-          }}
-        >
+          }}>
           {children || name}
         </label>
       </CheckBoxGroup>

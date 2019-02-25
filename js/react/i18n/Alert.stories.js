@@ -27,8 +27,7 @@ stories.add('default', () => {
       onConfirm={() => alert('confirm')}
       onCancel={() => alert('onCancel')}
       onJustClose={() => {}}
-      contentStyle={{}}
-    >
+      contentStyle={{}}>
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis,
       laudantium tenetur inventore sequi rem illo repudiandae impedit
       recusandae, culpa, corporis ea ipsam porro perspiciatis sit distinctio

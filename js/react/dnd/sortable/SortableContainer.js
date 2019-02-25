@@ -84,8 +84,7 @@ class SortableContainer extends Component<Props, *> {
             onSort={this.handleSort}
             onDropItem={this.props.onDropItem}
             canDrag={item.canDrag}
-            canDrop={item.canDrop}
-          >
+            canDrop={item.canDrop}>
             {item.children()}
           </SortableItem>
         ))}

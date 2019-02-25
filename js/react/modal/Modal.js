@@ -46,8 +46,7 @@ class Modal extends React.Component<Props, State> {
             ...contentStyle,
           },
         }}
-        closeTimeoutMS={400}
-      >
+        closeTimeoutMS={400}>
         {this.props.children}
       </ReactModal>
     )

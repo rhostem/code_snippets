@@ -226,8 +226,7 @@ class VideoPreview extends React.Component<Props, State> {
       <div>
         <VideoWrapper
           onMouseEnter={() => this.setState({ isMouseOver: true })}
-          onMouseLeave={() => this.setState({ isMouseOver: false })}
-        >
+          onMouseLeave={() => this.setState({ isMouseOver: false })}>
           <Video id="video">
             <source src={this.props.src} />
             <p>Your browser does not support HTML5 video.</p>

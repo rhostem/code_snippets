@@ -49,16 +49,14 @@ class SlideInFromRight extends Component {
         in={this.props.in}
         timeout={this.props.duration || defaultDuration}
         appear
-        unmountOnExit
-      >
+        unmountOnExit>
         {status => (
           <div
             style={{
               ...defaultStyle,
               ...this.props.style,
               ...transitionStyles[status],
-            }}
-          >
+            }}>
             {this.props.children}
           </div>
         )}
