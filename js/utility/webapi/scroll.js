@@ -1,41 +1,36 @@
-export const toggleLockBodyScroll = (lock = true) => {
-  const body = document.documentElement.getElementsByTagName('body')[0]
-  if (lock) {
-    body.style.overflow = 'hidden'
-  } else {
-    body.style.overflow = 'initial'
-  }
-}
+export const canUseDOM = () => typeof window !== 'undefined'
+
+export const checkIsMobile = () =>
+  canUseDOM() && /mobile/i.test(window.navigator.userAgent)
 
 /**
  * 스크롤 방지
- * @param {*} isLocked
- * @param {*} isTouchLocked 터치 이벤트를 막는다. 모달에 스크롤되는 컨텐츠가 있을 경우 스크롤이 불가능해짐.
+ * @param {*} isLock
+ * @param {*} isLockTouchmove 터치 이벤트를 막는다. 모달에 스크롤되는 컨텐츠가 있을 경우 스크롤이 불가능해짐.
  */
-export const toggleScrollability = (isLocked, isTouchLocked = false) => {
-  const bodyElement = canUseDOM()
-    ? Array.prototype.slice.call(document.getElementsByTagName('body'))[0]
-    : null
+const setScrollability = ({
+  isLockScroll = false,
+  isLockTouchmove = false,
+}) => {
+  const isMobile = checkIsMobile()
 
-  if (canUseDOM() && isLocked) {
-    // Disable scrolling.
-    if (checkIsMobile() && isTouchLocked) {
-      document.ontouchmove = function(e) {
-        e.preventDefault()
+  if (canUseDOM()) {
+    if (isLockScroll) {
+      // Disable scrolling.
+      if (isMobile && isLockTouchmove) {
+        document.ontouchmove = e => {
+          e.preventDefault()
+        }
+      } else {
+        document.documentElement.style.overflow = 'hidden'
       }
-    } else {
-      bodyElement.classList.add('modal-open')
-      document.documentElement.classList.add('modal-open')
-    }
-  } else if (canUseDOM() && !isLocked) {
-    // Enable scrolling.
-    if (checkIsMobile() && isTouchLocked) {
-      document.ontouchmove = function(e) {
-        return true
+    } else if (!isLockScroll) {
+      // Enable scrolling.
+      if (isMobile && isLockTouchmove) {
+        document.ontouchmove = () => true
+      } else {
+        document.documentElement.style.overflow = 'initial'
       }
-    } else {
-      bodyElement.classList.remove('modal-open')
-      document.documentElement.classList.remove('modal-open')
     }
   }
 }
