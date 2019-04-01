@@ -8,22 +8,15 @@ export const isFalsey = v => R.or(R.isNil(v), R.isEmpty(v))
 // isFalsey가 아닌 값
 export const isTruthy = v => R.not(isFalsey(v))
 
-export const isTruthy2 = R.allPass([
-  // 빈 값이 아니어야 한다
-  R.compose(
-    R.not,
-    R.isEmpty
-  ),
-  // null, undefined가 아니어야 한다
-  R.compose(
-    R.not,
-    R.isNil
-  ),
+export const isFalsey2 = R.anyPass([
+  // 빈 값(공백 문자, 빈 배열, 빈 객체)
+  R.isEmpty,
+  // null, undefined
+  R.isNil,
 ])
-
-export const isFalsey2 = R.compose(
+export const isTruthy2 = R.compose(
+  isFalsey2
   R.not,
-  isTruthy2
 )
 
 export const parseDeci = R.partialRight(parseInt, [10])
