@@ -1,5 +1,5 @@
 module.exports = {
-  parser: 'babylon',
+  parser: 'babel',
   printWidth: 80,
   useTabs: false,
   tabWidth: 2,
@@ -8,4 +8,18 @@ module.exports = {
   semi: false,
   trailingComma: 'es5',
   jsxBracketSameLine: true,
+  overrides: [
+    {
+      files: '*.html',
+      options: {
+        parser: 'html',
+      },
+    },
+    {
+      files: '*.vue',
+      options: {
+        parser: 'vue',
+      },
+    },
+  ],
 }
