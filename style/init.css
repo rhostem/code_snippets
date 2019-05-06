@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+}
+
+/* 기본 버튼 스타일 제거 */
+button {
+  appearance: none;
+  padding: 0;
+  border: none;
+  background: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
