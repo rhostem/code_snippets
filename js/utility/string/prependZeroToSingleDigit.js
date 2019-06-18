@@ -5,5 +5,5 @@ export const prependZeroToSingleDigit = (num = '') => {
   if (num.toString().length === 1) {
     return '0' + num
   }
-  return numString
+  return num
 }
