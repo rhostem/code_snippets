@@ -11,10 +11,10 @@ export const breakPoint = {
 
 export const media = {
   // media querys for mobile first
-  OVER_IPHONE5: `@media (min-width: ${breakPoint.IPHONE5})`,
-  OVER_MOBILE: `@media (min-width: ${breakPoint.MOBILE})`,
-  OVER_TABLET: `@media (min-width: ${breakPoint.TABLET})`,
-  OVER_DESKTOP: `@media (min-width: ${breakPoint.DESKTOP})`,
+  OVER_IPHONE5: `@media (min-width: calc(${breakPoint.IPHONE5} + 1px))`,
+  OVER_MOBILE: `@media (min-width: calc(${breakPoint.MOBILE} + 1px))`,
+  OVER_TABLET: `@media (min-width: calc(${breakPoint.TABLET} + 1px))`,
+  OVER_DESKTOP: `@media (min-width: calc(${breakPoint.DESKTOP} + 1px))`,
 
   // media querys for desktop first.
   UNDER_LARGE_DESKTOP: `@media (max-width: ${breakPoint.LARGEDESKTOP})`,
