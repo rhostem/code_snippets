@@ -14,17 +14,32 @@ export function devLog() {
   }
 }
 
-/**
- * console 객체에서 사용할 기능을 직접 지정함.
- */
-export function devLogCount(label) {
-  if (isNotProdEnv) {
-    console.count(`[App] ${label}`)
-  }
-}
-
 export function devAlert() {
   if (isNotProdEnv) {
     alert(...arguments)
+  }
+}
+
+export function devDir(obj) {
+  if (isNotProdEnv) {
+    console.dir(obj)
+  }
+}
+
+export function devGroup(group) {
+  if (isNotProdEnv) {
+    console.group(group)
+  }
+}
+
+export function devGroupEnd(group) {
+  if (isNotProdEnv) {
+    console.groupEnd(group)
+  }
+}
+
+export function devTable(arr) {
+  if (isNotProdEnv) {
+    console.table(arr)
   }
 }
