@@ -1,3 +1,6 @@
+/**
+ * 로컬 스토리지 mock
+ */
 function storageMock() {
   var storage = {}
 
