@@ -1,0 +1,30 @@
+@import './centered.scss';
+
+// flex를 사용하지 않고 버튼 텍스트를 가운데 정렬하기.
+// 버튼 안의 span 태그를 absolute 포지션으로 만들어서 정렬한다.
+@mixin buttonCentered {
+  position: relative;
+
+  & > span {
+    display: inline-block;
+    @include centered;
+  }
+}
+
+@mixin buttonCenteredX {
+  position: relative;
+
+  & > span {
+    display: inline-block;
+    @include centeredX;
+  }
+}
+
+@mixin buttonCenteredY {
+  position: relative;
+
+  & > span {
+    display: inline-block;
+    @include centeredY;
+  }
+}
