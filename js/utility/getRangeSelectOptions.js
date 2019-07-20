@@ -1,5 +1,5 @@
-const sortAsc = (a, b) => a - b;
-const sortDesc = (a, b) => b - a;
+const sortAscPredicate = (a, b) => a - b;
+const sortDescPredicate = (a, b) => b - a;
 
 /**
  * Select 컴포넌트에 사용할 수 있도록 숫자를 값으로 가지는 객체 배열을 리턴한다.
@@ -23,7 +23,7 @@ export default function getRangeSelectOptions({
     });
   }
 
-  const sortFunc = sort === 'asc' ? sortAsc : sortDesc;
+  const sortFunc = sort === 'asc' ? sortAscPredicate : sortDescPredicate;
 
   options = options.sort((a, b) => sortFunc(a.value, b.value));
 
