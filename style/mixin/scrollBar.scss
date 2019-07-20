@@ -1,3 +1,5 @@
+// 커스텀 스타일 스크롤바
+// track이 스크롤바, thumb이 스크롤바의 클릭 가능한 부분
 @mixin scrollBar($width, $trackColor, $thunmbColor) {
   &::-webkit-scrollbar {
     width: 4px;

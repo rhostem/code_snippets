@@ -1,3 +1,4 @@
+/* #root 엘레멘트가 비어있을 때 스피너를 표시한다 */
 #root {
   position: relative;
 }
