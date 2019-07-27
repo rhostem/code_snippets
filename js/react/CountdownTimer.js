@@ -61,5 +61,5 @@ export default function CountdownTimer({
     }
   }, [isOn])
 
-  return <div>{render({ time: timeFormatter(timeLeft) })}</div>
+  return <render time={timeFormatter(timeLeft)} />
 }
