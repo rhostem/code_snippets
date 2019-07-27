@@ -1,5 +1,5 @@
-const sortAscPredicate = (a, b) => a - b;
-const sortDescPredicate = (a, b) => b - a;
+const sortAsc = (a, b) => a - b;
+const sortDesc = (a, b) => b - a;
 
 /**
  * Select 컴포넌트에 사용할 수 있도록 숫자를 값으로 가지는 객체 배열을 리턴한다.
@@ -8,22 +8,28 @@ const sortDescPredicate = (a, b) => b - a;
  * @param {*} option.end 종료
  * @param {*} option.sort  정렬. asc가 아니면 내림차순 정렬
  * @param {*} option.template 템플릿. %VALUE% 부분을 값으로 치환한다.
+ * @param {*} option.templator 템플릿 함수. value를 받아서 문자열을 반환해야 한다. template 파라미터는 무시된다.
  */
 export default function getRangeSelectOptions({
   start,
   end,
-  sort = 'asc',
+  gap = 1,
+  sort = "asc", // or DESC
   template = `%VALUE%`,
+  templator
 }) {
   let options = [];
-  for (let i = start; i <= end; i++) {
+  for (let i = start; i <= end; i += gap) {
     options.push({
       value: i,
-      label: template.replace(/%VALUE%/, i),
+      label:
+        typeof templator === "function"
+          ? templator(i)
+          : template.replace(/%VALUE%/, i)
     });
   }
 
-  const sortFunc = sort === 'asc' ? sortAscPredicate : sortDescPredicate;
+  const sortFunc = sort === "asc" ? sortAsc : sortDesc;
 
   options = options.sort((a, b) => sortFunc(a.value, b.value));
 
