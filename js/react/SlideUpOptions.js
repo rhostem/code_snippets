@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
-import _ from 'lodash';
-import css from './SlideUpOptions.module.scss';
-import anime from 'animejs';
-import { Transition } from 'react-transition-group';
-import { func, arrayOf, shape, string, any } from 'prop-types';
+import React, { useState } from 'react'
+import _ from 'lodash'
+import css from './SlideUpOptions.module.scss'
+import anime from 'animejs'
+import { Transition } from 'react-transition-group'
+import { func, arrayOf, shape, string, any } from 'prop-types'
 
 export const slideOptionsPropType = arrayOf(
   shape({ label: string, value: any })
-);
+)
 
 SlideUpOptions.prototype = {
   options: slideOptionsPropType,
   onClickOption: func, // option객체를 파라미터로 넘김
-};
+}
 
-const sampleButton = ({ slideArea, toggleSlide }) => {
-  return (
-    <div>
-      <button onClick={toggleSlide}>button</button>
-      {slideArea()}
-    </div>
-  );
-};
+const sampleButton = () => {
+  return <button>button</button>
+}
 
 /**
  * ! button 안에 button 엘레멘트를 렌더링하면 오류가 발생함.
@@ -37,10 +32,11 @@ export default function SlideUpOptions({
   duration = 200,
   topPosOnEnter = '30px',
   topPosOnExit = '50px',
+  wrapperStyle = {},
   slideWrapperStyle = {}, // 슬라이드업 래퍼 엘레멘트
   optionStyle = {}, // 옵션 엘레멘트 스타일
 }) {
-  const DURATION = duration;
+  const DURATION = duration
   const optionsAnime = {
     onEnter: node => {
       anime({
@@ -50,14 +46,14 @@ export default function SlideUpOptions({
         top: topPosOnEnter,
         duration: DURATION,
         begin: function(anim) {
-          node.style.display = 'block';
+          node.style.display = 'block'
         },
-      });
+      })
     },
     onEntered: node => {
       anime({
         targets: node,
-      });
+      })
     },
     onExit: node => {
       anime({
@@ -67,15 +63,15 @@ export default function SlideUpOptions({
         duration: DURATION,
         top: topPosOnExit,
         complete: function(anim) {
-          node.style.display = 'none';
+          node.style.display = 'none'
         },
-      });
+      })
     },
-  };
+  }
 
   // 옵션창 표시여부 컨트롤
-  const [isSlideVisible, setIsSlideVisible] = useState(false);
-  const toggleSlide = () => setIsSlideVisible(!isSlideVisible);
+  const [isSlideVisible, setIsSlideVisible] = useState(false)
+  const toggleSlide = () => setIsSlideVisible(!isSlideVisible)
 
   // 마운팅된 상태에서 슬라이드 영역의 최초 스타일 조정.
   // top 포지션과 opacity를 조정.
@@ -85,7 +81,7 @@ export default function SlideUpOptions({
     zIndex: 1000,
     top: topPosOnExit,
     opacity: 0,
-  });
+  })
 
   // // FIXME: 항상 보임
   // if (!isSlideVisible) {
@@ -94,45 +90,39 @@ export default function SlideUpOptions({
   //   }, 200);
   // }
 
-  const slideArea = () => {
-    return (
-      <Transition
+  return (
+    <div className={css.wrapper} style={wrapperStyle}>
+      <div onClick={toggleSlide}>{renderButton()}</div>
+      <Transitiona
         in={isSlideVisible}
         onEnter={optionsAnime.onEnter}
         onExit={optionsAnime.onExit}
-        timeout={DURATION}
-      >
-        {state => (
-          <>
-            {_.isNil(renderSlideArea) ? (
-              <div className={css.options} style={slideInitialStyle}>
-                {options.map((option, index) => (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      toggleSlide();
-                      onClickOption(option);
-                    }}
-                    style={optionStyle}
-                  >
-                    {option.label}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              renderSlideArea({
-                initialStyle: slideInitialStyle,
-                toggleSlide,
-              })
-            )}
-            {isSlideVisible && (
-              <div className={css.mask} onClick={toggleSlide} />
-            )}
-          </>
-        )}
-      </Transition>
-    );
-  };
+        timeout={DURATION}>
+        {state =>
+          _.isNil(renderSlideArea) ? (
+            <div className={css.options} style={slideInitialStyle}>
+              {options.map((option, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    toggleSlide()
+                    onClickOption(option)
+                  }}
+                  style={optionStyle}>
+                  {option.label}
+                </div>
+              ))}
+            </div>
+          ) : (
+            renderSlideArea({
+              initialStyle: slideInitialStyle,
+              toggleSlide,
+            })
+          )
+        }
+      </Transitiona>
 
-  return renderButton({ slideArea, toggleSlide });
+      {isSlideVisible && <div className={css.mask} onClick={toggleSlide} />}
+    </div>
+  )
 }

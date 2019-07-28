@@ -1,8 +1,8 @@
 /**
  * 생년월일을 기반으로 현재 시점의 만 나이를 계산한다.
- * @param  {[string]} birthDate [YYYY-MM-DD 형식]
- * @param  {[type]} calcPointDate [날짜 계산 기준일]
- * @return {[number]}           [만 나이]
+ * @param  {string} birthDate [YYYY-MM-DD 형식]
+ * @param  {string} calcPointDate [날짜 계산 기준일]
+ * @return {number}           [만 나이]
  */
 export const calcAge = (birthDate, calcPointDate) => {
   if (!isValidDateString(birthDate)) {
