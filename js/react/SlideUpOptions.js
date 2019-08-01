@@ -93,7 +93,7 @@ export default function SlideUpOptions({
   return (
     <div className={css.wrapper} style={wrapperStyle}>
       <div onClick={toggleSlide}>{renderButton()}</div>
-      <Transitiona
+      <Transition
         in={isSlideVisible}
         onEnter={optionsAnime.onEnter}
         onExit={optionsAnime.onExit}
@@ -120,7 +120,7 @@ export default function SlideUpOptions({
             })
           )
         }
-      </Transitiona>
+      </Transition>
 
       {isSlideVisible && <div className={css.mask} onClick={toggleSlide} />}
     </div>
