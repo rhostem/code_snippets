@@ -1,7 +1,5 @@
 import React from 'react'
-import SlideUpOptions from '../form/SlideUpOptions'
-import css from './BoardSelector.module.scss'
-import useChangeOption from 'components/hooks/useChangeOption'
+import useChangeOption from './useChangeOption'
 
 /**
  * 글쓰기 화면에서 게시판(=category) 선택
