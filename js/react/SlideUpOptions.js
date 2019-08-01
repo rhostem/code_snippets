@@ -26,7 +26,7 @@ const sampleButton = () => {
  */
 export default function SlideUpOptions({
   options = [], // slideOptionsPropType
-  onClickOption = value => {},
+  onClickOption = ({ value, label }) => {},
   renderButton = sampleButton, // 버튼 컴포넌트.
   renderSlideArea = null, //  슬라이드업 영역에 렌더링할 컴포넌트
   duration = 200,
@@ -48,11 +48,6 @@ export default function SlideUpOptions({
         begin: function(anim) {
           node.style.display = 'block'
         },
-      })
-    },
-    onEntered: node => {
-      anime({
-        targets: node,
       })
     },
     onExit: node => {
@@ -90,6 +85,9 @@ export default function SlideUpOptions({
   //   }, 200);
   // }
 
+  // 배열로 전달된 옵션을 렌더링할 것인지
+  const isOptionsVisible = options.length > 0
+
   return (
     <div className={css.wrapper} style={wrapperStyle}>
       <div onClick={toggleSlide}>{renderButton()}</div>
@@ -99,7 +97,7 @@ export default function SlideUpOptions({
         onExit={optionsAnime.onExit}
         timeout={DURATION}>
         {state =>
-          _.isNil(renderSlideArea) ? (
+          isOptionsVisible ? (
             <div className={css.options} style={slideInitialStyle}>
               {options.map((option, index) => (
                 <div
@@ -113,11 +111,10 @@ export default function SlideUpOptions({
                 </div>
               ))}
             </div>
+          ) : typeof renderSlideArea === 'function' ? (
+            renderSlideArea({ initialStyle: slideInitialStyle, toggleSlide })
           ) : (
-            renderSlideArea({
-              initialStyle: slideInitialStyle,
-              toggleSlide,
-            })
+            <div />
           )
         }
       </Transition>
