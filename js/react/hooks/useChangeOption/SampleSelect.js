@@ -16,7 +16,7 @@ const SampleSelect = ({
   })
 
   return (
-    <select onChange={handleChange}>
+    <select onChange={e => handleChange(e.target.value)}>
       {optionsAvailable.map(option => {
         return <option value={option.value}>{option.label}</option>
       })}
