@@ -11,7 +11,7 @@ export const slideOptionsPropType = arrayOf(
 
 SlideUpOptions.prototype = {
   options: slideOptionsPropType,
-  onClickOption: func, // option객체를 파라미터로 넘김
+  onChangeOption: func, // option객체를 파라미터로 넘김
 }
 
 const sampleButton = () => {
@@ -26,7 +26,7 @@ const sampleButton = () => {
  */
 export default function SlideUpOptions({
   options = [], // slideOptionsPropType
-  onClickOption = ({ value, label }) => {},
+  onChangeOption = (value, label) => {},
   renderButton = sampleButton, // 버튼 컴포넌트.
   renderSlideArea = null, //  슬라이드업 영역에 렌더링할 컴포넌트
   duration = 200,
@@ -35,6 +35,7 @@ export default function SlideUpOptions({
   wrapperStyle = {},
   slideWrapperStyle = {}, // 슬라이드업 래퍼 엘레멘트
   optionStyle = {}, // 옵션 엘레멘트 스타일
+  isOpenEnabled = true, // 오픈 가능 여부
 }) {
   const DURATION = duration
   const optionsAnime = {
@@ -66,7 +67,12 @@ export default function SlideUpOptions({
 
   // 옵션창 표시여부 컨트롤
   const [isSlideVisible, setIsSlideVisible] = useState(false)
-  const toggleSlide = () => setIsSlideVisible(!isSlideVisible)
+
+  const toggleSlide = () => {
+    if (isOpenEnabled) {
+      setIsSlideVisible(!isSlideVisible)
+    }
+  }
 
   // 마운팅된 상태에서 슬라이드 영역의 최초 스타일 조정.
   // top 포지션과 opacity를 조정.
@@ -78,19 +84,14 @@ export default function SlideUpOptions({
     opacity: 0,
   })
 
-  // // FIXME: 항상 보임
-  // if (!isSlideVisible) {
-  //   setTimeout(() => {
-  //     toggleSlide();
-  //   }, 200);
-  // }
-
   // 배열로 전달된 옵션을 렌더링할 것인지
   const isOptionsVisible = options.length > 0
 
   return (
     <div className={css.wrapper} style={wrapperStyle}>
-      <div onClick={toggleSlide}>{renderButton()}</div>
+      <div key="renderbutton" onClick={toggleSlide}>
+        {renderButton()}
+      </div>
       <Transition
         in={isSlideVisible}
         onEnter={optionsAnime.onEnter}
@@ -98,13 +99,16 @@ export default function SlideUpOptions({
         timeout={DURATION}>
         {state =>
           isOptionsVisible ? (
-            <div className={css.options} style={slideInitialStyle}>
+            <div
+              key="options"
+              className={css.options}
+              style={slideInitialStyle}>
               {options.map((option, index) => (
                 <div
                   key={index}
                   onClick={() => {
                     toggleSlide()
-                    onClickOption(option)
+                    onChangeOption(option.value, option.label)
                   }}
                   style={optionStyle}>
                   {option.label}
@@ -114,12 +118,14 @@ export default function SlideUpOptions({
           ) : typeof renderSlideArea === 'function' ? (
             renderSlideArea({ initialStyle: slideInitialStyle, toggleSlide })
           ) : (
-            <div />
+            <div key="empty" />
           )
         }
       </Transition>
 
-      {isSlideVisible && <div className={css.mask} onClick={toggleSlide} />}
+      {isSlideVisible && (
+        <div key="mask" className={css.mask} onClick={toggleSlide} />
+      )}
     </div>
   )
 }
