@@ -1,17 +1,23 @@
 import React from 'react'
-import useChangeInput from './useChangeInput'
+import useChangeInput from 'components/hooks/useChangeInput'
 
-export default function SampleInput({
-  initialValue,
+export default function SearchInput({
+  initialValue = '',
   onChange = v => {},
-  placeholder,
+  wrapperStyle = {},
+  placeholder = 'placeholder',
 }) {
-  const [value, handleChange] = useChangeInput({ initialValue, onChange })
+  const { value, handleChange } = useChangeInput({
+    initialValue,
+    onChange,
+  })
 
   return (
     <input
       value={value}
-      onChange={e => handleChange(e.target.value)}
+      onChange={e => {
+        handleChange(e.target.value)
+      }}
       placeholder={placeholder}
       type="text"
     />
