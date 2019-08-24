@@ -1,34 +1,34 @@
-// * desktop first 미디어 쿼리 믹스인
+// * desktop first라서 미디어 쿼리를 특정 브레이크 포인트 이하일때 적용하도록 한다.
 
 // 미디어 쿼리 브레이크 포인트.
-$smBreak: 768px; // 이하는 모바일
-$mdBreak: 960px; // 이하는 태블릿
-$lgBreak: 1600px; // 이하는 일반 데스크탑, 이상은 큰 화면(large desktop) 데스크탑
+$largeDesktopMin: 1600px; // 이하는 일반 데스크탑, 이상은 큰 화면(large desktop) 데스크탑
+$tabletMax: 1024px; // 이하는 태블릿 portrait (iPad Pro 기준)
+$mobileMax: 425px; // 이하는 모바일 portrait
 
 // largeDesktop only
 @mixin mediaLG {
-  @media (min-width: #{$lgBreak}) {
+  @media (min-width: #{$largeDesktopMin}) {
     @content;
   }
 }
 
 // large desktop 보다 작은 화면 일반 데스크탑에 적용.
 @mixin mediaMD {
-  @media (max-width: #{calc(#{$lgBreak} - 1px)}) {
+  @media (max-width: #{calc(#{$largeDesktopMin} - 1px)}) {
     @content;
   }
 }
 
 // normal desktop 보다 작은 화면. 태블릿 사이즈를 의미함
-@mixin mediaXS {
-  @media (max-width: #{calc(#{$mdBreak} - 1px)}) {
+@mixin mediaSM {
+  @media (max-width: #{calc(#{$tabletMax} - 1px)}) {
     @content;
   }
 }
 
 // 모바일 사이즈
-@mixin mediaSM {
-  @media (max-width: #{calc(#{$smBreak} - 1px)}) {
+@mixin mediaXS {
+  @media (max-width: #{calc(#{$mobileMax} - 1px)}) {
     @content;
   }
 }
