@@ -2,7 +2,6 @@
   "name": "js",
   "version": "1.0.0",
   "description": "",
-  "main": "UMD-template.js",
   "scripts": {
     "test": "jest --watch"
   },
