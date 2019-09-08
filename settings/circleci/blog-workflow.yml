@@ -1,0 +1,74 @@
+# 빌드와 배포 job 분리
+# - feature로 시작하는 브랜치는 build 실행 안함
+# - develop 브랜치는 build만 실행
+# - master 브랜치는 build 완료된 후 deploy-master 실행
+version: 2
+jobs:
+  build:
+    docker: # run the steps with Docker
+      - image: circleci/node:10
+    working_directory: ~/blog
+    steps:
+      - checkout
+      - run:
+          name: update npm
+          command: 'sudo npm install -g npm'
+      - restore_cache:
+          key: dependency-cache-node-10-{{ checksum "package.json" }}
+      - run:
+          name: Install node modules
+          command: npm install
+      - run:
+          name: Build
+          command: npm run build
+      # 빌드 결과를 워크스페이스에 유지
+      - persist_to_workspace:
+          root: ~/blog
+          paths:
+            - public
+      - save_cache:
+          key: dependency-cache-node-10-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+
+  deploy-master:
+    docker: # run the steps with Docker
+      - image: circleci/node:10
+    working_directory: ~/blog
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - 'e3:80:b0:a8:8e:21:16:53:d5:db:1f:96:38:ef:b9:96'
+      - run:
+          name: Add host's key
+          command: ssh-keyscan -t rsa $DEPLOY_HOST >> ~/.ssh/known_hosts
+      - run:
+          name: Install rsync
+          command: sudo apt-get update && sudo apt-get install rsync
+      - attach_workspace:
+          at: /tmp/workspace
+      - deploy:
+          name: DEPLOY_HOST
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              rsync -avh /tmp/workspace/public/* ubuntu@${DEPLOY_HOST}:/home/ubuntu/www/blog --delete
+            else
+              echo "Not master branch, dry run only"
+            fi
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - /feature-.*/
+      - deploy-master:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
