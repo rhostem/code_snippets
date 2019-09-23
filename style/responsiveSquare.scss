@@ -1,0 +1,27 @@
+// 부모 엘레멘트의 넓이에 따라서 사이즈가 달라지는 정사각형 박스.
+// 변수에 한줄에 들어갈 박스의 크기를 설정해서 넓이와 높이를 자동 계산한다.
+// height를 지정하지 않고, padding-bottom에 계산된 넓이를 지정해서 사각형을 만드는 트릭을 사용한다.
+.wrapper {
+  @include clearfix;
+}
+
+// 첨부 이미지 사이즈
+$squareCountInRow: 6;
+$squareGap: 10px;
+$squareSize: calc(
+  (100% - (#{$squareCountInRow - 1} * #{$squareGap})) / 6
+);
+
+.square {
+  float: left;
+  margin-right: $squareGap;
+  margin-bottom: $squareGap;
+  width: $squareSize;
+  padding-bottom: $squareSize;
+  background-size: cover;
+  background-position: center;
+
+  &:nth-child(6n) {
+    margin-right: 0;
+  }
+}
