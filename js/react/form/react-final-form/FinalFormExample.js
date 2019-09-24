@@ -49,7 +49,15 @@ function FinalFormExample({ updatedInitialValues }) {
             <Field
               name={fields.address}
               validate={composeValidators(required, notEmptyString)}>
-              {props => <input type="text" onChange={props.input.onChange} />}
+              {props => (
+                <div>
+                  {/* input */}
+                  <input type="text" onChange={props.input.onChange} />
+
+                  {/* error message */}
+                  {props.meta.submitFailed && <div>{props.meta.error}</div>}
+                </div>
+              )}
             </Field>
           </form>
         )
