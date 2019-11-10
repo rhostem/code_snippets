@@ -1,61 +1,61 @@
 import isTruthy, { isFalsey } from './isTruthy'
 
 describe('isTruthy', () => {
-  it('number => true', () => {
-    expect(isTruthy(123)).toBe(true)
+  it('false', () => {
+    expect(isTruthy(false)).toBe(false)
   })
-
-  it('Symbol => true', () => {
-    expect(isTruthy(Symbol('unique'))).toBe(true)
+  it('zero', () => {
+    expect(isTruthy(0)).toBe(false)
+    expect(isTruthy(-0)).toBe(false)
+    expect(isTruthy(0.0)).toBe(false)
+    expect(isTruthy(0x0)).toBe(false)
   })
-
-  it('null => false', () => {
+  it('empty string', () => {
+    expect(isTruthy('')).toBe(false)
+    expect(isTruthy('')).toBe(false)
+    expect(isTruthy(``)).toBe(false)
+  })
+  it('nil', () => {
     expect(isTruthy(null)).toBe(false)
-  })
-
-  it('undefined => false', () => {
     expect(isTruthy(undefined)).toBe(false)
   })
-
-  it('[] => false', () => {
-    expect(isTruthy([])).toBe(false)
+  it('NaN', () => {
+    expect(isTruthy(NaN)).toBe(false)
   })
-
-  it('empty string => false', () => {
-    expect(isTruthy('')).toBe(false)
+  it('object', () => {
+    expect(isTruthy({})).toBe(true)
   })
-
-  it('empty object => false', () => {
-    expect(isTruthy({})).toBe(false)
+  it('Symbol', () => {
+    expect(isTruthy(Symbol('unique'))).toBe(true)
   })
 })
 
-describe('isFalsey', () => {
-  it('number => false', () => {
-    expect(isFalsey(123)).toBe(false)
+describe('falsey', () => {
+  it('false', () => {
+    expect(isFalsey(false)).toBe(true)
   })
-
-  it('Symbol => false', () => {
-    expect(isFalsey(Symbol('unique'))).toBe(false)
+  it('zero', () => {
+    expect(isFalsey(0)).toBe(true)
+    expect(isFalsey(-0)).toBe(true)
+    expect(isFalsey(0.0)).toBe(true)
+    expect(isFalsey(0x0)).toBe(true)
   })
-
-  it('null => true', () => {
+  it('empty string', () => {
+    expect(isFalsey('')).toBe(true)
+    expect(isFalsey('')).toBe(true)
+    expect(isFalsey(``)).toBe(true)
+  })
+  it('nil', () => {
     expect(isFalsey(null)).toBe(true)
-  })
-
-  it('undefined => true', () => {
     expect(isFalsey(undefined)).toBe(true)
   })
-
-  it('[] => true', () => {
-    expect(isFalsey([])).toBe(true)
+  it('NaN', () => {
+    expect(isFalsey(NaN)).toBe(true)
   })
-
-  it('empty string => true', () => {
-    expect(isFalsey('')).toBe(true)
+  it('object', () => {
+    expect(isFalsey({})).toBe(false)
   })
-
-  it('empty object => true', () => {
-    expect(isFalsey({})).toBe(true)
+  it('Symbol', () => {
+    expect(isFalsey(Symbol('unique'))).toBe(false)
   })
 })
