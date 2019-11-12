@@ -1,65 +1,77 @@
-import React, { useState, useEffect } from 'react'
-import { prependZero } from 'lib/string/prependZero'
+import React, {
+  useCallback,
+  useReducer,
+  useState,
+  useEffect,
+  useRef,
+} from 'react'
+import padZeroToSingleDigit from 'childs/lib/string/padZeroToSingleDigit'
 
-const defaultTimeFormatter = time => {
-  if (!!time) {
-    const minutes = parseInt(time / 60)
-    const seconds = time % 60
-
-    return `${prependZero(minutes)}:${prependZero(seconds)}`
-  } else {
-    return '00:00'
-  }
-}
+const hourInSec = 60 * 60
+const minuteInSec = 60
 
 /**
- * 타운트다운 타이머, renderProps 패턴을 사용한다
+ * 카운트다운 타이머, renderProps 패턴을 사용한다
  */
 export default function CountdownTimer({
   render = ({ time }) => {},
-  isOn = false,
   initialTimeLeft = 0,
   onTimeOver = () => {}, // 시간 초과했을 때 콜백
-  timeFormatter = defaultTimeFormatter,
+  hhmmss = false,
+  isVisible = true,
 }) {
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
-  let timerId = null
+  const timerId = useRef(null)
 
-  /**
-   * 타이머 시작
-   * @param {number} timeLeft 남은 시간
-   */
-  const startTimer = timeLeft => {
-    clearInterval(timerId)
-
-    if (timeLeft > 0) {
-      let nextTimeLeft = timeLeft
-
-      timerId = setInterval(() => {
-        nextTimeLeft -= 1
-        if (nextTimeLeft >= 0) {
-          console.log(`nextTimeLeft`, nextTimeLeft)
-          setTimeLeft(nextTimeLeft)
-        } else {
-          clearInterval(timerId)
-          onTimeOver()
-        }
-      }, 1000)
-    }
-  }
-
-  // 타이머 온 여부가 변경되면 타이머를 재시작한다
+  // 초기값 설정
   useEffect(() => {
-    clearInterval(timerId)
+    setTimeLeft(initialTimeLeft)
 
-    if (isOn) {
-      startTimer(initialTimeLeft)
-    }
+    timerId.current = setInterval(() => {
+      setTimeLeft(current => {
+        return --current
+      })
+    }, 1000)
 
     return () => {
-      clearInterval(timerId)
+      clearInterval(timerId.current)
+      setTimeLeft(0)
     }
-  }, [isOn])
+  }, [initialTimeLeft])
 
-  return <render time={timeFormatter(timeLeft)} />
+  useEffect(() => {
+    const hour = Math.floor(timeLeft / hourInSec)
+    const minute = Math.floor((timeLeft % hourInSec) / minuteInSec)
+    const second = timeLeft % minuteInSec
+
+    dispatch({
+      payload: {
+        hour: padZeroToSingleDigit(hour),
+        minute: padZeroToSingleDigit(minute),
+        second: padZeroToSingleDigit(second),
+      },
+    })
+
+    return () => {}
+  }, [initialTimeLeft, timeLeft])
+
+  const [currentTimer, dispatch] = useReducer(
+    (state, action = {}) => {
+      const { payload } = action
+      if (!!payload) {
+        return payload
+      } else {
+        return state
+      }
+    },
+    {
+      hour: '00',
+      minute: '00',
+      second: '00',
+    }
+  )
+
+  const { hour, minute, second } = currentTimer
+
+  return <div>{render({ hour, minute, second })}</div>
 }
