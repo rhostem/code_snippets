@@ -1,14 +1,24 @@
-import _ from 'lodash'
-
 /**
- * 주어진 값이 null, undefined, 빈 배열, 빈 객체, 빈 문자열이 아니라면 true를 리턴한다
- * 숫자, symbol도 true
+ * ToBoolean
+ * https://tc39.es/ecma262/#sec-toboolean
  * @param {*} v 검사할 값
  */
 export default function isTruthy(v) {
-  const isNumber = typeof v === 'number'
-  const isSymbol = typeof v === 'symbol'
-  return isNumber || isSymbol || (!_.isNil(v) && !_.isEmpty(v))
+  if (v === false) {
+    return false
+  } else if (v === 0 || v === -0 || v === 0.0 || v === 0x0) {
+    return false
+  } else if (v === '' || v === '' || v === ``) {
+    return false
+  } else if (v === null || v === undefined) {
+    return false
+  } else if (typeof v === 'number' && Number.isNaN(v)) {
+    return false
+  } else if (typeof window === 'object' && v === document.all) {
+    return false
+  } else {
+    return true
+  }
 }
 
 export function isFalsey(v) {
