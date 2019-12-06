@@ -1,11 +1,16 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import omit from 'lodash/omit'
-import get from 'lodash/get'
-import moment from 'moment'
-import qs from 'qs'
-import key from 'constant/key'
-import Axios from 'axios'
+const axios = require('axios')
+const Cookies = require('js-cookie')
+const moment = require('moment')
+const omit = require('lodash/omit')
+const merge = require('lodash/merge')
+const get = require('lodash/get')
+const isBrowser =
+  typeof window !== 'undefined' && typeof window.document !== 'undefined'
+
+const key = {
+  ACCESS_TOKEN: `access_token`,
+  REFRESH_TOKEN: `refresh_token`,
+}
 
 /**
  * 마이크로 서비스에 사용할 수 있는 커스텀 인스턴스.
@@ -17,10 +22,9 @@ import Axios from 'axios'
  */
 class ApiFactory {
   constructor() {
-    this.DEFAULT_HEADERS = {}
-    this.axios = null
+    this.this.axios = null
     this.headers = {}
-    this.baseURL = process.env.API_PRODUCT_URL // 기본 baseURL은 상품 API
+    this.baseURL = process.env.API_PRODUCT_URL // 기본 baseURL
 
     this.initInstance()
   }
@@ -32,7 +36,12 @@ class ApiFactory {
     return {
       baseURL: this.baseURL,
       headers: this.headers,
+      timeout: 10000,
     }
+  }
+
+  DEFAULT_HEADERS = {
+    'Content-Type': 'application/json',
   }
 
   /**
@@ -58,7 +67,7 @@ class ApiFactory {
   /**
    * axios instance 최초 생성
    */
-  initInstance = () => {
+  initInstance() {
     this.setHeaders(this.DEFAULT_HEADERS)
 
     const accessToken = Cookies.get(key.ACCESS_TOKEN)
@@ -70,6 +79,72 @@ class ApiFactory {
     this.createInstance()
   }
 
+  get requestInterceptor() {
+    return {
+      beforeSent: async config => {
+        // NOTE: 필요한 설정 추가
+        return merge(config, {
+          headers: merge(config.headers, {}),
+        })
+      },
+      onError: async config => {
+        return merge(config, {
+          headers: merge(config.headers, {}),
+        })
+      },
+    }
+  }
+
+  get responseInterceptor() {
+    return {
+      onResponse: response => {
+        // TODO: 서버 응답에 맞게 수정
+        const resultCode = get(response, 'data.resultCode')
+
+        // resultCode가 있다면 확인한다
+        if (!!resultCode) {
+          // resultCode가 200이면 성공, 아니라면 catch 블럭에서 잡을 수 있도록 Promise.reject
+          if (resultCode === 200) {
+            return response
+          } else {
+            this.createServerError(response)
+
+            return Promise.reject(response)
+          }
+        } else {
+          // resultCode가 없다면 결과를 그대로 넘긴다
+          return response
+        }
+      },
+      onError: error => {
+        // TODO: 서버 응답에 맞게 수정
+        const resultCode = get(error, 'response.data.resultCode')
+        const errorStatus = get(error, 'response.status')
+
+        this.createServerError(error.response)
+
+        if (resultCode === 401 || errorStatus === 401) {
+          if (!!Cookies.get(key.REFRESH_TOKEN)) {
+            console.error('access token expired. refresh starts.')
+
+            this.refreshAccessToken().then(res => {
+              // 토큰 재발급에 성공하면 실패한 요청을 다시 호출한다
+              return axios.request(error.config)
+            })
+          } else {
+            // 리프레시 토큰이 없으면 로그인으로
+            if (isBrowser) {
+              console.error('401. redirect to login')
+              window.location.href = '/login'
+            }
+          }
+        } else {
+          return Promise.reject(error)
+        }
+      },
+    }
+  }
+
   /**
    * 새로운 axios 인스턴스 생성
    */
@@ -78,42 +153,39 @@ class ApiFactory {
 
     // request interceptor
     this.axios.interceptors.request.use(
-      async config => {
-        return merge(config, {
-          headers: merge(config.header, await getGuhadaCustomHeaders()),
-        })
-      },
-      error => {
-        return Promise.reject(error)
-      }
+      this.requestInterceptor.beforeSent,
+      this.requestInterceptor.onError
     )
 
     // response interceptor
     this.axios.interceptors.response.use(
-      response => {
-        return response
-      },
-      err => {
-        console.group(`[axios error interceptors]`)
-        console.dir(err)
+      this.responseInterceptor.onResponse,
+      this.responseInterceptor.onError
+    )
+  }
 
-        // TODO: accessToken 인증 오류 status 코드 확인
-        if (
-          get(err, 'response.status') === 401 &&
-          Cookies.get(key.REFRESH_TOKEN)
-        ) {
-          console.log('access token expired. refresh starts.')
+  /**
+   * 구하다 API 서버 response에 기반한 에러 메시지를 생성한다.
+   *
+   * response: {
+   *    data: {
+   *        data	{...}
+   *        message	string
+   *        result	string
+   *        resultCode	integer($int32)
+   *    }
+   * }
+   */
+  createServerError(response) {
+    const resultCode =
+      get(response, 'data.resultCode') || get(response, 'data.status')
+    const message = get(response, 'data.message')
+    const responseURL = get(response, 'request.responseURL')
 
-          this.refreshAccessToken().then(res => {
-            // 토큰 재발급에 성공하면 실패한 요청을 다시 호출한다
-            console.groupEnd(`axios error interceptors`)
-            return axios.request(err.config)
-          })
-        } else {
-          console.groupEnd(`axios error interceptors`)
-          return Promise.reject(err)
-        }
-      }
+    console.error(
+      `[GUHADA API] ${!!resultCode ? `${resultCode} ` : ''}${
+        !!message ? `"${message}"` : ''
+      } at ${get(response, 'config.method') || ''} ${responseURL}`
     )
   }
 
@@ -129,11 +201,12 @@ class ApiFactory {
   updateAccessToken({ accessToken, expiresIn, refreshToken }) {
     this.saveAuthTokens({ accessToken, expiresIn, refreshToken })
     this.addAuthHeader(accessToken)
+
     // 인증 헤더 붙여서 인스턴스 생성
     this.createInstance()
   }
 
-  addAuthHeader = accessToken => {
+  addAuthHeader(accessToken) {
     this.addHeaders({
       Authorization: `Bearer ${accessToken}`,
     })
@@ -146,61 +219,87 @@ class ApiFactory {
     return new Promise((resolve, reject) => {
       const refreshToken = Cookies.get(key.REFRESH_TOKEN)
 
+      const formData = new FormData()
+      formData.append('refresh_token', refreshToken)
+      formData.append('grant_type', 'refresh_token')
+      formData.append('scope', 'read')
+
+      // TODO: 토큰 재발급 서버에 맞게 수정
       this.user
-        .post(
-          `/oauth/token`,
-          qs.stringify({
-            refresh_token: refreshToken,
-            grant_type: 'refresh_token',
-            scope: 'read',
-          }),
-          {
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-          }
-        )
+        .post(`/oauth/token`, formData, {
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            Authorization: 'Basic Z3VoYWRhOmd1aGFkYWNsaWVudHNlY3JldA==',
+          },
+        })
         .then(res => {
           const { data } = res
-          const { accessToken, expiresIn, refreshToken } = data.data
+          const { access_token, expires_in, refresh_token } = data
 
           this.updateAccessToken({
-            accessToken,
-            expiresIn,
-            refreshToken,
+            accessToken: access_token,
+            expiresIn: expires_in,
+            refreshToken: refresh_token,
           })
 
-          resolve({ accessToken, refreshToken, expiresIn })
+          resolve({
+            access_token,
+            refresh_token,
+            expires_in,
+          })
         })
         .catch(err => {
+          console.error('err', err)
           // 토큰 갱신에 실패했으므로 로그인으로 보낸다.
           // refreshToken도 만료되었다면, 로그인을 다시 해야 한다.
-          console.log('refresh token expired. redirect to login')
+          console.error('refresh token expired. redirect to login')
           this.removeAccessToken()
-          window.location.href = '/login'
+
+          if (isBrowser) {
+            console.error('401. redirect to login')
+            window.locaion.href = '/login'
+          }
+
           reject()
         })
     })
   }
 
   saveAuthTokens({ accessToken, expiresIn, refreshToken }) {
-    Cookies.set(key.ACCESS_TOKEN, accessToken, {
-      expires: moment()
-        .add(expiresIn, 'seconds')
-        .toDate(),
-    })
+    if (window.location.hostname === 'localhost') {
+      Cookies.set(key.ACCESS_TOKEN, accessToken, {
+        expires: moment()
+          .add(expiresIn, 'seconds')
+          .toDate(),
+      })
 
-    Cookies.set(key.REFRESH_TOKEN, refreshToken, {
-      expires: moment()
-        .add(1, 'day')
-        .toDate(),
-    })
+      Cookies.set(key.REFRESH_TOKEN, refreshToken, {
+        expires: moment()
+          .add(1, 'day')
+          .toDate(),
+      })
+    } else {
+      // subdomain 간의 쿠키 공유를 위한 코드
+      Cookies.set(key.ACCESS_TOKEN, accessToken, {
+        expires: moment()
+          .add(expiresIn, 'seconds')
+          .toDate(),
+      })
+
+      Cookies.set(key.REFRESH_TOKEN, refreshToken, {
+        expires: moment()
+          .add(1, 'day')
+          .toDate(),
+      })
+    }
   }
 
   /**
    * access token 제거.
    */
   removeAccessToken() {
+    Cookies.remove(key.ACCESS_TOKEN)
+    Cookies.remove(key.REFRESH_TOKEN)
     Cookies.remove(key.ACCESS_TOKEN)
     Cookies.remove(key.REFRESH_TOKEN)
     this.omitHeaders(['Authorization'])
@@ -210,11 +309,13 @@ class ApiFactory {
   get user() {
     return this.getApiInstance(process.env.API_USER)
   }
+
+  get product() {
+    return this.getApiInstance(process.env.API_PRODUCT_URL)
+  }
+
   get search() {
     return this.getApiInstance(process.env.API_SEARCH)
-  }
-  get order() {
-    return this.getApiInstance(process.env.API_ORDER)
   }
 
   getApiInstance(baseURL) {
@@ -231,4 +332,4 @@ class ApiFactory {
 // 앱 전역에서 싱글 인스턴스만 사용하기 위함.
 const API = new ApiFactory()
 
-export default API
+module.exports = API
