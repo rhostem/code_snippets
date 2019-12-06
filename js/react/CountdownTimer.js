@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import padZeroToSingleDigit from 'childs/lib/string/padZeroToSingleDigit'
+import padZeroToSingleDigit from '../string/padZeroToSingleDigit'
 
 const hourInSec = 60 * 60
 const minuteInSec = 60
@@ -19,19 +19,30 @@ export default function CountdownTimer({
   onTimeOver = () => {}, // 시간 초과했을 때 콜백
   hhmmss = false,
   isVisible = true,
+  formatter = ({ hour, minute, second }) => `${minute}:${second}`,
 }) {
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
   const timerId = useRef(null)
 
   // 초기값 설정
   useEffect(() => {
-    setTimeLeft(initialTimeLeft)
+    if (initialTimeLeft >= 0) {
+      setTimeLeft(initialTimeLeft)
 
-    timerId.current = setInterval(() => {
-      setTimeLeft(current => {
-        return --current
-      })
-    }, 1000)
+      timerId.current = setInterval(() => {
+        setTimeLeft(current => {
+          const next = --current
+
+          // 타이머를 멈추는 로직
+          if (next <= 0) {
+            clearInterval(timerId.current)
+            return 0
+          } else {
+            return next
+          }
+        })
+      }, 1000)
+    }
 
     return () => {
       clearInterval(timerId.current)
@@ -45,6 +56,7 @@ export default function CountdownTimer({
     const second = timeLeft % minuteInSec
 
     dispatch({
+      type: 'UPDATE',
       payload: {
         hour: padZeroToSingleDigit(hour),
         minute: padZeroToSingleDigit(minute),
@@ -56,10 +68,9 @@ export default function CountdownTimer({
   }, [initialTimeLeft, timeLeft])
 
   const [currentTimer, dispatch] = useReducer(
-    (state, action = {}) => {
-      const { payload } = action
-      if (!!payload) {
-        return payload
+    (state, action) => {
+      if (action.type === 'UPDATE') {
+        return action.payload
       } else {
         return state
       }
@@ -73,5 +84,15 @@ export default function CountdownTimer({
 
   const { hour, minute, second } = currentTimer
 
-  return <div>{render({ hour, minute, second })}</div>
+  return (
+    <div>
+      {render({
+        timeLeft,
+        timeLeftWithFormat: formatter({ hour, minute, second }),
+        hour,
+        minute,
+        second,
+      })}
+    </div>
+  )
 }
