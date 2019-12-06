@@ -1,0 +1,26 @@
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin triangleUp($width, $height, $color) {
+  width: 0;
+  height: 0;
+  border-left: calc(#{$width} / 2) solid transparent;
+  border-right: calc(#{$width} / 2) solid transparent;
+  border-bottom: $height solid $color;
+}
+
+@mixin triangleDown($width, $height, $color) {
+  width: 0;
+  height: 0;
+  border-left: calc(#{$width} / 2) solid transparent;
+  border-right: calc(#{$width} / 2) solid transparent;
+  border-top: $height solid $color;
+}

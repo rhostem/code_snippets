@@ -1,0 +1,15 @@
+$mdBreak: 960px;
+
+// 모바일에서만 표시
+@mixin mobileOnly {
+  @media only screen and (max-width: $mdBreak) {
+    @content;
+  }
+}
+
+// 데스크탑에서만 표시
+@mixin desktopOnly {
+  @media only screen and (min-width: $mdBreak) {
+    @content;
+  }
+}
