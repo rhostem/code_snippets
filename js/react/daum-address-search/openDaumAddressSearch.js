@@ -1,4 +1,4 @@
-import { loadScript } from 'lib/dom'
+import loadScript from 'childs/lib/dom/loadScript'
 
 /**
  * 다음 주소검색 모달 열기
@@ -22,6 +22,9 @@ export default function openDaumAddressSearch({ onComplete = () => {} }) {
               data = {
                 // 셈플 데이터
                 address: '부산 사상구 낙동대로1234번길 3', // * 선택한 주소
+                jibunAddress: '부산 사상구 삼락동 416-20', // * 지번
+                roadAddress: '부산 사상구 낙동대로1234번길 3', // * 도로명
+                zonecode: '46912', // * 우편번호
                 addressEnglish:
                   '3, Nakdong-daero 1234beon-gil, Sasang-gu, Busan, Korea',
                 addressType: 'R',
@@ -37,16 +40,14 @@ export default function openDaumAddressSearch({ onComplete = () => {} }) {
                 buildingCode: '2653010100104160020015443',
                 buildingName: '',
                 hname: '',
-                jibunAddress: '부산 사상구 삼락동 416-20', // * 지번
                 jibunAddressEnglish:
                   '416-20, Samnak-dong, Sasang-gu, Busan, Korea',
                 noSelected: 'N',
-                postcode: '617-827',
+                postcode: '617-827', // 구 우편번호
                 postcode1: '617',
                 postcode2: '827',
                 postcodeSeq: '001',
                 query: '부산광역시 사상구 낙동대로1234번길 ',
-                roadAddress: '부산 사상구 낙동대로1234번길 3', // * 도로명
                 roadAddressEnglish:
                   '3, Nakdong-daero 1234beon-gil, Sasang-gu, Busan, Korea',
                 roadname: '낙동대로1234번길',
@@ -56,7 +57,6 @@ export default function openDaumAddressSearch({ onComplete = () => {} }) {
                 sigunguCode: '26530',
                 userLanguageType: 'K',
                 userSelectedType: 'J',
-                zonecode: '46912',
               }
             ) => {
               // 주소 선택 콜백

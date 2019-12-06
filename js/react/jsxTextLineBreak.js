@@ -6,7 +6,7 @@ import React from 'react'
  * @param  {[String]} lines [description]
  * @return {[JSX]}       [description]
  */
-export const textLineBreak = lines => {
+export const jsxTextLineBreak = lines => {
   return lines
     ? lines.split(/[\r\n]/).map(
         (partial, i) =>
