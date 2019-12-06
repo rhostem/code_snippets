@@ -1,12 +1,12 @@
-import React from 'react';
-import { pushRoute } from 'lib/router';
-import { withRouter } from 'next/router';
-import { inject, observer } from 'mobx-react';
-import { loginStatus } from 'constant';
-import { isBrowser } from 'lib/isServer';
-import Loading from '../loading/Loading';
-import qs from 'qs';
-import _ from 'lodash';
+import React from 'react'
+import { pushRoute } from 'lib/router'
+import { withRouter } from 'next/router'
+import { inject, observer } from 'mobx-react'
+import { loginStatus } from 'constant'
+import { isBrowser } from 'lib/isServer'
+import Loading from '../loading/Loading'
+import qs from 'qs'
+import _ from 'lodash'
 
 /**
  * isAuthRequired 옵션에 따라 현재 페이지에서 redirectTo로 지정된 페이지로 이동시킴
@@ -27,21 +27,21 @@ function withAuth({ isAuthRequired = true, redirectTo } = {}) {
     @observer
     class ComponentWithAuth extends React.Component {
       render() {
-        const { login, router } = this.props;
-        const { loginStatus: status } = login;
+        const { login, router } = this.props
+        const { loginStatus: status } = login
 
         // 페이지 이동 결정
         const isRedirectRequired = _.isNil(isAuthRequired)
           ? false
           : isAuthRequired === true
           ? status === loginStatus.LOGOUT // 인증이 필요한 페이지에 로그아웃 상태로 접근
-          : status === loginStatus.LOGIN_DONE; // 인증이 필요없는 페이지에 로그인 완료된 상태로
+          : status === loginStatus.LOGIN_DONE // 인증이 필요없는 페이지에 로그인 완료된 상태로
 
         const isVisible = _.isNil(isAuthRequired)
           ? true
           : isAuthRequired === true
           ? status === loginStatus.LOGIN_DONE
-          : status === loginStatus.LOGOUT;
+          : status === loginStatus.LOGOUT
 
         if (isRedirectRequired && isBrowser) {
           const targetUrl = isAuthRequired // 이동시킬 페이지는 인증필요 여부에 따라 달라짐
@@ -50,19 +50,19 @@ function withAuth({ isAuthRequired = true, redirectTo } = {}) {
               `/login?${qs.stringify({ redirectTo: router.asPath })}`
             : redirectTo ||
               // 인증이 필요하지 않은 페이지라면 홈으로 이동이 기본 동작
-              '/';
+              '/'
 
-          pushRoute(targetUrl);
+          pushRoute(targetUrl)
         }
 
-        return isVisible ? <WrappedComponent {...this.props} /> : <Loading />;
+        return isVisible ? <WrappedComponent {...this.props} /> : <Loading />
       }
     }
 
-    ComponentWithAuth.getInitialProps = WrappedComponent.getInitialProps;
+    ComponentWithAuth.getInitialProps = WrappedComponent.getInitialProps
 
-    return ComponentWithAuth;
-  };
+    return ComponentWithAuth
+  }
 }
 
-export default withAuth;
+export default withAuth
