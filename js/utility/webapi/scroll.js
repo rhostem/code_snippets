@@ -21,6 +21,14 @@ export const isScrollable = () => {
 }
 
 /**
+ * 페이지 맨 밑이 보이고 있는지 확인
+ */
+export const bottomVisible = () =>
+  document.documentElement.clientHeight + window.scrollY >=
+  (document.documentElement.scrollHeight ||
+    document.documentElement.clientHeight)
+
+/**
  * 스크롤 방지
  * @param {*} isLock
  * @param {*} isLockTouchmove 터치 이벤트를 막는다. 모달에 스크롤되는 컨텐츠가 있을 경우 스크롤이 불가능해짐.
