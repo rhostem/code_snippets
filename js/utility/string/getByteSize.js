@@ -42,27 +42,8 @@ export function getByteSize(s) {
   return byteSize
 }
 
-function roughSizeOfObject(object) {
-  var objectList = []
-  var stack = [object]
-  var bytes = 0
-
-  while (stack.length) {
-    var value = stack.pop()
-
-    if (typeof value === 'boolean') {
-      bytes += 4
-    } else if (typeof value === 'string') {
-      bytes += value.length * 2
-    } else if (typeof value === 'number') {
-      bytes += 8
-    } else if (typeof value === 'object' && objectList.indexOf(value) === -1) {
-      objectList.push(value)
-
-      for (var i in value) {
-        stack.push(value[i])
-      }
-    }
-  }
-  return bytes
-}
+/**
+ * Blob 객체를 사용해서 사이즈를 계산한다.
+ * @param {*} str
+ */
+export const byteSize = str => new Blob([str]).size

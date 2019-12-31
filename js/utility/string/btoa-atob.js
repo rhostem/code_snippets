@@ -1,12 +1,12 @@
 /**
- * Creates a base-64 encoded ASCII string from a String object in which each character in the string is treated as a byte of binary data.
+ * 문자열에서 base64로 인코딩된 ASCII 문자열 생성. node.js Buffer를 사용한다.
  * @param {*} str
  */
 export const btoa = str => Buffer.from(str, 'binary').toString('base64')
 btoa('foobar') // 'Zm9vYmFy'
 
 /**
- * Decodes a string of data which has been encoded using base-64 encoding.
+ * base64로 인코딩된 ASCII 문자열을 디코딩한다.
  * @param {*} str
  */
 export const atob = str => Buffer.from(str, 'base64').toString('binary')
