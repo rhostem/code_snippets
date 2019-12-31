@@ -1,7 +1,14 @@
-export const canUseDOM = () => typeof window !== 'undefined'
-
-export const checkIsMobile = () =>
-  canUseDOM() && /mobile/i.test(window.navigator.userAgent)
+/**
+ * 타겟 엘레멘트 위치로 스크롤 이동
+ * @param {*} selector 엘레멘트 셀렉터. ex) #elementId
+ * @param {['auto', 'smooth']} behavior 화면 전환 애니메이션.
+ */
+export const scrollTo = (selector, behavior = 'smooth') => {
+  const targetEl = document.querySelector(selector)
+  targetEl.scrollIntoView({
+    behavior: behavior,
+  })
+}
 
 export const getScrollPosition = (el = window) => ({
   x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
@@ -103,3 +110,8 @@ function preventDefaultForScrollKeys(e) {
     return false
   }
 }
+
+export const canUseDOM = () => typeof window !== 'undefined'
+
+export const checkIsMobile = () =>
+  canUseDOM() && /mobile/i.test(window.navigator.userAgent)
