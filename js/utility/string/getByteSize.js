@@ -46,4 +46,4 @@ export function getByteSize(s) {
  * Blob 객체를 사용해서 사이즈를 계산한다.
  * @param {*} str
  */
-export const byteSize = str => new Blob([str]).size
+export const getByteSizeWithBlob = str => new Blob([str]).size
