@@ -70,16 +70,16 @@ const dropTargetSpec = {
       onDropItem(monitor.getItem())
     }
   },
+
+  /**
+   * 컴포넌트 순서 정렬. 드래깅 컴포넌트와 드랍 타겟 컴포넌트의 수직 위치를 비교해서 순서를 변경한다.
+   */
   hover(
     props: SortableItemProps,
     monitor: DropTargetMonitor,
     component: SortableItem | null
   ) {
     if (!component) {
-      return
-    }
-
-    if (!props.canDrop) {
       return
     }
 
@@ -91,31 +91,25 @@ const dropTargetSpec = {
       return
     }
 
-    // Determine rectangle on screen
-    const targetBoundingRect = findDOMNode(component).getBoundingClientRect()
+    const { height: dropTargetHeight, top: dropTargetTop } = findDOMNode(
+      component
+    ).getBoundingClientRect() // 드랍 타겟 컴포넌트의 화면상 위치와 크기
 
-    // 타겟 박스 높이의 1/2
-    const halfOfTargetHeight = targetBoundingRect.height / 2
+    const centerOfDropTarget = dropTargetTop + dropTargetHeight / 2
     const mouseY = monitor.getClientOffset().y
+    const isDraggingUpper = mouseY > centerOfDropTarget // 타겟보다 위쪽으로
+    const isDraggingLower = mouseY < centerOfDropTarget // 타겟보다 아래쪽으로
 
-    // 포인터와 드랍 타겟의 top포지션 사이의 거리
-    const pointerToTargetTop = mouseY - targetBoundingRect.top
+    const isSortRequired =
+      !props.isSorting &&
+      ((isDraggingUpper && dragIndex > hoverIndex) ||
+        (isDraggingLower && dragIndex < hoverIndex))
 
-    // 마우스 위치가 타겟 아이템 높이의 절반보다 위에 있다.
-    const isMouseHigherThanMiddleOfTarget =
-      pointerToTargetTop < halfOfTargetHeight
-
-    // 정렬을 할 필요가 없는 케이스 2개
-    // 위쪽에 있는 아이템이 절반 이상 내려감
-    const higherItemOveredTaget =
-      dragIndex < hoverIndex && !isMouseHigherThanMiddleOfTarget
-    // 아래쪽에 있는 아이템이 절반 이상 올라감
-    const lowerItemOveredTarget =
-      dragIndex > hoverIndex && isMouseHigherThanMiddleOfTarget
-
-    if (higherItemOveredTaget || lowerItemOveredTarget) {
-      props.onSort(dragIndex, hoverIndex)
-      monitor.getItem().index = hoverIndex
+    if (isSortRequired) {
+      props.onSort(dragIndex, hoverIndex, () => {
+        // 드랍하기 전까지는 인덱스가 업데이트되지 않는다. 그래서 정렬이 끝난 후 인덱스를 직접 수정.
+        monitor.getItem().index = hoverIndex
+      })
     }
   },
 }

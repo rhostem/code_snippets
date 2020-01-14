@@ -2,20 +2,16 @@ import React, { Component } from 'react'
 // import styled from 'styled-components'
 import * as R from 'ramda'
 import SortableItem from './SortableItem'
-import { devLog } from 'utils/log'
 
 const sortByInsert = ({ list = [], targetIndex = 0, insertIndex = 0 }) => {
   if (!Array.isArray(list) || list.length === 0) {
     return list
+  } else {
+    const target = list.splice(targetIndex, 1)[0]
+    list.splice(insertIndex, 0, target)
+
+    return list
   }
-
-  const target = R.clone(list[targetIndex])
-  const result = R.pipe(
-    R.remove(targetIndex, 1),
-    R.insert(insertIndex, target)
-  )(list)
-
-  return result
 }
 
 type Props = {
@@ -26,7 +22,7 @@ type Props = {
     children: React.component,
   }>,
   // 부모 컴포넌트에 정렬된 리스트를 전달한다.
-  onUpdateList: ({
+  onUpdateList?: ({
     updatedList: Array,
     dragIndex: number,
     hoverIndex: number,
@@ -51,25 +47,29 @@ class SortableContainer extends Component<Props, *> {
   }
 
   /**
-   * SortableItem 정렬
+   * SortableItem 정렬 메소드.
    */
-  handleSort = (dragIndex: number, hoverIndex: number) => {
-    if (this.state.list[hoverIndex]) {
+  handleSort = (dragIndex: number, hoverIndex: number, cb) => {
+    if (this.state.list[hoverIndex] && this.state.list[dragIndex]) {
       const updatedList = sortByInsert({
         list: this.state.list,
         targetIndex: dragIndex,
         insertIndex: hoverIndex,
       })
 
-      this.setState({
-        list: updatedList,
-      })
-
-      devLog(`dragIndex, hoverIndex`, dragIndex, hoverIndex)
-
-      if (typeof this.props.onUpdateList === 'function') {
-        this.props.onUpdateList({ updatedList, dragIndex, hoverIndex })
-      }
+      this.setState(
+        {
+          list: updatedList,
+        },
+        () => {
+          if (typeof cb === 'function') {
+            cb()
+          }
+          if (typeof this.props.onUpdateList === 'function') {
+            this.props.onUpdateList({ updatedList, dragIndex, hoverIndex })
+          }
+        }
+      )
     }
   }
 
@@ -83,8 +83,7 @@ class SortableContainer extends Component<Props, *> {
             index={index}
             onSort={this.handleSort}
             onDropItem={this.props.onDropItem}
-            canDrag={item.canDrag}
-            canDrop={item.canDrop}>
+            canDrag={item.canDrag}>
             {item.children()}
           </SortableItem>
         ))}
@@ -93,4 +92,4 @@ class SortableContainer extends Component<Props, *> {
   }
 }
 
-export default R.compose(r => r)(SortableContainer)
+export default SortableContainer
