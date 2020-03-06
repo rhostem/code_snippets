@@ -1,5 +1,5 @@
 /**
- * ToBoolean
+ * undefined, null, NaN, 0, '' (empty string), false
  * https://tc39.es/ecma262/#sec-toboolean
  * @param {*} v 검사할 값
  */
@@ -19,8 +19,4 @@ export default function isTruthy(v) {
   } else {
     return true
   }
-}
-
-export function isFalsey(v) {
-  return !isTruthy(v)
 }

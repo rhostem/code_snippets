@@ -1,12 +1,12 @@
-import { normalize } from 'polished'
-import { VIEWPORT_RESPONSIVE_FONT_SIZE, BASE_LINE_HEIGHT } from './typography'
 import { createGlobalStyle } from 'styled-components'
-import { size, media, typography } from 'styles'
-import ReactModalStyle from 'styles/ReactModal'
+import { normalize } from 'polished'
 
-/* ${process.env.NODE_ENV !== 'production' ? 'outline: 1px solid tomato;' : ''}; */
-export default createGlobalStyle`
-  ${normalize()};
+/**
+ * reset 기능을 포함한 전역 스타일
+ * styled-component용
+ */
+const GlobalStyle = createGlobalStyle`
+  ${normalize()}
 
   * {
     box-sizing: border-box;
@@ -15,15 +15,9 @@ export default createGlobalStyle`
   }
 
   html {
-    font-family: "Spoqa Han Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: ${VIEWPORT_RESPONSIVE_FONT_SIZE};
-    line-height: ${BASE_LINE_HEIGHT};
-    color: #383838;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-    ${media.LargerThanAppMax} {
-      font-size: ${typography.BASE_FONT_SIZE};
-    }
+    font-family: 'Noto Sans KR', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-size: 14px;
   }
 
   body {
@@ -41,27 +35,25 @@ export default createGlobalStyle`
     list-style: none;
   }
 
-  input {
-    outline: none;
-
-    &[type="text"] {
-      ime-mode: desativated;
-    }
-
-    &[type="passwrod"] {
-      ime-mode: auto;
-    }
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: inherit;
   }
 
+  input {
+    outline: none;
+    -webkit-appearance: none;
+  }
 
   button {
     background: none;
     border: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
   }
-
-  button, input, optgroup, select, textarea {
-    font-family: inherit;
-  }
-
-  ${ReactModalStyle};
 `
+
+export default GlobalStyle
