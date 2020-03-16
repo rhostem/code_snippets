@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-const omitBy = (obj, predicate) =>
+const omitBy = (predicate, obj) =>
   R.converge(R.omit, [
     R.compose(
       R.filter(key => predicate(obj[key])),

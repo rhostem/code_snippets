@@ -234,6 +234,5 @@ export const FormSelectGlobalStyle = createGlobalStyle`
       transform: translateY(-50%);
       box-sizing: border-box;
     }
-
   }
 `

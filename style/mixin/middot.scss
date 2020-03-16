@@ -4,6 +4,7 @@
   padding-right: $width;
 
   &::after {
+    display: block;
     @include centeredY;
     content: ' ';
     right: calc(#{$width} / 2);
