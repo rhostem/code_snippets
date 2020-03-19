@@ -2,20 +2,22 @@ import * as R from 'ramda'
 import axios from 'axios'
 import { devLog } from 'utils/log'
 import makeFormUrlEncoded from 'utils/makeFormUrlEncoded'
+import makeFormData from 'utils/makeFormData'
 
 export const DEFAULT_CONFIG = {
-  baseURL: process.env.API_URL, // TODO: API 서버 도메인은 환경 변수에 저장
+  baseURL: process.env.MEDICO_API,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
   },
 }
 
-// 기본 인스턴스
 const instance = axios.create(DEFAULT_CONFIG)
 
-/**
- * 앱에서 하나의 인스턴스만 사용하도록 클래스가 아닌 객체 형태로 선언함.
- */
+export const contentTypes = {
+  FORM_URLENCODED: 'application/x-www-form-urlencoded; charset=UTF-8',
+  MULTIPART_FORMDATA: 'multipart/formdata; charset=utf-8',
+}
+
 export const API = {
   instance,
 
@@ -23,25 +25,25 @@ export const API = {
     return this.instance.get(url, config)
   },
 
-  post(url, data, config) {
+  post(url, data, contentType = contentTypes.FORM_URLENCODED, config) {
     return this.instance.post(
       url,
-      makeFormUrlEncoded(data),
+      this.makePostData(data, contentType),
       R.merge(config, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Content-Type': contentType,
         },
       })
     )
   },
 
-  put(url, data, config) {
+  put(url, data, contentType = contentTypes.FORM_URLENCODED, config) {
     return this.instance.put(
       url,
-      makeFormUrlEncoded(data),
+      this.makePostData(data, contentType),
       R.merge(config, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Content-Type': contentType,
         },
       })
     )
@@ -51,25 +53,28 @@ export const API = {
     return this.instance.delete(url, config)
   },
 
-  /**
-   * 로그아웃 시점에 인증 헤더 제거하고 인스턴스 재생성
-   */
   createInstance(config = DEFAULT_CONFIG) {
     this.instance = axios.create(config)
     devLog(`axios instance created:`, process.env.MEDICO_API)
   },
 
-  /**
-   * 인증 헤더 추가해서 인스턴스 생성
-   */
   createInstanceWithAuth({ config = DEFAULT_CONFIG, key } = {}) {
-    const configWithAuth = R.merge(config, {
+    const merged = R.merge(config, {
       headers: {
-        'X-API-KEY': key, // TODO: 인증 헤더 확인
+        'X-API-KEY': key,
       },
     })
-    this.instance = axios.create(configWithAuth)
+    this.instance = axios.create(merged)
+
     devLog(`axios instance created with Key`, key)
+  },
+
+  makePostData(data, contentType) {
+    return contentType === contentTypes.FORM_URLENCODED
+      ? makeFormUrlEncoded(data)
+      : contentType === contentTypes.MULTIPART_FORMDATA
+      ? makeFormData(data)
+      : data
   },
 }
 
