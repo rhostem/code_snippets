@@ -6,34 +6,29 @@
  * @param {*} option.id script 태그 id
  * @param {*} option.async 비동기 로드
  */
-const loadScript = (
-  src = '',
-  { onLoad = () => {}, id, async = false } = {}
-) => {
-  const didNotLoaded = !document.getElementById(id);
+const loadScript = (src = '', { onload, id, async = false, onerror } = {}) => {
+  const didNotLoaded = !document.getElementById(id)
 
   if (didNotLoaded) {
-    let script = document.createElement('script');
-    script.src = src;
-    script.id = id || `script_${+new Date()}`;
-    script.async = async;
+    let script = document.createElement('script')
+    script.src = src
+    script.id = id || `script_${+new Date()}`
+    script.async = async
 
-    script.onload = function() {
-      if (typeof onLoad === 'function') {
-        onLoad();
-      }
-    };
-
-    script.onerror = function() {
-      console.error('error on loading' + this.src);
-    };
-
-    document.body.appendChild(script);
-  } else {
     if (typeof onLoad === 'function') {
-      onLoad();
+      script.onload = onload
+    }
+
+    if (typeof onerror === 'function') {
+      script.onerror = onerror
+    }
+
+    document.body.appendChild(script)
+  } else {
+    if (typeof onload === 'function') {
+      onload()
     }
   }
-};
+}
 
-export default loadScript;
+export default loadScript
