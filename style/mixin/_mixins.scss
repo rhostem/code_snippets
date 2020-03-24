@@ -2,7 +2,7 @@
   position: relative;
 
   &::before {
-    @include centeredX();
+    @include centerX();
     bottom: 3px;
     content: ' ';
     width: $size;

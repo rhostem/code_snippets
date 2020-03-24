@@ -16,7 +16,7 @@ $MODAL_BODY_WIDTH: 500px;
 }
 
 .alertWrap {
-  @include centeredFixed;
+  @include fixedCenter;
   width: 540px;
   background-color: #424242;
   z-index: 2000;

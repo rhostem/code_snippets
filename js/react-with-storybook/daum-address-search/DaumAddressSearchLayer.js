@@ -14,7 +14,7 @@ const Layer = styled.div`
   background-color: #fff;
 
   ${media.Desktop} {
-    ${mixin.centeredFixed()};
+    ${mixin.fixedCenter()};
     width: 500px;
     height: 600px;
     border: 2px solid #000;

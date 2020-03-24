@@ -24,7 +24,7 @@ const CheckBoxGroup = styled.div`
     }
 
     &:before {
-      ${mixin.centeredY()};
+      ${mixin.centerY()};
       left: 0;
       display: block;
       width: 20px;

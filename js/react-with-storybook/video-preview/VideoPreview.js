@@ -51,7 +51,7 @@ const spin = keyframes`
 `
 
 const SeekingSpinner = styled.div`
-  ${styles.mixin.centered()} z-index: 2;
+  ${styles.mixin.center} z-index: 2;
   width: 30px;
   height: 30px;
   background: url(${loadingCircle}) no-repeat center;
@@ -266,7 +266,4 @@ const mapDispatchToProps = (dispatch: Function) =>
     dispatch
   )
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(VideoPreview)
+export default connect(mapStateToProps, mapDispatchToProps)(VideoPreview)

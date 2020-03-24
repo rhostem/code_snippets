@@ -1,6 +1,6 @@
 import { css } from 'styled-components'
 import circle from 'styles/mixin/circle'
-import { centeredY } from 'styles/mixin/centered'
+import { centerY } from 'styles/mixin/center'
 
 /**
  * 목록에 사용할 커스텀 bullet. li 같은 태그에 사용한다.
@@ -17,7 +17,7 @@ function customListBullet({
     &::before {
       content: ' ';
       ${circle(size)};
-      ${centeredY()}
+      ${centerY()}
       left: 0;
       background: ${color};
     }

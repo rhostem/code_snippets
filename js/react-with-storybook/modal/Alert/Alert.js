@@ -19,7 +19,7 @@ const ModalBody = styled.div`
 `
 
 export const AlertWrap = styled.div`
-  ${mixin.centeredFixed()};
+  ${mixin.fixedCenter()};
   width: 540px;
   background-color: #424242;
   z-index: 2000;

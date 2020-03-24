@@ -38,7 +38,7 @@ const ControlButton = styled.button`
 `
 
 const SectionWrap = ResponsiveOnMobile.extend`
-  ${mixin.fixedCenteredX()};
+  ${mixin.fixedCenterX()};
   top: 0;
   width: 100%;
   height: 100vh;

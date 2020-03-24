@@ -1,4 +1,4 @@
-@import './centered.scss';
+@import './center.scss';
 
 // 엘레멘트 우측에 여백을 추가하고 여백 중간에 수직선을 추가한다.
 @mixin withDivider($height, $distance, $color: #ccc) {
@@ -6,7 +6,7 @@
   margin-right: calc(#{$distance} * 2);
 
   &:after {
-    @include centeredY;
+    @include centerY;
     content: ' ';
     width: 1px;
     height: $height;

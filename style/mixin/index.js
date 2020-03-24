@@ -1,5 +1,5 @@
 // import { css } from 'styled-components'
-import * as centered from './centered'
+import * as center from './center'
 import * as shape from './shape'
 import { clearFix } from 'polished'
 import { BASE_LINE_HEIGHT } from '../typography'
@@ -32,7 +32,7 @@ export const setHeightLimit = ({
 
 export default {
   ...shape,
-  ...centered,
+  ...center,
   clearFix,
   centerCoveredBg,
   setHeightLimit,

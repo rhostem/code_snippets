@@ -5,7 +5,7 @@
 
   &::after {
     display: block;
-    @include centeredY;
+    @include centerY;
     content: ' ';
     right: calc(#{$width} / 2);
     background: $color;

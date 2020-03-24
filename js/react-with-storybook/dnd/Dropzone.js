@@ -26,7 +26,7 @@ const Wrap = styled.div`
 `
 
 export const ButtonArea = styled.div`
-  ${mixin.centered()};
+  ${mixin.center};
   color: #7d7d7d;
   text-align: center;
   font-weight: normal;

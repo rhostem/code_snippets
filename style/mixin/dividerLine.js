@@ -1,4 +1,4 @@
-import { centeredY } from 'styles/mixin/centered'
+import { centerY } from 'styles/mixin/center'
 import { css } from 'styled-components'
 
 // 엘레멘트 우측에 여백을 추가하고 여백 중간에 수직선을 추가한다.
@@ -12,7 +12,7 @@ export default function dividerLine(
     margin-right: calc(${distance} * 2);
 
     &:after {
-      ${centeredY()}
+      ${centerY()}
       content: ' ';
       width: 1px;
       height: ${height};

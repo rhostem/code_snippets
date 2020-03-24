@@ -24,7 +24,7 @@ const Wrap = styled.div`
     min-width: 90px;
 
     &:before {
-      ${mixin.centeredY()};
+      ${mixin.centerY()};
       left: 0;
       display: block;
       width: 20px;
