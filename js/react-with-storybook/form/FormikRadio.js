@@ -45,8 +45,8 @@ const CustomRadio = styled.div`
   }
 `
 
-export function RadioField({ id, inputValue, label, ...props }) {
-  const [field, meta, helpers] = useField(props)
+export function RadioField({ id, inputValue, label, name, ...props }) {
+  const [field, meta, helpers] = useField(name)
   console.log(`field`, field)
   console.log(`inputValue === field.value`, inputValue === field.value)
 

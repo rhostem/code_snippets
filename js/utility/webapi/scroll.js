@@ -40,10 +40,10 @@ export const bottomVisible = () =>
  * @param {*} isLock
  * @param {*} isLockTouchmove 터치 이벤트를 막는다. 모달에 스크롤되는 컨텐츠가 있을 경우 스크롤이 불가능해짐.
  */
-export const setScrollability = ({
-  isLockScroll = false,
-  isLockTouchmove = false,
-}) => {
+export const lockDocumentScroll = (
+  isLockScroll = true,
+  { isLockTouchmove = false } = {}
+) => {
   const isMobile = checkIsMobile()
 
   if (canUseDOM()) {
@@ -66,53 +66,6 @@ export const setScrollability = ({
     }
   }
 }
-
-/**
- * 스크롤 방지
- */
-export function disableScroll() {
-  // older FF
-  if (window.addEventListener) {
-    window.addEventListener('DOMMouseScroll', preventDefault, false)
-  }
-
-  window.onwheel = preventDefault // modern standard
-  window.onmousewheel = document.onmousewheel = preventDefault // older browsers, IE
-  window.ontouchmove = preventDefault // mobile
-  document.onkeydown = preventDefaultForScrollKeys
-}
-
-/**
- * 스크롤 가능
- */
-export function enableScroll() {
-  if (window.removeEventListener) {
-    window.removeEventListener('DOMMouseScroll', preventDefault, false)
-  }
-
-  window.onmousewheel = document.onmousewheel = null
-  window.onwheel = null
-  window.ontouchmove = null
-  document.onkeydown = null
-}
-
-function preventDefault(e) {
-  e = e || window.event
-  if (e.preventDefault) e.preventDefault()
-  e.returnValue = false
-}
-
-function preventDefaultForScrollKeys(e) {
-  // left: 37, up: 38, right: 39, down: 40,
-  // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-  var keyMakeScroll = { 37: 1, 38: 1, 39: 1, 40: 1 }
-
-  if (keyMakeScroll[e.keyCode]) {
-    preventDefault(e)
-    return false
-  }
-}
-
 export const canUseDOM = () => typeof window !== 'undefined'
 
 export const checkIsMobile = () =>
