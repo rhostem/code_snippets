@@ -72,8 +72,9 @@ export const setScrollability = ({
  */
 export function disableScroll() {
   // older FF
-  if (window.addEventListener)
+  if (window.addEventListener) {
     window.addEventListener('DOMMouseScroll', preventDefault, false)
+  }
 
   window.onwheel = preventDefault // modern standard
   window.onmousewheel = document.onmousewheel = preventDefault // older browsers, IE
@@ -85,8 +86,9 @@ export function disableScroll() {
  * 스크롤 가능
  */
 export function enableScroll() {
-  if (window.removeEventListener)
+  if (window.removeEventListener) {
     window.removeEventListener('DOMMouseScroll', preventDefault, false)
+  }
 
   window.onmousewheel = document.onmousewheel = null
   window.onwheel = null

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "formik": "^2.1.4",
     "styled-components": "^5.0.1"
   },
   "devDependencies": {
