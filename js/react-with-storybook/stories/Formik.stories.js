@@ -9,9 +9,9 @@ import {
   color,
   select,
 } from '@storybook/addon-knobs'
-import FormikRadio from '../form/FormikRadio'
-import FormikStargazer from '../form/FormikStargazer'
 import { Formik, Form } from 'formik'
+import FormikRadio from '../form/formik/FormikRadio'
+import FormikStargazer from '../form/formik/FormikStargazer'
 
 const stories = storiesOf('Formik', module)
 
