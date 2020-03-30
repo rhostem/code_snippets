@@ -1,11 +1,18 @@
-import React, {
-  useCallback,
-  useReducer,
-  useState,
-  useEffect,
-  useRef,
-} from 'react'
-import padZeroToSingleDigit from '../string/padZeroToSingleDigit'
+import React, { useReducer, useState, useEffect, useRef } from 'react'
+
+const padZeroToSingleDigit = (num = 0) => {
+  const targetNum = Number(num)
+
+  if (!Number.isNaN(targetNum)) {
+    if (targetNum < 10 && targetNum > -1) {
+      return `0${targetNum}`
+    } else {
+      return targetNum
+    }
+  } else {
+    return num
+  }
+}
 
 const hourInSec = 60 * 60
 const minuteInSec = 60
@@ -14,11 +21,11 @@ const minuteInSec = 60
  * 카운트다운 타이머, renderProps 패턴을 사용한다
  */
 export default function CountdownTimer({
-  render = ({ time }) => {},
+  render = ({ timeLeft, timeLeftWithFormat }) => (
+    <div>{timeLeftWithFormat}</div>
+  ),
   initialTimeLeft = 0,
   onTimeOver = () => {}, // 시간 초과했을 때 콜백
-  hhmmss = false,
-  isVisible = true,
   formatter = ({ hour, minute, second }) => `${minute}:${second}`,
 }) {
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft)
@@ -83,6 +90,8 @@ export default function CountdownTimer({
   )
 
   const { hour, minute, second } = currentTimer
+
+  console.log(`timeLeft`, timeLeft)
 
   return (
     <div>

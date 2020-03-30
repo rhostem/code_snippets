@@ -5,6 +5,9 @@ import { css } from 'styled-components'
  * @param {} style
  */
 const textHighlight = (style = {}) => css`
+  position: relative;
+  z-index: 1;
+
   &::before {
     position: absolute;
     z-index: -1;
