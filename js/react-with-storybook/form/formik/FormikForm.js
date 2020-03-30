@@ -11,6 +11,9 @@ const FormikForm = () => {
       }}
       onSubmit={(values, actions) => {
         console.log(`onSubmit`, values)
+
+        // NOTE: onSubmit 콜백이 비동기라면 아래 코드를 실행할 필요가 없다.
+        // https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag--void--promiseany
         actions.setSubmitting(false)
       }}>
       {({ values, isSubmitting }) => {
