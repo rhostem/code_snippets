@@ -3,7 +3,25 @@ import { useEffect } from 'react'
 /**
  * 컴포넌트가 마운트되었을 때 도큐먼트 스크롤 이벤트를 막는다.
  */
-export default function useScrollLockOnMount() {
+export default function useScrollLock(predicate = () => {}) {
+  useEffect(() => {
+    if (predicate()) {
+      lockDocumentScroll(true)
+      console.log(`lock scroll`)
+    } else {
+      lockDocumentScroll(false)
+    }
+
+    return () => {
+      lockDocumentScroll(false)
+    }
+  }, [predicate])
+}
+
+/**
+ * 컴포넌트가 마운트되었을 때 도큐먼트 스크롤 이벤트를 막는다.
+ */
+export function useScrollLockOnMount() {
   useEffect(() => {
     lockDocumentScroll(true)
     console.log(`lock`)
