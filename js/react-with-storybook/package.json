@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook"
   },
   "keywords": [],
@@ -14,7 +14,9 @@
   "dependencies": {
     "animejs": "^3.1.0",
     "formik": "^2.1.4",
-    "styled-components": "^5.0.1"
+    "lodash": "^4.17.15",
+    "styled-components": "^5.0.1",
+    "throttle-debounce": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

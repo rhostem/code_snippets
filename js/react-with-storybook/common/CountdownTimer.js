@@ -37,7 +37,7 @@ export default function CountdownTimer({
       setTimeLeft(initialTimeLeft)
 
       timerId.current = setInterval(() => {
-        setTimeLeft(current => {
+        setTimeLeft((current) => {
           const next = --current
 
           // 타이머를 멈추는 로직
@@ -91,7 +91,7 @@ export default function CountdownTimer({
 
   const { hour, minute, second } = currentTimer
 
-  console.log(`timeLeft`, timeLeft)
+  // console.log(`timeLeft`, timeLeft)
 
   return (
     <div>

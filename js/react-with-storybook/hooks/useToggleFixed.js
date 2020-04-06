@@ -14,6 +14,8 @@ function useToggleFixed() {
       if (rect) {
         setTargetElRect(rect)
 
+        console.log(`rect`, rect)
+
         // 엘레멘트의 사이즈가 0 이상이어야 한다.
         if (rect.width !== 0 && rect.height !== 0) {
           if (typeof rect.top === 'number' && rect.top < 0) {
@@ -36,6 +38,8 @@ function useToggleFixed() {
       window.removeEventListener('resize', handleScroll)
     }
   }, [handleScroll])
+
+  console.log(`isFixed`, isFixed)
 
   return {
     isFixed,
