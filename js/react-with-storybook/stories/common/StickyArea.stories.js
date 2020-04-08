@@ -7,11 +7,11 @@ import {
   color,
   select,
 } from '@storybook/addon-knobs'
-import StickyArea from '../common/StickyArea'
+import StickyArea from '../../common/StickyArea'
 import styled from 'styled-components'
 
 export default {
-  title: 'StickyNavbar',
+  title: 'common/StickyNavbar',
   decorators: [withKnobs],
 }
 

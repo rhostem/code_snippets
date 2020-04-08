@@ -1,6 +1,4 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 import {
   withKnobs,
   text,
@@ -9,21 +7,20 @@ import {
   color,
   select,
 } from '@storybook/addon-knobs'
+import FormikRadio from '../../form/formik/FormikRadio'
+import FormikStargazer from '../../form/formik/FormikStargazer'
 import { Formik, Form } from 'formik'
-import FormikRadio from '../form/formik/FormikRadio'
-import FormikStargazer from '../form/formik/FormikStargazer'
 
-const stories = storiesOf('Formik', module)
+export default {
+  title: 'form/Formik',
+  decorators: [withKnobs],
+}
 
-// Add the `withKnobs` decorator to add knobs support to your stories.
-// You can also configure `withKnobs` as a global decorator.
-stories.addDecorator(withKnobs)
-
-stories.add('FormikRadio', () => {
+export const Radio = () => {
   return <FormikRadio />
-})
+}
 
-stories.add('FormikStargazer', () => {
+export const Stargazer = () => {
   return (
     <Formik
       initialValues={{
@@ -44,4 +41,4 @@ stories.add('FormikStargazer', () => {
       }}
     </Formik>
   )
-})
+}

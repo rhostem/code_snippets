@@ -7,11 +7,11 @@ import {
   color,
   select,
 } from '@storybook/addon-knobs'
-import ReactSlickSlider from '../slider/ReactSlickSlider'
+import RippleButton from '../../common/RippleButton'
 
 export default {
-  title: 'ReactSlickSlider',
+  title: 'common/RippleButton',
   decorators: [withKnobs],
 }
 
-export const Default = () => <ReactSlickSlider></ReactSlickSlider>
+export const Default = () => <RippleButton></RippleButton>
