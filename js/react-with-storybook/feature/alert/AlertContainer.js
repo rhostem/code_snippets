@@ -2,8 +2,21 @@ import React, { useEffect, useCallback, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactModal from 'react-modal'
 import styled from 'styled-components'
-import { closeAlert } from 'features/alert/alertSlice'
-import { ModalBody } from 'components/common/ModalBody'
+import { closeAlert } from './alertSlice'
+
+export const ModalBody = styled.div`
+  position: relative;
+  width: 480px;
+  background: #fff;
+  border-radius: 30px;
+  padding: 68px 30px 68px;
+  max-height: 95vh;
+  z-index: 100;
+  line-height: 1.5;
+  letter-spacing: -0.7px;
+  text-align: left;
+  color: #174b7d;
+`
 
 const Body = styled(ModalBody)`
   width: 280px;
@@ -82,8 +95,7 @@ export default function AlertContainer() {
           maxHeight: '95vh',
           borderRadius: '30px',
         },
-      }}
-    >
+      }}>
       <Body>
         {/* html 마크업이 있으면 표시한다. */}
         {!!data.html ? (

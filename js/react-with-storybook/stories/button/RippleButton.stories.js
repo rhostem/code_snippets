@@ -7,10 +7,10 @@ import {
   color,
   select,
 } from '@storybook/addon-knobs'
-import RippleButton from '../../common/RippleButton'
+import RippleButton from '../../button/RippleButton'
 
 export default {
-  title: 'common/RippleButton',
+  title: 'button/RippleButton',
   decorators: [withKnobs],
 }
 
