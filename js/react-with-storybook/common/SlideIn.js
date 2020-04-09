@@ -11,7 +11,7 @@ const isBrowser =
 /**
  * 진입 방향
  */
-export const slideDirection = {
+export const slideDirections = {
   LEFT: 'left',
   RIGHT: 'right',
   TOP: 'top',
@@ -24,19 +24,19 @@ const DURATION = 400 // 애니메이션 시간
  * 기본 포지션. 진입 방향에 따라 달라진다.
  */
 const defaultPosition = {
-  [slideDirection.LEFT]: {
+  [slideDirections.LEFT]: {
     top: 0,
     left: '-100vw',
   },
-  [slideDirection.RIGHT]: {
+  [slideDirections.RIGHT]: {
     top: 0,
     left: '100vw',
   },
-  [slideDirection.TOP]: {
+  [slideDirections.TOP]: {
     bottom: '100vh',
     left: 0,
   },
-  [slideDirection.BOTTOM]: {
+  [slideDirections.BOTTOM]: {
     top: '100vh',
     left: 0,
   },
@@ -44,98 +44,98 @@ const defaultPosition = {
 
 const slideAnimation = {
   // 왼쪽
-  [slideDirection.LEFT]: {
-    onEnter: node => {
+  [slideDirections.LEFT]: {
+    onEnter: (node) => {
       anime({
         targets: node,
         left: 0,
         duration: DURATION,
         easing: 'easeInOutQuad',
-        begin: function(anim) {
+        begin: function (anim) {
           node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
         },
       })
     },
-    onExit: node => {
+    onExit: (node) => {
       anime({
         targets: node,
         left: '-100vw',
         duration: DURATION,
         easing: 'easeInOutQuad',
-        complete: function(anim) {
+        complete: function (anim) {
           node.style.display = 'none'
         },
       })
     },
   },
   // 오른쪽
-  [slideDirection.RIGHT]: {
-    onEnter: node => {
+  [slideDirections.RIGHT]: {
+    onEnter: (node) => {
       anime({
         targets: node,
         left: 0,
         duration: DURATION,
         easing: 'easeInOutQuad',
-        begin: function(anim) {
+        begin: function (anim) {
           node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
         },
       })
     },
-    onExit: node => {
+    onExit: (node) => {
       anime({
         targets: node,
         left: '100vw',
         duration: DURATION,
         easing: 'easeInOutQuad',
-        complete: function(anim) {
+        complete: function (anim) {
           node.style.display = 'none'
         },
       })
     },
   },
-  [slideDirection.TOP]: {
-    onEnter: node => {
+  [slideDirections.TOP]: {
+    onEnter: (node) => {
       anime({
         targets: node,
         bottom: '0',
         duration: DURATION,
         easing: 'easeInOutQuad',
-        begin: function(anim) {
+        begin: function (anim) {
           node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
         },
       })
     },
-    onExit: node => {
+    onExit: (node) => {
       anime({
         targets: node,
         bottom: '100vh',
         duration: DURATION,
         easing: 'easeInOutQuad',
-        complete: function(anim) {
+        complete: function (anim) {
           node.style.display = 'none'
         },
       })
     },
   },
-  [slideDirection.BOTTOM]: {
-    onEnter: node => {
+  [slideDirections.BOTTOM]: {
+    onEnter: (node) => {
       anime({
         targets: node,
         top: '0',
         duration: DURATION,
         easing: 'easeInOutQuad',
-        begin: function(anim) {
+        begin: function (anim) {
           node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
         },
       })
     },
-    onExit: node => {
+    onExit: (node) => {
       anime({
         targets: node,
         top: '100vh',
         duration: DURATION,
         easing: 'easeInOutQuad',
-        complete: function(anim) {
+        complete: function (anim) {
           node.style.display = 'none'
         },
       })
@@ -168,7 +168,7 @@ export default function SlideIn({
           onEnter={animation.onEnter}
           onExit={animation.onExit}
           timeout={DURATION}>
-          {state => {
+          {(state) => {
             return (
               <div
                 style={{

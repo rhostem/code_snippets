@@ -7,7 +7,7 @@ import {
   color,
   select,
 } from '@storybook/addon-knobs'
-import SlideIn, { slideDirection } from '../../common/SlideIn/SlideIn'
+import SlideIn, { slideDirections } from '../../common/SlideIn'
 
 export default {
   title: 'common/SlideIn',
@@ -19,8 +19,8 @@ export const Default = () => (
     isVisible={boolean('isVisible', false)}
     direction={select(
       'direction',
-      Object.keys(slideDirection).map((k) => slideDirection[k]),
-      slideDirection.LEFT
+      Object.keys(slideDirections).map((k) => slideDirections[k]),
+      slideDirections.LEFT
     )}
     zIndex={number('zIndex', null)}>
     <div style={{ width: '300px', margin: '0 auto', background: '#eee' }}>
