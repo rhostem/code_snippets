@@ -10,6 +10,8 @@ export default function ResponsiveRender({
   mobile,
   desktop,
   props = {},
+  name,
+  useFragment = false,
 }: Props) {
   if (!mobile && !desktop) {
     console.warn(
@@ -18,10 +20,15 @@ export default function ResponsiveRender({
     return null
   }
 
-  return (
+  return useFragment ? (
     <>
       <Mobile>{!!mobile ? mobile(props) : desktop(props)}</Mobile>
       <Desktop>{!!desktop ? desktop(props) : mobile(props)}</Desktop>
     </>
+  ) : (
+    <div data-name={'ResponsiveRender-' + name}>
+      <Mobile>{!!mobile ? mobile(props) : desktop(props)}</Mobile>
+      <Desktop>{!!desktop ? desktop(props) : mobile(props)}</Desktop>
+    </div>
   )
 }
