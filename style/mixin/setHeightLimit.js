@@ -21,11 +21,18 @@ export const setHeightLimit = ({
  */
 export const setHeightLimitAndEllipsis = ({ line = 1, lineHeight = 1.4 }) => {
   return css`
-    display: -webkit-box;
-    max-height: calc(${lineHeight} * ${line}em);
-    -webkit-line-clamp: ${line};
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    @supports not (display: -webkit-box) {
+      ${setHeightLimit({ lineHeight, line })};
+    }
+
+    /* line-clamp, -webkit-box 를 지원해야 사용 가능 */
+    @supports (display: -webkit-box) {
+      display: -webkit-box;
+      max-height: calc(${lineHeight} * ${line}em);
+      -webkit-line-clamp: ${line};
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   `
 }
