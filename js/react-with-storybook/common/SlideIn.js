@@ -11,7 +11,7 @@ const isBrowser =
 /**
  * 진입 방향
  */
-export const slideDirections = {
+export const slideInDirections = {
   LEFT: 'left',
   RIGHT: 'right',
   TOP: 'top',
@@ -24,27 +24,31 @@ const DURATION = 400 // 애니메이션 시간
  * 기본 포지션. 진입 방향에 따라 달라진다.
  */
 const defaultPosition = {
-  [slideDirections.LEFT]: {
+  [slideInDirections.LEFT]: {
     top: 0,
+    bottom: 0,
     left: '-100vw',
   },
-  [slideDirections.RIGHT]: {
+  [slideInDirections.RIGHT]: {
     top: 0,
+    bottom: 0,
     left: '100vw',
   },
-  [slideDirections.TOP]: {
+  [slideInDirections.TOP]: {
+    top: '-100vh',
     bottom: '100vh',
     left: 0,
   },
-  [slideDirections.BOTTOM]: {
+  [slideInDirections.BOTTOM]: {
     top: '100vh',
+    bottom: '-100vh',
     left: 0,
   },
 }
 
 const slideAnimation = {
   // 왼쪽
-  [slideDirections.LEFT]: {
+  [slideInDirections.LEFT]: {
     onEnter: (node) => {
       anime({
         targets: node,
@@ -69,7 +73,7 @@ const slideAnimation = {
     },
   },
   // 오른쪽
-  [slideDirections.RIGHT]: {
+  [slideInDirections.RIGHT]: {
     onEnter: (node) => {
       anime({
         targets: node,
@@ -93,11 +97,12 @@ const slideAnimation = {
       })
     },
   },
-  [slideDirections.TOP]: {
+  [slideInDirections.TOP]: {
     onEnter: (node) => {
       anime({
         targets: node,
-        bottom: '0',
+        top: 0,
+        bottom: 0,
         duration: DURATION,
         easing: 'easeInOutQuad',
         begin: function (anim) {
@@ -108,6 +113,7 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
+        top: '-100vh',
         bottom: '100vh',
         duration: DURATION,
         easing: 'easeInOutQuad',
@@ -117,7 +123,7 @@ const slideAnimation = {
       })
     },
   },
-  [slideDirections.BOTTOM]: {
+  [slideInDirections.BOTTOM]: {
     onEnter: (node) => {
       anime({
         targets: node,
@@ -133,6 +139,7 @@ const slideAnimation = {
       anime({
         targets: node,
         top: '100vh',
+        bottom: '-100vh',
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -144,7 +151,7 @@ const slideAnimation = {
 }
 
 export default function SlideIn({
-  isVisible = false,
+  isIn = false,
   direction,
   children,
   zIndex, // css.wrap 클래스에 선언된 SlideIn의 기본 z-index는 1000.
@@ -164,7 +171,7 @@ export default function SlideIn({
     return ReactDom.createPortal(
       <>
         <Transition
-          in={isVisible}
+          in={isIn}
           onEnter={animation.onEnter}
           onExit={animation.onExit}
           timeout={DURATION}>
@@ -176,7 +183,6 @@ export default function SlideIn({
                   display: 'none',
                   zIndex: '1000',
                   width: '100vw',
-                  minHeight: '100vh',
                   background: 'transparent',
                   ...style,
                 }}>
@@ -185,7 +191,7 @@ export default function SlideIn({
             )
           }}
         </Transition>
-        {/* <Mask isVisible={isVisible} /> */}
+        {/* <Mask in={in} /> */}
       </>,
       bodyEl
     )
