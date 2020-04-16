@@ -27,21 +27,21 @@ const defaultPosition = {
   [slideInDirections.LEFT]: {
     top: 0,
     bottom: 0,
-    left: '-100vw',
+    left: '-100%',
   },
   [slideInDirections.RIGHT]: {
     top: 0,
     bottom: 0,
-    left: '100vw',
+    left: '100%',
   },
   [slideInDirections.TOP]: {
-    top: '-100vh',
-    bottom: '100vh',
+    top: '-100%',
+    bottom: '100%',
     left: 0,
   },
   [slideInDirections.BOTTOM]: {
-    top: '100vh',
-    bottom: '-100vh',
+    top: '100%',
+    bottom: '-100%',
     left: 0,
   },
 }
@@ -63,7 +63,7 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        left: '-100vw',
+        left: '-100%',
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -88,7 +88,7 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        left: '100vw',
+        left: '100%',
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -113,8 +113,8 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        top: '-100vh',
-        bottom: '100vh',
+        top: '-100%',
+        bottom: '100%',
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -127,7 +127,8 @@ const slideAnimation = {
     onEnter: (node) => {
       anime({
         targets: node,
-        top: '0',
+        top: 0,
+        bottom: 0,
         duration: DURATION,
         easing: 'easeInOutQuad',
         begin: function (anim) {
@@ -138,8 +139,8 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        top: '100vh',
-        bottom: '-100vh',
+        top: '100%',
+        bottom: '-100%',
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -182,7 +183,8 @@ export default function SlideIn({
                   position: 'fixed',
                   display: 'none',
                   zIndex: '1000',
-                  width: '100vw',
+                  width: '100%',
+                  height: '100%',
                   background: 'transparent',
                   ...style,
                 }}>
