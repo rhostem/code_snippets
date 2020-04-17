@@ -1,25 +1,17 @@
 import React from 'react'
 import ReactModal from 'react-modal'
 import styled from 'styled-components'
-import { pTr } from '../../styles/typography'
 
 export const DefaultBody = styled.div`
-  width: calc(100vw - ${pTr(40)});
-  height: calc(100vh - ${pTr(90)});
+  width: 480px;
+  height: 600px;
 `
 
 export const DefaultContents = styled.div`
-  font-size: ${pTr(14)};
-  padding: 20px;
+  padding: 1rem;
   background: #fff;
 `
 
-type Props = {
-  isOpen: boolean,
-  onClose: Function, // 확인, 취소 누르지 않고 닫기
-  contentStyle?: Object,
-  children: React.component, // children이 있으면 content 무시
-}
 class Modal extends React.Component<Props, State> {
   render() {
     const { isOpen, onClose, contentStyle } = this.props
