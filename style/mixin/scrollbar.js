@@ -1,13 +1,12 @@
 import { css } from 'styled-components'
 
-export default ({
+const scrollbar = ({
   width = '5px',
   trackColor = '#eee',
   thunmbColor = '#ddd',
   radius = 0,
 }) => {
   return css`
-    border-radius: ${radius};
     &::-webkit-scrollbar {
       width: ${width};
     }
@@ -20,4 +19,14 @@ export default ({
       border-radius: ${radius};
     }
   `
+}
+
+export default scrollbar
+
+export const transparentScrollbar = () => {
+  return scrollbar({
+    width: 0,
+    trackColor: 'transparent',
+    thunmbColor: 'transparent',
+  })
 }
