@@ -1,6 +1,8 @@
 import { createGlobalStyle } from 'styled-components'
 import { normalize } from 'polished'
 
+export const UNDER_TABLET = `@media (max-width: 768px)`
+
 /**
  * reset 기능을 포함한 전역 스타일
  * styled-component용
@@ -19,9 +21,7 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-family: Noto Sans KR, sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     font-size: 14px;
-    ${UNDER_TABLET} {
-      font-size: ${FONTSIZE_MOBILE};
-    }
+    line-height: 1.4;
   }
 
   body {
@@ -56,7 +56,7 @@ const GlobalStyle = createGlobalStyle`
 
   input, select {
     ${UNDER_TABLET} {
-      font-size: 16px;
+      font-size: 16px; /* 자동 줌 방지를 위해 폰트 사이즈를 16px 이상으로 지정해야 한다 */
     }
   }
 
