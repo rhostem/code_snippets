@@ -19,31 +19,44 @@ export const slideInDirections = {
 }
 
 const DURATION = 400 // 애니메이션 시간
+const SLIDEIN_ZINDEX = 1000
 
 /**
- * 기본 포지션. 진입 방향에 따라 달라진다.
+ * 아웃 포지션. 진입 방향에 따라 달라진다.
  */
-const defaultPosition = {
+const exitPosition = {
   [slideInDirections.LEFT]: {
     top: 0,
     bottom: 0,
     left: '-100%',
+    right: '100%',
   },
   [slideInDirections.RIGHT]: {
     top: 0,
     bottom: 0,
     left: '100%',
+    right: '-100%',
   },
   [slideInDirections.TOP]: {
     top: '-100%',
     bottom: '100%',
     left: 0,
+    right: 0,
   },
   [slideInDirections.BOTTOM]: {
     top: '100%',
     bottom: '-100%',
     left: 0,
+    right: 0,
   },
+}
+
+// 인 포지션. 디바이스 전체를 커버하도록 한다.
+const inPosition = {
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
 }
 
 const slideAnimation = {
@@ -52,7 +65,7 @@ const slideAnimation = {
     onEnter: (node) => {
       anime({
         targets: node,
-        left: 0,
+        ...inPosition,
         duration: DURATION,
         easing: 'easeInOutQuad',
         begin: function (anim) {
@@ -63,7 +76,7 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        left: '-100%',
+        ...exitPosition[slideInDirections.LEFT],
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -77,7 +90,7 @@ const slideAnimation = {
     onEnter: (node) => {
       anime({
         targets: node,
-        left: 0,
+        ...inPosition,
         duration: DURATION,
         easing: 'easeInOutQuad',
         begin: function (anim) {
@@ -88,7 +101,7 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        left: '100%',
+        ...exitPosition[slideInDirections.RIGHT],
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -101,8 +114,7 @@ const slideAnimation = {
     onEnter: (node) => {
       anime({
         targets: node,
-        top: 0,
-        bottom: 0,
+        ...inPosition,
         duration: DURATION,
         easing: 'easeInOutQuad',
         begin: function (anim) {
@@ -113,8 +125,7 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        top: '-100%',
-        bottom: '100%',
+        ...exitPosition[slideInDirections.TOP],
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -127,8 +138,7 @@ const slideAnimation = {
     onEnter: (node) => {
       anime({
         targets: node,
-        top: 0,
-        bottom: 0,
+        ...inPosition,
         duration: DURATION,
         easing: 'easeInOutQuad',
         begin: function (anim) {
@@ -139,8 +149,7 @@ const slideAnimation = {
     onExit: (node) => {
       anime({
         targets: node,
-        top: '100%',
-        bottom: '-100%',
+        ...exitPosition[slideInDirections.BOTTOM],
         duration: DURATION,
         easing: 'easeInOutQuad',
         complete: function (anim) {
@@ -155,46 +164,41 @@ export default function SlideIn({
   isIn = false,
   direction,
   children,
-  zIndex, // css.wrap 클래스에 선언된 SlideIn의 기본 z-index는 1000.
   wrapperStyle = {}, // css.wrap 클래스의 스타일을 덮어씌움
 }) {
   if (isBrowser) {
     const bodyEl = document.documentElement.getElementsByTagName('body')[0]
 
-    const positionStyle = defaultPosition[direction]
+    const positionStyle = exitPosition[direction]
     const animation = slideAnimation[direction]
 
-    let style = Object.assign({}, positionStyle, wrapperStyle)
-    if (zIndex) {
-      Object.assign(style, { zIndex })
+    let style = {
+      ...positionStyle,
+      ...wrapperStyle,
     }
 
     return ReactDom.createPortal(
-      <>
-        <Transition
-          in={isIn}
-          onEnter={animation.onEnter}
-          onExit={animation.onExit}
-          timeout={DURATION}>
-          {(state) => {
-            return (
-              <div
-                style={{
-                  position: 'fixed',
-                  display: 'none',
-                  zIndex: '1000',
-                  width: '100%',
-                  height: '100%',
-                  background: 'transparent',
-                  ...style,
-                }}>
-                {children}
-              </div>
-            )
-          }}
-        </Transition>
-        {/* <Mask in={in} /> */}
-      </>,
+      <Transition
+        in={isIn}
+        onEnter={animation.onEnter}
+        onExit={animation.onExit}
+        timeout={DURATION}>
+        {(state) => {
+          return (
+            <div
+              style={{
+                position: 'fixed',
+                display: 'none',
+                zIndex: SLIDEIN_ZINDEX,
+                background: 'transparent',
+                ...style,
+              }}>
+              {children}
+              {/* <Mask in={in} /> */}
+            </div>
+          )
+        }}
+      </Transition>,
       bodyEl
     )
   } else {
