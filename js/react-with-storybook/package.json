@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006 --ci",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook -c .storybook -o .out",
+    "deploy": "now --prod"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +38,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "7.18.0",
-    "eslint-plugin-react-hooks": "^1.6.1"
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "now": "^18.0.0"
   }
 }
