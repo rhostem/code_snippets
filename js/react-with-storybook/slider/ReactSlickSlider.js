@@ -97,8 +97,9 @@ const Slide = styled.div`
 `
 
 /**
- * 최근 리뷰 슬라이더
- * 3개씩 표시된다
+ * https://react-slick.neostack.com/docs/get-started
+ *
+ * CSS 파일이 필요하다. npm 설치 후 Import 하거나 CDN에서 직접 불러오는 방법을 사용해야 한다.
  */
 export default function ReviewSlide() {
   const sliderSettings = {
