@@ -2,7 +2,7 @@
  * 클립보드에 텍스트 복사
  * @param {string} textToCopy
  */
-export function copyTextToClipboard(textToCopy = '') {
+export function copyToClipboard(textToCopy = '') {
   const hiddenInputId = 'hidden-input-for-copy'
 
   const attachHiddenInput = () => {
@@ -36,7 +36,7 @@ export function copyTextToClipboard(textToCopy = '') {
   copy(getHiddenInputEl(), textToCopy)
 }
 
-export function copyTextToClipboard_v1(textToCopy = '') {
+export function copyToClipboard_v1(textToCopy = '') {
   if (!canUseDOM()) {
     console.error('window is undefined')
   }
