@@ -1,5 +1,23 @@
+import copyTextWithPrompt from 'copy-to-clipboard'
+
+const copyText = () => {
+  const isMobile = /mobile/gi.test(navigator.userAgent)
+
+  copyTextWithPrompt('text to copy', {
+    debug: process.env.NODE_ENV === 'development',
+    message: `${!isMobile ? '#{key}를 눌러서 ' : ''}선택된 영역을 복사하세요.`,
+    onCopy: () => {
+      alert('공유 링크가 복사되었습니다.')
+    },
+  })
+}
+
 /**
  * 클립보드에 텍스트 복사
+ *
+ * ! safari 브라우저에서 작동하지 않음. 아래의 모듈을 사용하는 것 추천.
+ * copy-to-clipboard(https://www.npmjs.com/package/copy-to-clipboard)
+ *
  * @param {string} textToCopy
  */
 export function copyToClipboard(textToCopy = '') {
@@ -34,34 +52,4 @@ export function copyToClipboard(textToCopy = '') {
   }
 
   copy(getHiddenInputEl(), textToCopy)
-}
-
-export function copyToClipboard_v1(textToCopy = '') {
-  if (!canUseDOM()) {
-    console.error('window is undefined')
-  }
-
-  const id = 'hiddenInput'
-  let inputEl = document.getElementById(id)
-
-  if (!inputEl) {
-    inputEl = window.document.createElement('input')
-    inputEl.id = id
-    inputEl.type = 'text'
-    inputEl.style.position = 'fixed'
-    inputEl.style.top = '-200vh'
-
-    const body = document.getElementsByTagName('body')[0]
-    body.appendChild(inputEl)
-
-    inputEl.value = textToCopy
-    inputEl.select()
-    document.execCommand('copy')
-    alert(inputEl.value)
-  }
-
-  inputEl.value = textToCopy
-  inputEl.select()
-  document.execCommand('copy')
-  alert(inputEl.value)
 }

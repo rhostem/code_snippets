@@ -1,11 +1,10 @@
-import { useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
-/**
- * 모달 열림, 닫힘을 제어하는 로직
- * @param {*} param0
- */
-export const useToggleOpen = ({ onClose, onOpen, scrollLock = true } = {}) => {
-  const [isOpen, setIsOpen] = useState(false)
+export const useToggleOpen = (
+  initialOpen = false,
+  { onClose, onOpen } = {}
+) => {
+  const [isOpen, setIsOpen] = useState(initialOpen)
 
   const toggleOpen = useCallback(() => {
     if (isOpen) {
@@ -20,6 +19,11 @@ export const useToggleOpen = ({ onClose, onOpen, scrollLock = true } = {}) => {
       }
     }
   }, [isOpen, onClose, onOpen])
+
+  useEffect(() => {
+    setIsOpen(initialOpen)
+    return () => {}
+  }, [initialOpen])
 
   return {
     isOpen,

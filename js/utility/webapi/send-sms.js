@@ -7,28 +7,32 @@ export default function sendSMS({ contents }) {
   let smsLink = 'sms://'
   const phone = window.prompt('메시지를 받을 휴대폰 번호를 입력하세요')
 
-  if (isMobileNum(phone)) {
-    const ua = window.navigator.userAgent
-    const iosMatch = /iPhone OS (\d{1,2})/g.exec(ua)
-    const isIOS = iosMatch !== null
-    const phoneTrimmed = phone.replace(/-/g, '')
+  if (!!phone) {
+    if (isMobileNum(phone)) {
+      const ua = window.navigator.userAgent
+      const iosMatch = /iPhone OS (\d{1,2})/g.exec(ua)
+      const isIOS = iosMatch !== null
+      const phoneTrimmed = phone.replace(/-/g, '')
 
-    if (isIOS) {
-      const iosVersion = isIOS ? parseInt(iosMatch[1], 10) : null
+      if (isIOS) {
+        const iosVersion = isIOS ? parseInt(iosMatch[1], 10) : null
 
-      if (iosVersion < 9) {
-        smsLink = `sms://${phoneTrimmed};body=${contents}`
+        if (iosVersion < 9) {
+          smsLink = `sms://${phoneTrimmed};body=${contents}`
+        } else {
+          smsLink = `sms://${phoneTrimmed}&body=${contents}`
+        }
       } else {
-        smsLink = `sms://${phoneTrimmed}&body=${contents}`
+        smsLink = `sms://${phoneTrimmed}?body=${contents}`
       }
+
+      window.location.href = encodeURI(smsLink)
+      return true
     } else {
-      smsLink = `sms://${phoneTrimmed}?body=${contents}`
+      alert('유효한 휴대전화 번호가 아닙니다.')
+      return false
     }
-
-    console.log(`smsLink`, smsLink)
-
-    window.location.href = encodeURI(smsLink)
   } else {
-    alert('유효한 휴대전화 번호가 아닙니다.')
+    return false
   }
 }
