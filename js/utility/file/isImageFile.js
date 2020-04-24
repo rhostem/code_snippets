@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { allPass } from 'ramda'
 
 export const isImageFile = (
   imageFile: File,
@@ -6,9 +6,9 @@ export const isImageFile = (
 ) => {
   return (
     imageFile &&
-    R.allPass([
-      file => file.constructor.name === 'File',
-      file => regex.test(file.type),
+    allPass([
+      (file) => file.constructor.name === 'File',
+      (file) => regex.test(file.type),
     ])(imageFile)
   )
 }
