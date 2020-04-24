@@ -19,17 +19,14 @@ export default function useImageLoader(imageUrl) {
   const [isLoading, setIsLoading] = useState(false)
   const timer = useRef(null)
   const onFail = useCallback(() => {
-    // 실패하면 이미지 url을 그대로 리턴하도록 한다.
+    // 실패하면 원본 이미지 url을 그대로 리턴하도록 한다.
     setIsLoading(false)
     setImageUrlLoaded(imageUrl)
   }, [imageUrl])
 
   useEffect(() => {
+    // 원본 이미지가 바뀌면 다음 이미지 로더를 위해 로딩된 이미지 초기화
     if (!!imageUrl) {
-      setImageUrlLoaded(null)
-    }
-    return () => {
-      // 원본 이미지가 바뀌면 다음 이미지 로더를 위해 로딩된 이미지 초기화
       setImageUrlLoaded(null)
     }
   }, [imageUrl])

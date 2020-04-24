@@ -39,14 +39,7 @@ function useToggleFixed() {
     }
   }, [handleScroll])
 
-  console.log(`isFixed`, isFixed)
-
-  return {
-    isFixed,
-    targetRef,
-    targetElRect,
-    handleScroll,
-  }
+  return [isFixed, targetRef, targetElRect, handleScroll]
 }
 
 export default useToggleFixed

@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
  * input element 상태 관리 hook
  * @param {} args
  */
-export default function useChangeInput({ initialValue, onChange = () => {} }) {
-  const [value, setValue] = useState('')
+export default function useOnChange({ initialValue, onChange = () => {} }) {
+  const [value, setValue] = useState(initialValue)
 
-  const handleChange = value => {
+  const handleChange = (value) => {
     setValue(value)
     onChange(value)
   }
@@ -16,12 +16,9 @@ export default function useChangeInput({ initialValue, onChange = () => {} }) {
   useEffect(() => {
     setValue(initialValue)
     return () => {
-      setValue('')
+      setValue(null)
     }
   }, [initialValue])
 
-  return {
-    value,
-    handleChange,
-  }
+  return [value, handleChange]
 }

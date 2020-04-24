@@ -1,13 +1,13 @@
 import React from 'react'
-import useChangeInput from 'components/hooks/useChangeInput'
+import useOnChange from './useOnChange'
 
 export default function SearchInput({
   initialValue = '',
-  onChange = v => {},
+  onChange = (v) => {},
   wrapperStyle = {},
   placeholder = 'placeholder',
 }) {
-  const { value, handleChange } = useChangeInput({
+  const [value, handleChange] = useOnChange({
     initialValue,
     onChange,
   })
@@ -15,7 +15,7 @@ export default function SearchInput({
   return (
     <input
       value={value}
-      onChange={e => {
+      onChange={(e) => {
         handleChange(e.target.value)
       }}
       placeholder={placeholder}

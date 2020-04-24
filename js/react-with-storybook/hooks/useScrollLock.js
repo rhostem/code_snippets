@@ -1,16 +1,23 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 /**
- * 컴포넌트가 마운트되었을 때 도큐먼트 스크롤 이벤트를 막는다.
+ * 조건을 만족하면 도큐먼트 스크롤 이벤트를 막는다.
  */
-export default function useScrollLock(predicate = () => {}) {
+export default function useScrollLock(predicate) {
+  const isScrollLocked = useMemo(
+    () => (typeof predicate === 'function' ? predicate() : predicate),
+    [predicate]
+  )
+
   useEffect(() => {
-    if (predicate()) {
+    if (isScrollLocked) {
       lockDocumentScroll(true)
     } else {
       lockDocumentScroll(false)
     }
-  }, [predicate])
+  }, [isScrollLocked])
+
+  return [isScrollLocked]
 }
 
 /**
