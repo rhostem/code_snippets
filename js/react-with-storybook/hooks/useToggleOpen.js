@@ -25,8 +25,5 @@ export const useToggleOpen = (
     return () => {}
   }, [initialOpen])
 
-  return {
-    isOpen,
-    toggleOpen,
-  }
+  return [isOpen, toggleOpen]
 }

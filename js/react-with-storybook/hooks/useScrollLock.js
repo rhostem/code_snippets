@@ -7,12 +7,7 @@ export default function useScrollLock(predicate = () => {}) {
   useEffect(() => {
     if (predicate()) {
       lockDocumentScroll(true)
-      console.log(`lock scroll`)
     } else {
-      lockDocumentScroll(false)
-    }
-
-    return () => {
       lockDocumentScroll(false)
     }
   }, [predicate])
@@ -24,11 +19,8 @@ export default function useScrollLock(predicate = () => {}) {
 export function useScrollLockOnMount() {
   useEffect(() => {
     lockDocumentScroll(true)
-    console.log(`lock`)
-
     return () => {
       lockDocumentScroll(false)
-      console.log(`unlock`)
     }
   }, [])
 }
@@ -48,7 +40,7 @@ export const lockDocumentScroll = (
     if (isLockScroll) {
       // Disable scrolling.
       if (isMobile && isLockTouchmove) {
-        document.ontouchmove = e => {
+        document.ontouchmove = (e) => {
           e.preventDefault()
         }
       } else {

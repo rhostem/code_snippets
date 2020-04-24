@@ -14,6 +14,8 @@ export default function useIntersectionObserver({
   onUnvisible,
   isTriggerOnlyOnce = true, // 한번만 실행 하고 옵저버 제거
 }) {
+  const [observer, setObserver] = useState(null)
+
   // 옵저버 등록 및 톨백 실행 로직
   const handleObserve = useCallback(
     (node) => {
@@ -32,8 +34,9 @@ export default function useIntersectionObserver({
           }
         })
       })
-
       observer.observe(node)
+
+      setObserver(observer)
     },
     [isTriggerOnlyOnce, onUnvisible, onVisible]
   )
@@ -45,5 +48,5 @@ export default function useIntersectionObserver({
     }
   }, [handleObserve, targetRef])
 
-  return {}
+  return [observer]
 }
