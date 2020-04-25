@@ -1,10 +1,17 @@
 import { useEffect, useState, useCallback } from 'react'
 
+/**
+ * true, false 값을 전한하는 로직
+ *
+ * @param {*} initialValue 초기값
+ * @param {*} option.onClose 값이 false일 때 콜백
+ * @param {*} option.onOpen  값이 true 때 콜백
+ */
 export const useToggleOpen = (
-  initialOpen = false,
+  initialValue = false,
   { onClose, onOpen } = {}
 ) => {
-  const [isOpen, setIsOpen] = useState(initialOpen)
+  const [isOpen, setIsOpen] = useState(initialValue)
 
   const toggleOpen = useCallback(() => {
     if (isOpen) {
@@ -21,9 +28,9 @@ export const useToggleOpen = (
   }, [isOpen, onClose, onOpen])
 
   useEffect(() => {
-    setIsOpen(initialOpen)
+    setIsOpen(initialValue)
     return () => {}
-  }, [initialOpen])
+  }, [initialValue])
 
   return [isOpen, toggleOpen]
 }

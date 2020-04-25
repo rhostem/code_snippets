@@ -1,13 +1,16 @@
+// prettier 2.0.5
 module.exports = {
-  parser: 'babel',
   printWidth: 80,
-  useTabs: false,
   tabWidth: 2,
-  bracketSpacing: true,
-  singleQuote: true,
+  useTabs: false,
   semi: false,
+  singleQuote: true,
+  quoteProps: 'as-needed',
   trailingComma: 'es5',
-  jsxBracketSameLine: true,
+  bracketSpacing: true,
+  jsxBracketSameLine: false,
+  arrowParens: 'always',
+  parser: 'babel',
   overrides: [
     {
       files: '*.html',
