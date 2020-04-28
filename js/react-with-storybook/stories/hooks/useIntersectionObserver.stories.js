@@ -9,7 +9,6 @@ import {
 } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
-import styled from 'styled-components'
 
 export default {
   title: 'hooks/useIntersectionObserver',
@@ -34,7 +33,7 @@ export const Default = () => {
     targetRef,
     onVisible: handleOnVisible,
     onUnvisible: handleOnUnvisible,
-    isTriggerOnlyOnce: boolean('isTriggerOnlyOnce', false),
+    isTriggerOnlyOnce: true,
   })
 
   return (
@@ -43,7 +42,8 @@ export const Default = () => {
         style={{
           height: '110vh',
           background: bgColor,
-        }}>
+        }}
+      >
         scroll down to trigger intersection observer
       </div>
 
@@ -52,7 +52,8 @@ export const Default = () => {
         style={{
           minHeight: '200px',
           background: '#efefef',
-        }}>
+        }}
+      >
         intersecting area
       </div>
     </div>

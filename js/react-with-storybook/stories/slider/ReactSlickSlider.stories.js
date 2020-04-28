@@ -16,7 +16,7 @@ export default {
   decorators: [withKnobs],
 }
 
-export const Default = () => <ReactSlickSlider></ReactSlickSlider>
+export const Customized = () => <ReactSlickSlider></ReactSlickSlider>
 
 export const SliderRef = () => {
   const sliderRef = useRef(null)
@@ -38,9 +38,13 @@ export const SliderRef = () => {
         text-align: center;
         margin: 0 auto;
         background: #efefef;
+
+        .slick-arrow {
+          display: none !important;
+        }
       `}
     >
-      <h2> Single Item</h2>
+      <h2>Single Item</h2>
       <Slider {...settings}>
         <div>
           <h3>1</h3>

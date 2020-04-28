@@ -34,6 +34,7 @@ export default function useIntersectionObserver({
           }
         })
       })
+
       observer.observe(node)
 
       setObserver(observer)
