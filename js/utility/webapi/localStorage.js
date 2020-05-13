@@ -1,47 +1,24 @@
-const canUseLocalStorage = typeof window !== undefined && !!window.localStorage
+const canUseLocalStorage = typeof window === 'object' && !!window.localStorage
 
 export default {
-  set: (key = '', value, expirationMin = 52560000): any => {
+  set: (key = '', value): any => {
     if (canUseLocalStorage) {
-      localStorage.setItem(key, JSON.stringify(value))
-      return value
+      if (value) {
+        localStorage.setItem(key, JSON.stringify(value))
+      } else {
+        console.error('[localStorage] value is undefined')
+      }
     }
   },
   get: (key = ''): any => {
     if (canUseLocalStorage) {
-      return JSON.parse(localStorage.getItem(key))
-    }
-  },
-  remove: (key = '') => {
-    if (canUseLocalStorage) {
-      window.localStorage.removeItem(key)
-    }
-  },
-}
-
-const withExpiration = {
-  set: (key = '', value, expirationMin = 52560000): any => {
-    if (canUseLocalStorage) {
-      const expirationMS = expirationMin * 60 * 1000
-      const record = {
-        value: JSON.stringify(value),
-        timestamp: new Date().getTime() + expirationMS,
+      try {
+        const item = localStorage.getItem(key)
+        return item && item !== 'undefined' ? JSON.parse(item) : null
+      } catch (e) {
+        console.error(e)
+        return null
       }
-
-      localStorage.setItem(key, JSON.stringify(record))
-
-      return value
-    }
-  },
-  get: (key = ''): any => {
-    if (canUseLocalStorage) {
-      const record = JSON.parse(localStorage.getItem(key))
-
-      if (!record) {
-        return undefined
-      }
-
-      return new Date().getTime() < record.timestamp && JSON.parse(record.value)
     }
   },
   remove: (key = '') => {
