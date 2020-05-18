@@ -1,47 +1,120 @@
 import React from 'react'
-import ReactModal from 'react-modal'
+import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
-export const DefaultBody = styled.div`
-  width: 480px;
-  height: 600px;
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.3);
 `
 
-export const DefaultContents = styled.div`
-  padding: 1rem;
+const Content = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: #fff;
+  padding: 2em;
+  overflow: hidden;
+  width: 500px;
+  height: 500px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 0;
+  }
 `
 
-class Modal extends React.Component<Props, State> {
-  render() {
-    const { isOpen, onClose, contentStyle } = this.props
+const canUseDOM = () => typeof window !== undefined
 
-    return (
-      <ReactModal
-        isOpen={isOpen}
-        contentLabel="defaultModal"
-        onRequestClose={onClose}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            zIndex: 10000,
-          },
-          content: {
-            top: '50%',
-            left: '50%',
-            bottom: 'initial',
-            right: 'initial',
-            transform: 'translate(-50%, -50%)',
-            background: 'transparent',
-            padding: 0,
-            overflow: 'hidden',
-            ...contentStyle,
-          },
-        }}
-        closeTimeoutMS={400}>
-        {this.props.children}
-      </ReactModal>
-    )
+class Modal extends React.Component {
+  static defaultProps = {
+    portalId: 'modalRoot',
+    overlayStyle: {},
+    contentStyle: {},
+    overlayCSS: undefined,
+    contentCSS: undefined,
+    isFullCover: false, // 뷰포트를 모두 채우는 모달 스타일 적용
+    isOpen: false,
+    onRequestClose: () => {},
+  }
+
+  get portalContainer() {
+    return canUseDOM() ? document.getElementById(this.props.portalId) : null
+  }
+
+  get fullCoverContentStyle() {
+    return {
+      width: 'initial',
+      height: 'initial',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      transform: 'none',
+    }
+  }
+
+  get contentStyle() {
+    return this.props.isFullCover
+      ? {
+          ...this.fullCoverContentStyle,
+          ...this.props.contentStyle,
+        }
+      : {
+          ...this.props.contentStyle,
+        }
+  }
+
+  componentDidMount() {
+    if (!this.portalContainer) {
+      const root = document.createElement('div')
+      root.id = this.props.portalId
+      document.documentElement.appendChild(root)
+    }
+  }
+
+  handleClickContent = (e) => {
+    e.stopPropagation()
+  }
+
+  render() {
+    const { overlayStyle, overlayCSS, contentCSS } = this.props
+
+    if (this.props.isOpen && this.portalContainer) {
+      return ReactDOM.createPortal(
+        <Overlay
+          style={overlayStyle}
+          css={overlayCSS}
+          onClick={this.props.onRequestClose}
+        >
+          <Content
+            style={this.contentStyle}
+            css={contentCSS}
+            onClick={this.handleClickContent}
+          >
+            {this.props.children}
+          </Content>
+        </Overlay>,
+        this.portalContainer
+      )
+    } else {
+      return null
+    }
   }
 }
 
