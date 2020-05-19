@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  color,
-  select,
-} from '@storybook/addon-knobs'
+import { withKnobs, boolean, number, select } from '@storybook/addon-knobs'
 import SlideIn, { slideInDirections } from '../../common/SlideIn'
 
 export default {
@@ -16,16 +9,63 @@ export default {
 
 export const Default = () => (
   <div>
-    control knobs to show slidein
+    <h1>Control knobs to see SlideIn</h1>
     <SlideIn
       isIn={boolean('isIn', false)}
       direction={select(
         'direction',
         Object.keys(slideInDirections).map((k) => slideInDirections[k]),
-        slideInDirections.LEFT
+        slideInDirections.RIGHT
       )}
-      zIndex={number('zIndex', null)}>
-      <div style={{ width: '100%', margin: '0 auto', background: '#efefef' }}>
+      duration={number('duration', 400)}
+      zIndex={number('zIndex', 1000)}
+      easing={select(
+        'easing',
+        [
+          'linear',
+          'cubicBezier(.5, .05, .1, .3)',
+          'easeInQuad',
+          'easeInCubic',
+          'easeInQuart',
+          'easeInQuint',
+          'easeInSine',
+          'easeInExpo',
+          'easeInCirc',
+          'easeInBack',
+          'easeInBounce',
+          'easeInOutQuad',
+          'easeInOutCubic',
+          'easeInOutQuart',
+          'easeInOutQuint',
+          'easeInOutSine',
+          'easeInOutExpo',
+          'easeInOutCirc',
+          'easeInOutBack',
+          'easeInOutBounce',
+          'easeOutQuad',
+          'easeOutCubic',
+          'easeOutQuart',
+          'easeOutQuint',
+          'easeOutSine',
+          'easeOutExpo',
+          'easeOutCirc',
+          'easeOutBack',
+          'easeOutBounce',
+        ],
+        'easeInQuad'
+      )}
+    >
+      <div
+        style={{
+          width: '500px',
+          background: '#580E8B',
+          color: '#fff',
+          padding: '20px',
+          position: 'absolute',
+          top: '20px',
+          right: '20px',
+        }}
+      >
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere est,
         nam, dolores iure vel consequuntur cumque asperiores itaque possimus
         adipisci veritatis incidunt ipsam hic quidem. Quo, cupiditate quidem!

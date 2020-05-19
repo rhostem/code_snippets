@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import ReactDom from 'react-dom'
-// import css from './SlideIn.css'
 import { Transition } from 'react-transition-group'
 import anime from 'animejs'
-// import Mask from '../modal/Mask';
 
 const isBrowser =
   typeof window !== 'undefined' && typeof window.document !== 'undefined'
@@ -17,9 +15,6 @@ export const slideInDirections = {
   TOP: 'top',
   BOTTOM: 'bottom',
 }
-
-const DURATION = 400 // 애니메이션 시간
-const SLIDEIN_ZINDEX = 1000
 
 /**
  * 아웃 포지션. 진입 방향에 따라 달라진다.
@@ -59,113 +54,118 @@ const inPosition = {
   right: 0,
 }
 
-const slideAnimation = {
-  // 왼쪽
-  [slideInDirections.LEFT]: {
-    onEnter: (node) => {
-      anime({
-        targets: node,
-        ...inPosition,
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        begin: function (anim) {
-          node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
-        },
-      })
-    },
-    onExit: (node) => {
-      anime({
-        targets: node,
-        ...exitPosition[slideInDirections.LEFT],
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        complete: function (anim) {
-          node.style.display = 'none'
-        },
-      })
-    },
-  },
-  // 오른쪽
-  [slideInDirections.RIGHT]: {
-    onEnter: (node) => {
-      anime({
-        targets: node,
-        ...inPosition,
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        begin: function (anim) {
-          node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
-        },
-      })
-    },
-    onExit: (node) => {
-      anime({
-        targets: node,
-        ...exitPosition[slideInDirections.RIGHT],
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        complete: function (anim) {
-          node.style.display = 'none'
-        },
-      })
-    },
-  },
-  [slideInDirections.TOP]: {
-    onEnter: (node) => {
-      anime({
-        targets: node,
-        ...inPosition,
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        begin: function (anim) {
-          node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
-        },
-      })
-    },
-    onExit: (node) => {
-      anime({
-        targets: node,
-        ...exitPosition[slideInDirections.TOP],
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        complete: function (anim) {
-          node.style.display = 'none'
-        },
-      })
-    },
-  },
-  [slideInDirections.BOTTOM]: {
-    onEnter: (node) => {
-      anime({
-        targets: node,
-        ...inPosition,
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        begin: function (anim) {
-          node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
-        },
-      })
-    },
-    onExit: (node) => {
-      anime({
-        targets: node,
-        ...exitPosition[slideInDirections.BOTTOM],
-        duration: DURATION,
-        easing: 'easeInOutQuad',
-        complete: function (anim) {
-          node.style.display = 'none'
-        },
-      })
-    },
-  },
-}
-
 export default function SlideIn({
   isIn = false,
   direction,
   children,
-  wrapperStyle = {}, // css.wrap 클래스의 스타일을 덮어씌움
+  wrapperStyle = {}, // fixed 레이어 스타일
+  zIndex = 1000, // fixed 레이어 zindex
+  duration = 400, // 애니메이션 시간
+  easing = 'easeInSine', // https://animejs.com/documentation/#linearEasing
 }) {
+  const slideAnimation = useMemo(() => {
+    return {
+      // 왼쪽
+      [slideInDirections.LEFT]: {
+        onEnter: (node) => {
+          anime({
+            targets: node,
+            ...inPosition,
+            duration,
+            easing,
+            begin: function(anim) {
+              node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
+            },
+          })
+        },
+        onExit: (node) => {
+          anime({
+            targets: node,
+            ...exitPosition[slideInDirections.LEFT],
+            duration,
+            easing,
+            complete: function(anim) {
+              node.style.display = 'none'
+            },
+          })
+        },
+      },
+      // 오른쪽
+      [slideInDirections.RIGHT]: {
+        onEnter: (node) => {
+          anime({
+            targets: node,
+            ...inPosition,
+            duration,
+            easing,
+            begin: function(anim) {
+              node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
+            },
+          })
+        },
+        onExit: (node) => {
+          anime({
+            targets: node,
+            ...exitPosition[slideInDirections.RIGHT],
+            duration,
+            easing,
+            complete: function(anim) {
+              node.style.display = 'none'
+            },
+          })
+        },
+      },
+      [slideInDirections.TOP]: {
+        onEnter: (node) => {
+          anime({
+            targets: node,
+            ...inPosition,
+            duration,
+            easing,
+            begin: function(anim) {
+              node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
+            },
+          })
+        },
+        onExit: (node) => {
+          anime({
+            targets: node,
+            ...exitPosition[slideInDirections.TOP],
+            duration,
+            easing,
+            complete: function(anim) {
+              node.style.display = 'none'
+            },
+          })
+        },
+      },
+      [slideInDirections.BOTTOM]: {
+        onEnter: (node) => {
+          anime({
+            targets: node,
+            ...inPosition,
+            duration,
+            easing,
+            begin: function(anim) {
+              node.style.display = 'block' // 애니메이션 시작할 none에서 block으로
+            },
+          })
+        },
+        onExit: (node) => {
+          anime({
+            targets: node,
+            ...exitPosition[slideInDirections.BOTTOM],
+            duration,
+            easing,
+            complete: function(anim) {
+              node.style.display = 'none'
+            },
+          })
+        },
+      },
+    }
+  }, [duration, easing])
+
   if (isBrowser) {
     const bodyEl = document.documentElement.getElementsByTagName('body')[0]
 
@@ -182,19 +182,19 @@ export default function SlideIn({
         in={isIn}
         onEnter={animation.onEnter}
         onExit={animation.onExit}
-        timeout={DURATION}>
+      >
         {(state) => {
           return (
             <div
               style={{
                 position: 'fixed',
                 display: 'none',
-                zIndex: SLIDEIN_ZINDEX,
                 background: 'transparent',
+                zIndex,
                 ...style,
-              }}>
+              }}
+            >
               {children}
-              {/* <Mask in={in} /> */}
             </div>
           )
         }}
