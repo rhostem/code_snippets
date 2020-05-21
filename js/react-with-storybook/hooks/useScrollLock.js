@@ -12,8 +12,12 @@ export default function useScrollLock(predicate) {
   useEffect(() => {
     if (isScrollLocked) {
       lockDocumentScroll(true)
-    } else {
-      lockDocumentScroll(false)
+    }
+
+    return () => {
+      if (isScrollLocked) {
+        lockDocumentScroll(false)
+      }
     }
   }, [isScrollLocked])
 
