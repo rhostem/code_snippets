@@ -18,12 +18,18 @@ export default {
 }
 
 const ImageContainer = ({ url }) => {
-  const [urlLoaded, isLoading] = useImageLoader(url)
+  const [urlLoaded, isLoading] = useImageLoader(url, {
+    useImageStr: true,
+    requestOptions: {
+      mode: 'cors',
+    },
+  })
   return (
     <div
       css={css`
         width: 300px;
-      `}>
+      `}
+    >
       {isLoading ? (
         <span>loading...</span>
       ) : (
@@ -44,15 +50,14 @@ const ImageContainer = ({ url }) => {
 export const Default = () => {
   const [urls] = useRandomImages({ size: 5 })
 
-  console.log(`urls`, urls)
-
   return (
     <div
       css={css`
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-      `}>
+      `}
+    >
       {urls.map((url, index) => {
         return <ImageContainer key={index} url={url}></ImageContainer>
       })}

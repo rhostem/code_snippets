@@ -9,24 +9,30 @@ function arrayBufferToBase64(buffer) {
   return window.btoa(binary)
 }
 
+const imageCacheMap = new Map()
+
 /**
  * NOTE: 이미지 서버가 cors를 허용해 줘야 사용 가능하다.
  *
  * @param {} imageUrl 원본 이미지
+ * @param {} option.useImageStr 이미지를 Base64 문자열로 변환할 것인지
+ * @param {} option.requestOptions fetch request option
  */
-export default function useImageLoader(imageUrl, { useImageStr = true } = {}) {
+export default function useImageLoader(
+  imageUrl,
+  { useImageStr = false, requestOptions = {} } = {}
+) {
   const [imageUrlLoaded, setImageUrlLoaded] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const imageCacheMap = useRef(new Map())
 
   const getCahcedImage = useCallback((img) => {
-    if (!!img && imageCacheMap.current.has(img)) {
-      return imageCacheMap.current.get(img)
+    if (!!img && imageCacheMap.has(img)) {
+      return imageCacheMap.get(img)
     }
   }, [])
 
   const setCachedImage = useCallback((key, data) => {
-    imageCacheMap.current.set(key, data)
+    imageCacheMap.set(key, data)
   }, [])
 
   const timer = useRef(null)
@@ -60,7 +66,6 @@ export default function useImageLoader(imageUrl, { useImageStr = true } = {}) {
     timer.current = setTimeout(() => {
       if (!imageUrlLoaded) {
         setIsLoading(true)
-        console.log('delayed')
       }
     }, 300)
     return () => {}
@@ -83,6 +88,7 @@ export default function useImageLoader(imageUrl, { useImageStr = true } = {}) {
           headers: headers,
           mode: 'cors',
           cache: 'default',
+          ...requestOptions,
         }
         var request = new Request(imageUrl)
 
@@ -111,7 +117,14 @@ export default function useImageLoader(imageUrl, { useImageStr = true } = {}) {
       // fetch API를 지원하지 않으면 이미지 로딩 처리하지 않음.
       onLoadImage(imageUrl)
     }
-  }, [getCahcedImage, imageUrl, onFail, onLoadImage, useImageStr])
+  }, [
+    getCahcedImage,
+    imageUrl,
+    onFail,
+    onLoadImage,
+    requestOptions,
+    useImageStr,
+  ])
 
   return [imageUrlLoaded, isLoading]
 }
