@@ -28,9 +28,10 @@ export const setHeightLimitAndEllipsis = ({ line = 1, lineHeight = 1.4 }) => {
     /* line-clamp, -webkit-box 를 지원해야 사용 가능 */
     @supports (display: -webkit-box) {
       display: -webkit-box;
-      max-height: calc(${lineHeight} * ${line}em);
       -webkit-line-clamp: ${line};
       -webkit-box-orient: vertical;
+      line-height: ${lineHeight};
+      max-height: calc(${lineHeight} * ${line}em);
       overflow: hidden;
       text-overflow: ellipsis;
     }
