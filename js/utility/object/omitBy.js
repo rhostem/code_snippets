@@ -14,3 +14,22 @@ const omitBy = curry((predicate, obj) =>
 )
 
 export default omitBy
+
+function name(params) {
+  const inputRef = useRef()
+  return (
+    <div>
+      <div
+        onClick={() => {
+          if (inputRef.current) {
+            inputRef.current.focus()
+          }
+        }}
+      >
+        fakeInput
+      </div>
+
+      <input type="text" ref={inputRef} />
+    </div>
+  )
+}
