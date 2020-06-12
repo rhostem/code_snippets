@@ -10,7 +10,7 @@ export default function splitLineJSX(str) {
   return typeof str === 'string'
     ? str.split(/\r?\n/).map((partial, i, partialArr) => (
         <>
-          <span key={i}>{partial}</span>
+          {partial}
           {!isLastIndex(partialArr, i) && <br />}
         </>
       ))

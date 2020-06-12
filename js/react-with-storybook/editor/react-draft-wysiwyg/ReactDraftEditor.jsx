@@ -7,17 +7,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 // NOTE: 서버사이드 렌더링 앱에서는 dynamic 임포트를 사용해서 가져와야 한다
 /**
-
-const DraftsEditor: ReactType<{
-  editorState: EditorState
-  toolbarClassName: string
-  wrapperClassName: string
-  editorClassName: string
-  onEditorStateChange: Function
-}> = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
+const ReactDraftEditor = dynamic(() => import('components/common/ReactDraftEditor'), {
   ssr: false,
 })
-
 */
 
 /**
@@ -60,7 +52,7 @@ export default function ReactDraftEditor({ initialContents, onChange }) {
       const editorState = EditorState.createWithContent(contentState)
 
       setEditorState(editorState)
-      onChange(editorState)
+      debouncedOnchange(editorState)
     }
     return () => {}
   }, [initialContents, onChange])
