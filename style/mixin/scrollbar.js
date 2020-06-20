@@ -5,7 +5,7 @@ const scrollbar = ({
   trackColor = '#eee',
   thunmbColor = '#ddd',
   radius = 0,
-}) => {
+} = {}) => {
   return css`
     &::-webkit-scrollbar {
       width: ${width};
