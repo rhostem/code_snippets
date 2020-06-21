@@ -18,6 +18,7 @@ const Wrap = styled.div`
     border: none;
     background-color: transparent;
     font-size: inherit;
+    outline: none;
 
     &::placeholder {
       color: #dee0e4;
@@ -25,15 +26,13 @@ const Wrap = styled.div`
   }
 `
 
-// const Input = styled.input``
-
 type IconType = 'PASSWORD' | 'ID' | 'PHONE'
 
 const getIconUrl = (icon: IconType) => {
   const iconUrl = {
-    PASSWORD: `${process.env.REACT_APP_CDN_URL}/admin/icon-login-password.png`,
-    ID: `${process.env.REACT_APP_CDN_URL}/admin/icon-login-id.png`,
-    PHONE: `${process.env.REACT_APP_CDN_URL}/admin/icon-input-phone.png`,
+    PASSWORD: null,
+    ID: null,
+    PHONE: null,
   }
 
   return iconUrl[icon]
@@ -67,7 +66,7 @@ export default ({
 }: Props) => {
   return (
     <Wrap style={style}>
-      {!!icon ? (
+      {getIconUrl(icon) ? (
         <Icon
           src={getIconUrl(icon)}
           style={{ width: iconSize, height: iconSize }}

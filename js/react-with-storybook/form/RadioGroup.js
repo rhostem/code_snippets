@@ -1,9 +1,26 @@
 import React from 'react'
-import styled from 'styled-components'
-import { mixin } from 'styles'
+import styled, { css } from 'styled-components'
+
+function clearfix() {
+  return css`
+    &::after {
+      content: '';
+      clear: both;
+      display: table;
+    }
+  `
+}
+
+const centerY = () => {
+  return css`
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  `
+}
 
 const Wrap = styled.div`
-  ${mixin.clearFix()};
+  ${clearfix()};
   font-size: 14px;
 
   &:not(:last-child) {
@@ -19,21 +36,19 @@ const Wrap = styled.div`
     float: left;
     display: inline-block;
     position: relative;
-    padding-left: 30px;
-    margin-right: 20px;
+    padding-left: 20px;
+    margin-right: 10px;
     min-width: 90px;
 
     &:before {
-      ${mixin.centerY()};
+      ${centerY()};
       left: 0;
       display: block;
-      width: 20px;
-      height: 20px;
+      width: 10px;
+      height: 10px;
       content: ' ';
-      background: url('${
-        process.env.REACT_APP_CDN_URL
-      }/admin/btn-radio-off.svg') no-repeat center;
-      background-size: contain;
+      border: 1px solid #000;
+      border-radius: 50%;
     }
 
     &:hover {
@@ -43,9 +58,7 @@ const Wrap = styled.div`
 
   & > input:checked + label {
     &:before {
-      background-image: url('${
-        process.env.REACT_APP_CDN_URL
-      }/admin/btn-radio-on.svg');
+      background-color: #222;
     }
   }
 `
