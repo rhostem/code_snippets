@@ -4,9 +4,9 @@ import styled, { keyframes } from 'styled-components'
 const Button = styled.div`
   position: relative;
   display: inline-block;
-  width: 200px;
+  width: 220px;
   padding: 2em;
-  font-size: 2em;
+  font-size: 1em;
   text-align: center;
   background: #2d2a2e;
   color: #fff;
