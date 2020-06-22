@@ -4,7 +4,7 @@ const skeleton = ({
   baseColor = '#ddd',
   shiningColor = '#e8e8e8',
   duration = 1.5,
-  gradientWidth = '200px',
+  trackWidth = '200px',
   borderRadius = 0,
 } = {}) => css`
   &:empty:after {
@@ -22,16 +22,16 @@ const skeleton = ({
     );
     background-repeat: no-repeat;
     background-size: 100%;
-    animation: skeletonShine-${gradientWidth} ${duration}s infinite linear;
+    animation: skeletonShine-${trackWidth} ${duration}s infinite linear;
   }
 
-  @keyframes skeletonShine-${gradientWidth} {
+  @keyframes skeletonShine-${trackWidth} {
     0% {
       background-position: -80px 0;
     }
     40%,
     100% {
-      background-position: ${gradientWidth} 0;
+      background-position: ${trackWidth} 0;
     }
   }
 `

@@ -42,7 +42,7 @@ export const Default = () => {
       <div
         css={`
           ${skeleton({
-            trackWidth: '300px',
+            trackWidth: '330px',
             shiningColor: text('shiningColor', '#F5EB6F'),
             baseColor: text('baseColor', '#2E4FD0'),
             duration: number('duration', 1.5),
