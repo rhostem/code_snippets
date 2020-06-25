@@ -1,6 +1,6 @@
-function throttle(callback, delay) {
+export default function throttle(delay, callback) {
   var previousCall = new Date().getTime()
-  return function() {
+  return function () {
     var time = new Date().getTime()
 
     if (time - previousCall >= delay) {
