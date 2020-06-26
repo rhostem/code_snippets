@@ -1,7 +1,8 @@
 import { css } from 'styled-components'
 
 const scrollbar = ({
-  width = '5px',
+  width = 0, // 세로 스크롤바 두께
+  height = 0, // 가로 스크롤바 두께
   trackColor = '#eee',
   thunmbColor = '#ddd',
   radius = 0,
@@ -9,6 +10,10 @@ const scrollbar = ({
   return css`
     &::-webkit-scrollbar {
       width: ${width};
+      height: ${height};
+      &:hover {
+        cursor: pointer;
+      }
     }
     &::-webkit-scrollbar-track {
       background-color: ${trackColor};
@@ -26,6 +31,7 @@ export default scrollbar
 export const transparentScrollbar = () => {
   return scrollbar({
     width: 0,
+    height: 0,
     trackColor: 'transparent',
     thunmbColor: 'transparent',
   })
