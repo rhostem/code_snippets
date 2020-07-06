@@ -7,11 +7,12 @@ const Wrap = styled.div`
   margin: 0 auto;
 
   .slick-slider {
+    position: relative;
     /* dot style 커스터마이징  */
     .slick-dots {
-      position: relative;
-      bottom: initial;
-      margin: 30px auto 0;
+      position: absolute;
+      bottom: 10px;
+      margin: 0 auto;
 
       li {
         width: 14px;
@@ -65,12 +66,12 @@ const Wrap = styled.div`
       &.slick-prev {
         left: -50px;
         background-image: url('https://image.flaticon.com/icons/svg/109/109617.svg');
-        transform: rotate(-180deg);
+        transform: translateY(-50%) rotate(180deg);
       }
       &.slick-next {
         right: -50px;
         background-image: url('https://image.flaticon.com/icons/svg/109/109617.svg');
-        transform: rotate(0);
+        transform: translateY(-50%) rotate(0);
       }
     }
   }
@@ -81,7 +82,7 @@ const Slide = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10em;
+  font-size: 6em;
   font-weight: bold;
   color: #fff;
 
@@ -101,7 +102,7 @@ const Slide = styled.div`
  *
  * CSS 파일이 필요하다. npm 설치 후 Import 하거나 CDN에서 직접 불러오는 방법을 사용해야 한다.
  */
-export default function ReviewSlide() {
+export default function ReviewSlide({}) {
   const sliderSettings = {
     dots: true,
     arrows: true,

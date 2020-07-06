@@ -9,18 +9,30 @@ import {
 } from '@storybook/addon-knobs'
 import ReactSlickSlider from '../../slider/ReactSlickSlider'
 import Slider from 'react-slick'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export default {
   title: 'slider/ReactSlickSlider',
   decorators: [withKnobs],
 }
 
-export const Customized = () => <ReactSlickSlider></ReactSlickSlider>
+export const CustomStyle = () => <ReactSlickSlider></ReactSlickSlider>
 
-export const SliderRef = () => {
+const Slide = styled.div`
+  height: 300px;
+  position: relative;
+
+  & > * {
+    font-size: 6rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`
+export const CustomButton = () => {
   const sliderRef = useRef(null)
-  const setSlider = useCallback((c) => (sliderRef.current = c), [])
+  const setSlider = useCallback(c => (sliderRef.current = c), [])
 
   const settings = {
     dots: true,
@@ -31,39 +43,28 @@ export const SliderRef = () => {
     ref: setSlider,
   }
 
+  const items = new Array(5).fill(0).map((_, index) => index + 1)
+
   return (
     <div
       css={css`
         width: 500px;
         text-align: center;
         margin: 0 auto;
-        background: #efefef;
 
         .slick-arrow {
           display: none !important;
         }
       `}
     >
-      <h2>Single Item</h2>
       <Slider {...settings}>
-        <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
-        <div>
-          <h3>5</h3>
-        </div>
-        <div>
-          <h3>6</h3>
-        </div>
+        {items.map((item, index) => {
+          return (
+            <Slide key={index}>
+              <div>{item}</div>
+            </Slide>
+          )
+        })}
       </Slider>
 
       <div
@@ -75,6 +76,86 @@ export const SliderRef = () => {
         <button onClick={() => sliderRef.current?.slickPrev()}>LEFT</button>
         <button onClick={() => sliderRef.current?.slickNext()}>RIGHT</button>
       </div>
+    </div>
+  )
+}
+
+export const VerticalSlider = () => {
+  const sliderRef = useRef(null)
+  const setSlider = useCallback(c => (sliderRef.current = c), [])
+
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 400,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    ref: setSlider,
+    vertical: true,
+    dotClassName: 'slick-dots',
+  }
+
+  const items = new Array(5).fill(0).map((_, index) => index + 1)
+
+  return (
+    <div
+      css={css`
+        width: 500px;
+        margin: 50px auto;
+        text-align: center;
+        position: relative;
+
+        .slick-arrow {
+          display: none !important;
+        }
+
+        .slick-dots {
+          display: flex !important;
+          flex-direction: column;
+          justify-content: center;
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 30px;
+        }
+
+        button {
+          z-index: 10;
+          height: 30px;
+          &.down,
+          &.up {
+            padding: 5px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          &.down {
+            bottom: -30px;
+          }
+          &.up {
+            top: -30px;
+          }
+        }
+      `}
+    >
+      <button className="up" onClick={() => sliderRef.current?.slickPrev()}>
+        UP
+      </button>
+      <button className="down" onClick={() => sliderRef.current?.slickNext()}>
+        DOWN
+      </button>
+
+      <Slider {...settings}>
+        {items.map((item, index) => {
+          return (
+            <Slide key={index}>
+              <div>{item}</div>
+            </Slide>
+          )
+        })}
+      </Slider>
     </div>
   )
 }
