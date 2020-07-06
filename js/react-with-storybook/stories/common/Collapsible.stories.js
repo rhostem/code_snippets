@@ -8,7 +8,7 @@ import {
   color,
   select,
 } from '@storybook/addon-knobs'
-import Collapsible, { useToggleOpen } from '../../common/Collapsible'
+import Collapsible from '../../common/Collapsible'
 
 export default {
   title: 'common/Collapsible',
@@ -16,19 +16,18 @@ export default {
 }
 
 export const Default = () => {
-  const { isOpen, toggleOpen } = useToggleOpen(false)
-
   return (
     <Collapsible
-      isOpen={isOpen}
-      renderHead={() => {
+      initialOpen={false}
+      renderHead={({ isOpen, toggleOpen }) => {
         return (
           <div>
             <div>click button to open</div>
             <button onClick={toggleOpen}>toggle</button>
           </div>
         )
-      }}>
+      }}
+    >
       <div style={{ width: '400px' }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
         voluptates modi cum quas, quod dignissimos deleniti corrupti provident
@@ -52,30 +51,29 @@ const NestedBox = styled.div`
   border: 1px solid #efefef;
 `
 export const Nested = () => {
-  const { isOpen: isOpenLv1, toggleOpen: toggleLv1 } = useToggleOpen(false)
-  const { isOpen: isOpenLv2_1, toggleOpen: toggleLv2_1 } = useToggleOpen(false)
-  const { isOpen: isOpenLv2_2, toggleOpen: toggleLv2_2 } = useToggleOpen(false)
-
   return (
     <>
       <Collapsible
-        isOpen={isOpenLv1}
-        renderHead={() => {
+        initialOpen={false}
+        renderHead={({ isOpen, toggleOpen }) => {
           return (
-            <NestedBox style={{ background: '#e6ebf1' }} onClick={toggleLv1}>
-              Level 1 {isOpenLv1 ? '-' : '+'}
+            <NestedBox style={{ background: '#e6ebf1' }} onClick={toggleOpen}>
+              Level 1 {isOpen ? '-' : '+'}
             </NestedBox>
           )
-        }}>
+        }}
+      >
         <Collapsible
-          isOpen={isOpenLv2_1}
-          renderHead={() => (
+          initialOpen={false}
+          renderHead={({ isOpen, toggleOpen }) => (
             <NestedBox
               style={{ background: '#0D47A1', color: '#fff' }}
-              onClick={toggleLv2_1}>
-              Level2 {isOpenLv2_1 ? '-' : '+'}
+              onClick={toggleOpen}
+            >
+              Level2 {isOpen ? '-' : '+'}
             </NestedBox>
-          )}>
+          )}
+        >
           <NestedBox>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate,
             nam? Possimus eveniet minus deserunt asperiores porro excepturi ad
@@ -92,14 +90,16 @@ export const Nested = () => {
           </NestedBox>
         </Collapsible>
         <Collapsible
-          isOpen={isOpenLv2_2}
-          renderHead={() => (
+          initialOpen={false}
+          renderHead={({ isOpen, toggleOpen }) => (
             <NestedBox
               style={{ background: '#580E8B', color: '#fff' }}
-              onClick={toggleLv2_2}>
-              Level2 {isOpenLv2_2 ? '-' : '+'}
+              onClick={toggleOpen}
+            >
+              Level2 {isOpen ? '-' : '+'}
             </NestedBox>
-          )}>
+          )}
+        >
           <NestedBox>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate,
             nam? Possimus eveniet minus deserunt asperiores porro excepturi ad
