@@ -18,7 +18,7 @@ export default {
 export const Default = () => {
   return (
     <Collapsible
-      initialOpen={false}
+      isOpen={boolean('isOpen', false)}
       renderHead={({ isOpen, toggleOpen }) => {
         return (
           <div>
@@ -55,7 +55,7 @@ export const Nested = () => {
   return (
     <>
       <Collapsible
-        initialOpen={false}
+        isOpen={false}
         renderHead={({ isOpen, toggleOpen }) => {
           return (
             <NestedBox style={{ background: '#e6ebf1' }} onClick={toggleOpen}>
@@ -65,7 +65,7 @@ export const Nested = () => {
         }}
       >
         <Collapsible
-          initialOpen={false}
+          isOpen={false}
           renderHead={({ isOpen, toggleOpen }) => (
             <NestedBox
               style={{ background: '#0D47A1', color: '#fff' }}
@@ -91,7 +91,7 @@ export const Nested = () => {
           </NestedBox>
         </Collapsible>
         <Collapsible
-          initialOpen={false}
+          isOpen={false}
           renderHead={({ isOpen, toggleOpen }) => (
             <NestedBox
               style={{ background: '#580E8B', color: '#fff' }}

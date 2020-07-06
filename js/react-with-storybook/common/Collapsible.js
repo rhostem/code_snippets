@@ -14,19 +14,6 @@ const Wrap = styled.div`
   }
 `
 
-const useToggle = (initialValue = false) => {
-  const [isOpen, setIsOpen] = useState(initialValue)
-  const toggleOpen = useCallback(() => {
-    if (isOpen) {
-      setIsOpen(false)
-    } else {
-      setIsOpen(true)
-    }
-  }, [isOpen])
-
-  return [isOpen, toggleOpen]
-}
-
 const getChildrenHeight = el => {
   if (el) {
     return Array.from(el.children).reduce((sum, childEl) => {
@@ -49,16 +36,24 @@ const traveseChild = (rootEl, cb = () => {}) => {
 }
 
 export default function Collapsible({
-  initialOpen = false,
+  isOpen = false,
   renderHead = () => {},
   children,
 }) {
-  const [isOpen, toggleOpen] = useToggle(false)
+  const [isBodyOpen, setIsBodyOpen] = useState(isOpen)
   const bodyRef = useRef(null)
   const [childrenHeight, setChildrenHeight] = useState(0)
 
+  const toggleOpen = useCallback(() => {
+    setIsBodyOpen(!isBodyOpen)
+  }, [isBodyOpen])
+
   useEffect(() => {
-    if (isOpen && bodyRef.current) {
+    setIsBodyOpen(isOpen)
+  }, [isOpen])
+
+  useEffect(() => {
+    if (isBodyOpen && bodyRef.current) {
       let totalHeight = 0
 
       traveseChild(bodyRef.current, el => {
@@ -75,12 +70,12 @@ export default function Collapsible({
     } else {
       setChildrenHeight(0)
     }
-  }, [isOpen])
+  }, [isBodyOpen])
 
   return (
     <Wrap>
       <div className={'collapsible__head'}>
-        {renderHead({ isOpen, toggleOpen })}
+        {renderHead({ isOpen: isBodyOpen, toggleOpen })}
       </div>
       <div
         className={'collapsible__body'}
