@@ -49,6 +49,7 @@ export const Default = () => {
 const NestedBox = styled.div`
   padding: 1em;
   border: 1px solid #efefef;
+  display: block;
 `
 export const Nested = () => {
   return (
@@ -101,18 +102,40 @@ export const Nested = () => {
           )}
         >
           <NestedBox>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate,
-            nam? Possimus eveniet minus deserunt asperiores porro excepturi ad
-            praesentium debitis quos voluptatem omnis, dicta enim modi expedita
-            vero ipsa fugit nisi natus. Qui sapiente vel rerum repudiandae
-            corporis. Odit, necessitatibus officia eaque, nam sequi libero
-            consequuntur eveniet debitis, quo incidunt quos iure corrupti? Unde
-            voluptates velit libero doloribus aut molestias, incidunt numquam
-            ducimus culpa, rerum, eveniet iste cumque. Repellendus officiis
-            quisquam iste maiores recusandae, non at! Fugiat placeat itaque ab,
-            exercitationem accusamus molestiae atque blanditiis eligendi magnam.
-            Facere velit accusamus aperiam quasi voluptas autem, nemo sequi
-            magnam porro id consequuntur?
+            <div>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Voluptate, nam? Possimus eveniet minus deserunt asperiores porro
+              excepturi ad praesentium debitis quos voluptatem omnis, dicta enim
+              modi expedita vero ipsa fugit nisi natus. Qui sapiente vel rerum
+              repudiandae corporis. Odit, necessitatibus officia eaque, nam
+              sequi libero consequuntur eveniet debitis, quo incidunt quos iure
+              corrupti? Unde voluptates velit libero doloribus aut molestias,
+              incidunt numquam ducimus culpa, rerum, eveniet iste cumque.
+              Repellendus officiis quisquam iste maiores recusandae, non at!
+              Fugiat placeat itaque ab, exercitationem accusamus molestiae atque
+              blanditiis eligendi magnam. Facere velit accusamus aperiam quasi
+              voluptas autem, nemo sequi magnam porro id consequuntur?
+            </div>
+            <div>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non,
+              aperiam?
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo,
+                quidem.
+              </p>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo,
+                quidem.
+              </p>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo,
+                quidem.
+              </p>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo,
+                quidem.
+              </p>
+            </div>
           </NestedBox>
         </Collapsible>
       </Collapsible>
