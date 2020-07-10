@@ -85,10 +85,21 @@ class Modal extends React.Component {
       const root = document.createElement('div')
       root.id = this.props.portalId
       document.documentElement.appendChild(root)
+      window.addEventListener('keydown', this.handlePressESC)
     }
   }
 
-  handleClickContent = (e) => {
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handlePressESC)
+  }
+
+  handlePressESC = e => {
+    if (e.which === 27 && this.props.onRequestClose) {
+      this.props.onRequestClose()
+    }
+  }
+
+  handleClickContent = e => {
     e.stopPropagation()
   }
 
