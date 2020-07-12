@@ -51,16 +51,16 @@ export const lockDocumentScroll = (isLock = true, { touch = false } = {}) => {
   if (canUseDOM()) {
     if (isLock) {
       // Disable scrolling.
-      document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
 
       if (isMobile && touch) {
-        document.ontouchmove = (e) => {
+        document.ontouchmove = e => {
           e.preventDefault()
         }
       }
     } else if (!isLock) {
       // Enable scrolling.
-      document.body.style.overflow = 'initial'
+      document.documentElement.style.overflow = 'initial'
 
       if (isMobile && touch) {
         document.ontouchmove = () => true

@@ -84,7 +84,7 @@ class Modal extends React.Component {
     if (!this.portalContainer) {
       const root = document.createElement('div')
       root.id = this.props.portalId
-      document.documentElement.appendChild(root)
+      document.body.appendChild(root)
       window.addEventListener('keydown', this.handlePressESC)
     }
   }
