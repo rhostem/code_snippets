@@ -7,7 +7,7 @@ import { useEffect, useState, useCallback } from 'react'
  * @param {*} option.onTrue  값이 true 때 콜백
  * @param {*} option.onFalse 값이 false일 때 콜백
  */
-export const useToggle = (initialValue = false, { onTrue, onFalse } = {}) => {
+const useToggle = (initialValue = false, { onTrue, onFalse } = {}) => {
   const [isOpen, setIsOpen] = useState(initialValue)
 
   const toggleOpen = useCallback(() => {
@@ -33,3 +33,5 @@ export const useToggle = (initialValue = false, { onTrue, onFalse } = {}) => {
 
   return [isOpen, toggleOpen]
 }
+
+export default useToggle
