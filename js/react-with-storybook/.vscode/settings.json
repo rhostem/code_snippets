@@ -12,5 +12,11 @@
     "statusBar.foreground": "#15202b",
     "statusBarItem.hoverBackground": "#ff1068"
   },
-  "peacock.color": "#ff4388"
+  "peacock.color": "#ff4388",
+  "stylelint.config": {
+    "extends": [
+      "stylelint-config-recommended",
+      "stylelint-config-styled-components"
+    ]
+  }
 }
