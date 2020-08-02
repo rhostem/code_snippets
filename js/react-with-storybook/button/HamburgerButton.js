@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Wrap = styled.button`
-  padding: 7px;
+  padding: 10px;
   border: none;
   appearance: none;
   outline: none;
@@ -18,8 +18,7 @@ const Bars = styled.div`
   & > span {
     display: block;
     width: 24px;
-    height: 2.5px;
-    border-radius: 2.5px;
+    height: 3px;
     background: #24497b;
   }
 
