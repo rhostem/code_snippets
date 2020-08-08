@@ -1,42 +1,19 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  color,
-  select,
-} from '@storybook/addon-knobs'
-import { action } from '@storybook/addon-actions'
-import Input from '@material-ui/core/Input'
-import {
-  InputLabel,
-  Box,
-  MenuItem,
-  makeStyles,
-  createStyles,
-  TextField,
-  Select,
-  FormControl,
-  FormHelperText,
-} from '@material-ui/core'
+import React from 'react'
+import { withKnobs } from '@storybook/addon-knobs'
+import { Box, MenuItem, FormControl, FormHelperText } from '@material-ui/core'
 import { Button, LinearProgress } from '@material-ui/core'
 import { Formik, Form } from 'formik'
 import withMuiTheme from '../decorator/withMuiTheme'
 import {
   FormikMuiTextField,
   FormikMuiSelect,
-} from '../../form/formik/FormikMui'
+} from '../../form/formik/FormikMaterialUI'
 
 export default {
-  title: 'MaterialUI/form',
+  title: 'form/Formik & Material UI',
   decorators: [withKnobs, withMuiTheme],
 }
 
-/**
- * Formik Material-UI Lib
- * https://stackworx.github.io/formik-material-ui/docs/guide/getting-started
- */
 export const InputValidation = () => {
   return (
     <Formik
@@ -103,20 +80,7 @@ export const InputValidation = () => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  })
-)
-
 export const SimpleSelect = () => {
-  const classes = useStyles()
   return (
     <Formik
       initialValues={{

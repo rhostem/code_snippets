@@ -9,7 +9,7 @@ export const FormikMuiTextField = ({ error, ...props }) => {
       {...props}
       value={field.value}
       onChange={field.onChange}
-      error={error}
+      error={!!error}
       helperText={error}
     ></TextField>
   )
