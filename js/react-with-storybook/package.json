@@ -20,7 +20,6 @@
     "draft-js": "^0.11.6",
     "draftjs-to-html": "^0.9.1",
     "formik": "^2.1.4",
-    "formik-material-ui": "^3.0.0-alpha.0",
     "html-to-draftjs": "^1.5.0",
     "lodash": "^4.17.15",
     "pell": "^1.0.6",

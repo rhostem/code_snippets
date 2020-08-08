@@ -9,22 +9,39 @@ import {
 } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 import Input from '@material-ui/core/Input'
-import FormControl from '@material-ui/core/FormControl'
-import { InputLabel, FormHelperText, Box } from '@material-ui/core'
+import {
+  InputLabel,
+  Box,
+  MenuItem,
+  makeStyles,
+  createStyles,
+  TextField,
+  Select,
+  FormControl,
+  FormHelperText,
+} from '@material-ui/core'
 import { Button, LinearProgress } from '@material-ui/core'
-import { Formik, Form, Field } from 'formik'
-import { TextField, Select } from 'formik-material-ui'
+import { Formik, Form } from 'formik'
+import withMuiTheme from '../decorator/withMuiTheme'
+import {
+  FormikMuiTextField,
+  FormikMuiSelect,
+} from '../../form/formik/FormikMui'
 
 export default {
   title: 'MaterialUI/form',
-  decorators: [withKnobs],
+  decorators: [withKnobs, withMuiTheme],
 }
 
+/**
+ * Formik Material-UI Lib
+ * https://stackworx.github.io/formik-material-ui/docs/guide/getting-started
+ */
 export const InputValidation = () => {
   return (
     <Formik
       initialValues={{
-        email: '',
+        email: 'text@',
         password: '',
       }}
       validate={values => {
@@ -46,23 +63,24 @@ export const InputValidation = () => {
       }}
     >
       {({ submitForm, isSubmitting, errors, values }) => {
+        console.log(`values`, values)
+
         return (
           <Form>
-            <Box mb={2} display={'flex'}>
-              <Field
-                component={TextField}
-                name="email"
+            <Box mt={2} mb={2} display={'flex'}>
+              <FormikMuiTextField
                 type="email"
-                label="Email"
+                name="email"
+                label="email"
                 variant="outlined"
-                className={'sample'}
+                error={errors.email}
               />
-              <Field
-                component={TextField}
+              <FormikMuiTextField
                 type="password"
                 label="Password"
                 name="password"
                 variant="outlined"
+                error={errors.password}
               />
             </Box>
 
@@ -79,6 +97,60 @@ export const InputValidation = () => {
               </Button>
             </Box>
           </Form>
+        )
+      }}
+    </Formik>
+  )
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  })
+)
+
+export const SimpleSelect = () => {
+  const classes = useStyles()
+  return (
+    <Formik
+      initialValues={{
+        age: 10,
+        name: '',
+      }}
+      validate={values => {
+        const errors = {}
+        if (values.age === 30) {
+          errors.age = 'age should not be 30'
+        }
+        return errors
+      }}
+    >
+      {({ submitForm, isSubmitting, errors, values }) => {
+        console.log(`values`, values)
+
+        return (
+          <Box m={4}>
+            <FormControl style={{ width: '200px' }} error={errors.age}>
+              <FormikMuiSelect name="age">
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </FormikMuiSelect>
+              {errors.age && <FormHelperText>{errors.age}</FormHelperText>}
+            </FormControl>
+            <FormControl style={{ width: '200px' }} error={errors.age}>
+              <FormikMuiTextField
+                name="name"
+                placeholder="name"
+              ></FormikMuiTextField>
+            </FormControl>
+          </Box>
         )
       }}
     </Formik>
