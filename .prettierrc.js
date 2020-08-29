@@ -10,7 +10,7 @@ module.exports = {
   bracketSpacing: true,
   jsxBracketSameLine: false,
   arrowParens: 'avoid',
-  parser: 'babel',
+  parser: 'typescript',
   overrides: [
     {
       files: '*.html',
