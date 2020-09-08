@@ -5,7 +5,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -14,7 +14,13 @@ module.exports = {
     sourceType: 'module',
   },
   extends: ['eslint:recommended', 'react-app'],
-  plugins: ['react', 'react-hooks', 'flowtype', 'prettier'],
+  plugins: [
+    'react',
+    'react-hooks',
+    'flowtype',
+    'prettier',
+    '@typescript-eslint',
+  ],
   settings: {
     react: {
       version: 'detect',

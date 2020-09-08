@@ -20,12 +20,12 @@ export const Default = () => {
 
   const [bgColor, setBgColor] = useState('#fff')
 
-  const handleOnVisible = useCallback((entry) => {
+  const handleOnVisible = useCallback(entry => {
     console.log(`on intersect: entry`, entry)
     setBgColor('#FBF8CA')
   }, [])
 
-  const handleOnUnvisible = useCallback((entry) => {
+  const handleOnUnvisible = useCallback(entry => {
     setBgColor('#fff')
   }, [])
 

@@ -50,7 +50,8 @@ export const DefaultStyle = () => (
         outline: 'none',
         padding: '20px',
       },
-    }}>
+    }}
+  >
     <div>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse nam quo
       doloribus rerum est natus reprehenderit accusamus sint ut ex in
@@ -82,7 +83,8 @@ export const StyleOverwrite = () => (
           outline: 'none',
           padding: '0',
         },
-      }}>
+      }}
+    >
       <div>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
         quisquam obcaecati magnam rem ut, assumenda, commodi sunt, tenetur quis
@@ -106,7 +108,8 @@ export const AlertModal = () => {
         cancelText: '취소',
         confirmText: '확인',
         onConfirm: () => {},
-      }}></Alert>
+      }}
+    ></Alert>
   )
 }
 
@@ -120,7 +123,8 @@ export const Common = () => {
         @media (max-width: 768px) {
           height: 100%;
         }
-      `}>
+      `}
+    >
       <CloseButton></CloseButton>
       <ModalScrollContents>{LONG_TEXT}</ModalScrollContents>
       <SubmitButtons></SubmitButtons>

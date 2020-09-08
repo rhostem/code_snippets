@@ -29,7 +29,8 @@ export const Default = () => {
           width: '100%',
           height: '50vh',
           background: 'green',
-        }}></div>
+        }}
+      ></div>
 
       <StickyArea isFixed={boolean('isFixed', false)}></StickyArea>
 
@@ -38,7 +39,8 @@ export const Default = () => {
           width: '100%',
           height: '50vh',
           background: 'blue',
-        }}></div>
+        }}
+      ></div>
     </Wrap>
   )
 }

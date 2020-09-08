@@ -14,7 +14,7 @@ export const Default = () => (
       isIn={boolean('isIn', false)}
       direction={select(
         'direction',
-        Object.keys(slideInDirections).map((k) => slideInDirections[k]),
+        Object.keys(slideInDirections).map(k => slideInDirections[k]),
         slideInDirections.RIGHT
       )}
       duration={number('duration', 400)}
