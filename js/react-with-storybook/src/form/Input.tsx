@@ -10,7 +10,6 @@ const Wrap = styled.div`
   border: solid 1px #dee0e4;
   padding: 0 12px;
   font-size: 14px;
-  display: flex;
   align-items: center;
 
   & > input {
@@ -46,12 +45,12 @@ const Icon = styled.img`
 `
 
 type Props = {
-  style?: Object,
-  icon: IconTypes,
-  value: string,
-  onChange: Function,
-  placeholder: string,
-  type: string,
+  style?: Object
+  icon: string
+  value: string
+  onChange: Function
+  placeholder: string
+  type: string
 }
 
 export default ({
