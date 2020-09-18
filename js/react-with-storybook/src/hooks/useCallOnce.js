@@ -1,3 +1,4 @@
+import useImageLoader from 'hooks/useImageLoader'
 import { useEffect, useRef } from 'react'
 
 export default function useCallOnce(cb = () => {}) {

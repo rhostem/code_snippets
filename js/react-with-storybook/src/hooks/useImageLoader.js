@@ -1,10 +1,11 @@
+import usePaginationState from 'hooks/usePaginationState'
 import { useRef, useState, useEffect, useCallback } from 'react'
 
 function arrayBufferToBase64(buffer) {
   var binary = ''
   var bytes = [].slice.call(new Uint8Array(buffer))
 
-  bytes.forEach((b) => (binary += String.fromCharCode(b)))
+  bytes.forEach(b => (binary += String.fromCharCode(b)))
 
   return window.btoa(binary)
 }
@@ -25,7 +26,7 @@ export default function useImageLoader(
   const [imageUrlLoaded, setImageUrlLoaded] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const getCahcedImage = useCallback((img) => {
+  const getCahcedImage = useCallback(img => {
     if (!!img && imageCacheMap.has(img)) {
       return imageCacheMap.get(img)
     }
@@ -44,7 +45,7 @@ export default function useImageLoader(
   }, [imageUrl])
 
   const onLoadImage = useCallback(
-    (data) => {
+    data => {
       setCachedImage(imageUrl, data)
       setImageUrlLoaded(data)
       setIsLoading(false)
@@ -93,7 +94,7 @@ export default function useImageLoader(
         var request = new Request(imageUrl)
 
         fetch(request, options)
-          .then(async (response) => {
+          .then(async response => {
             try {
               if (useImageStr) {
                 // NOTE: 이미지 데이터를 base64 문자열로 변환
@@ -109,7 +110,7 @@ export default function useImageLoader(
               onFail()
             }
           })
-          .catch((e) => {
+          .catch(e => {
             onFail()
           })
       }
