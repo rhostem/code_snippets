@@ -1,6 +1,6 @@
 import { css } from 'styled-components'
 
-const scrollbar = ({
+const scrollbarStyled = ({
   width = 0, // 세로 스크롤바 두께
   height = 0, // 가로 스크롤바 두께
   trackColor = '#eee',
@@ -26,13 +26,38 @@ const scrollbar = ({
   `
 }
 
-export default scrollbar
-
 export const transparentScrollbar = () => {
-  return scrollbar({
+  return scrollbarStyled({
     width: 0,
     height: 0,
     trackColor: 'transparent',
     thunmbColor: 'transparent',
   })
+}
+
+
+export const scrollbarJSS = ({
+  width = 0, // 세로 스크롤바 두께
+  height = 0, // 가로 스크롤바 두께
+  trackColor = '#eee',
+  thunmbColor = '#ddd',
+  radius = 0,
+} = {}) => {
+  return {
+    '&::-webkit-scrollbar': {
+      width,
+      height,
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: trackColor,
+      borderRadius: radius,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: thunmbColor,
+      borderRadius: radius,
+    },
+  }
 }
