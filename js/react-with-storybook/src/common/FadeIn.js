@@ -16,10 +16,10 @@ const transitionStyles = {
 }
 
 type Props = {
-  in: boolean,
-  keyProp: string,
-  duration: number,
-  style: any,
+  in: boolean
+  keyProp: string
+  duration: number
+  style: any
 }
 type State = {}
 
@@ -40,14 +40,16 @@ class FadeIn extends Component {
         in={this.props.in}
         timeout={this.props.duration || defaultDuration}
         appear
-        unmountOnExit>
+        unmountOnExit
+      >
         {status => (
           <div
             style={{
               ...defaultStyle,
               ...this.props.style,
               ...transitionStyles[status],
-            }}>
+            }}
+          >
             {this.props.children}
           </div>
         )}
