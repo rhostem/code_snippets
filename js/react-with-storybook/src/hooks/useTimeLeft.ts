@@ -1,33 +1,74 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
-type Callback = () => void
+export const TIMELEFT_TEXT_BEFORE_START = '--:--'
 
-const useTimeLeft = (
-  callback: Callback
-): [number, React.Dispatch<React.SetStateAction<number>>] => {
+type VoidCallback = () => void
+
+type HookReturns = {
+  left: number
+  formatTimeLeft: () => string
+  startTimer: (limit: number, callback: VoidCallback) => void
+  resetTimer: VoidCallback
+}
+
+const useTimeLeft = (): HookReturns => {
   const [left, setLeft] = useState<number>(-1)
-  const savedCallback = useRef<Callback>()
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  useEffect(() => {
-    savedCallback.current = callback
-  }, [callback])
+  const clearTimerInterval = useCallback(() => {
+    if (timer.current) {
+      clearInterval(timer.current)
+    }
+  }, [])
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>
-    if (left > 0) {
-      timer = setTimeout(() => {
-        if (left === 1 && savedCallback?.current) {
-          savedCallback.current()
-        }
-        setLeft((curr: number) => curr - 1)
-      }, 1000)
-    }
-    return () => {
-      clearTimeout(timer)
-    }
+  const resetTimer = useCallback(() => {
+    clearTimerInterval()
+    setLeft(-1)
+  }, [clearTimerInterval])
+
+  const startTimer = useCallback(
+    (limit: number, onTimeout: VoidCallback) => {
+      resetTimer()
+
+      if (limit > 0) {
+        let timeLeft = limit
+        setLeft(timeLeft)
+
+        timer.current = setInterval(() => {
+          timeLeft -= 1
+          setLeft(timeLeft)
+
+          if (timeLeft === 0 && onTimeout) {
+            onTimeout()
+            clearTimerInterval()
+          }
+        }, 1000)
+      }
+    },
+    [clearTimerInterval, resetTimer]
+  )
+
+  useEffect(
+    () => () => {
+      // clear timer on unmount of component
+      resetTimer()
+    },
+    [resetTimer]
+  )
+
+  const formatTimeLeft = useCallback(() => {
+    const hour = Math.floor(left / 3600)
+    const minute = Math.floor((left % 3600) / 60)
+      .toString()
+      .padStart(2, '0')
+    const second = (left % 60).toString().padStart(2, '0')
+
+    return left >= 0
+      ? `${hour > 0 ? `${hour}:` : ''}${minute}:${second}`
+      : TIMELEFT_TEXT_BEFORE_START
   }, [left])
 
-  return [left, setLeft]
+  return { left, startTimer, resetTimer, formatTimeLeft }
 }
 
 export default useTimeLeft
