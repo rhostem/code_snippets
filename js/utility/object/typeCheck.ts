@@ -1,5 +1,5 @@
-export const isNum = (v: any) => typeof v === 'number'
-export const isStr = (v: any) => typeof v === 'string'
-export const isBool = (v: any) => typeof v === 'boolean'
-export const isFunc = (v: any) => typeof v === 'function'
-export const isArr = (v: any) => v.constructor === Array
+export const isNumber = (v: any): v is number => typeof v === 'number'
+export const isString = (v: any): v is string => typeof v === 'string'
+export const isBoolean = (v: any): v is boolean => typeof v === 'boolean'
+export const isFunction = (v: any): v is Function => typeof v === 'function'
+export const isArray = <T>(v: any): v is T[] => v.constructor === Array
