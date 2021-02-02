@@ -1,10 +1,10 @@
-export default function debounce(
+export default function debounce<T extends (...args: any[]) => any>(
   wait: number,
-  cb: Function,
+  cb: T,
   immediate?: boolean
 ) {
   let timeout: any
-  return function debounced(...args: any[]) {
+  return function debounced(...args: Parameters<T>) {
     const later = () => {
       timeout = null
       if (!immediate) cb(...args)

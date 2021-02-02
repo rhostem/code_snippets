@@ -1,6 +1,9 @@
-export default function throttle(delay: number, callback: Function) {
+export default function throttle<T extends (...args: any[]) => any>(
+  delay: number,
+  callback: T
+) {
   let previousCall = new Date().getTime()
-  return function throttled(...args: any[]) {
+  return function throttled(...args: Parameters<T>) {
     const time = new Date().getTime()
 
     if (time - previousCall >= delay) {
