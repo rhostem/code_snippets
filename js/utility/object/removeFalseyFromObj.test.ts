@@ -7,6 +7,7 @@ describe('removeFalseyFromObj', () => {
     ['undefined', { prop: undefined }],
     ['null', { prop: null }],
     ['empty string which has no length', { prop: '' }],
+    ['NaN', { prop: NaN }],
   ])('%s should be removed from object', (...args) => {
     const [, original] = args;
 
