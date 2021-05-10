@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transition of linear gradiented text</title>
+
+    <style type="text/css">
+      body {
+        font-family: sans-serif;
+      }
+
+      .page {
+        display: flex;
+        min-height: 100vh;
+        align-items: stretch;
+      }
+
+      .textContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        font-weight: bold;
+        font-size: 8rem;
+        text-align: center;
+        letter-spacing: -0.2rem;
+        font-weight: bolder;
+        line-height: 1;
+        justify-content: center;
+      }
+
+      .gradientText {
+        position: relative;
+        background-image: linear-gradient(to right, #000, #000);
+        z-index: 1;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .gradientText::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        /* content: "Javascript"; */
+        /* background-image: linear-gradient(to right, #007cf0, #00dfd8); */
+        transition: opacity 0.5s linear;
+        opacity: 0;
+        -webkit-background-clip: text;
+      }
+
+      .transitionOn::before {
+        opacity: 1;
+      }
+
+      .gradient_HTML::before {
+        content: 'HTML';
+        background-image: linear-gradient(to right, #007cf0, #00dfd8);
+      }
+      .gradient_CSS::before {
+        content: 'CSS';
+        background-image: linear-gradient(to right, #7928ca, #ff0080);
+      }
+      .gradient_Javascript::before {
+        content: 'Javascript';
+        background-image: linear-gradient(to right, #ff4d4d, #f9cb28);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="textContainer">
+        <span id="text_1" class="gradientText gradient_HTML">HTML</span>
+        <span id="text_2" class="gradientText gradient_CSS">CSS</span>
+        <span id="text_3" class="gradientText gradient_Javascript"
+          >Javascript</span
+        >
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      (function () {
+        const persist = 2500;
+        const textIds = ['text_1', 'text_2', 'text_3'];
+
+        const turnOnTransition = el => {
+          el.classList.add('transitionOn');
+          setTimeout(() => {
+            el.classList.remove('transitionOn');
+          }, persist);
+        };
+
+        const runTransition = id => {
+          const el = document.getElementById(id);
+
+          if (el) {
+            setTimeout(() => {
+              turnOnTransition(el);
+
+              setInterval(() => {
+                turnOnTransition(el);
+              }, persist * textIds.length);
+            }, 0);
+          }
+        };
+
+        textIds.forEach((id, index) => {
+          setTimeout(() => {
+            runTransition(id);
+          }, index * persist);
+        });
+      })();
+    </script>
+  </body>
+</html>
