@@ -1,12 +1,29 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import throttle from 'utils/throttle';
 
-export default function useWindowResize(handleResize: () => void) {
+export default function useWindowResize(
+  handleResize: () => void,
+  { delay = 100, enabled = true, executeOnInit = false } = {}
+) {
+  const throttledCb = useCallback(
+    throttle(delay, () => {
+      handleResize();
+    }),
+    [handleResize]
+  );
+
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    if (enabled) {
+      window.addEventListener('resize', throttledCb);
+
+      if (executeOnInit) {
+        handleResize();
+      }
+    }
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', throttledCb);
     };
-  }, [handleResize]);
+  }, [throttledCb, enabled, executeOnInit, handleResize]);
 
   return undefined;
 }
